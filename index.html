@@ -21,7 +21,6 @@
             overflow-x: hidden;
         }
 
-        /* Fundo gradiente animado */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -32,7 +31,6 @@
             z-index: -2;
         }
 
-        /* Menu */
         .navbar {
             position: fixed;
             top: 0;
@@ -46,6 +44,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -65,6 +64,8 @@
         .nav-links {
             display: flex;
             gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
@@ -78,10 +79,25 @@
             color: #667eea;
         }
 
-        .btn-ticket {
+        .btn-login {
             background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 12px 28px;
+            padding: 10px 25px;
             border-radius: 40px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #667eea;
         }
 
         .menu-toggle {
@@ -90,7 +106,6 @@
             cursor: pointer;
         }
 
-        /* Hero */
         .hero {
             min-height: 80vh;
             display: flex;
@@ -116,7 +131,6 @@
             color: rgba(255,255,255,0.7);
         }
 
-        /* Player de música no topo */
         .player-top {
             max-width: 600px;
             margin: 0 auto 40px;
@@ -131,7 +145,6 @@
             width: 100%;
         }
 
-        /* Seções */
         .section {
             padding: 80px 50px;
             max-width: 1200px;
@@ -151,8 +164,7 @@
             margin-bottom: 50px;
         }
 
-        /* Cards */
-        .form-card, .music-card {
+        .form-card, .music-card, .login-card {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
             border-radius: 30px;
@@ -195,7 +207,6 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
         }
 
-        /* Mural de Fotos (Grid) */
         .fotos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -209,6 +220,7 @@
             overflow: hidden;
             transition: all 0.3s ease;
             border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
         }
 
         .foto-card:hover {
@@ -231,7 +243,24 @@
             color: #667eea;
         }
 
-        /* Depoimentos Grid */
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,0,0,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: none;
+        }
+
+        .foto-card:hover .btn-delete {
+            display: block;
+        }
+
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -258,7 +287,6 @@
             margin-bottom: 10px;
         }
 
-        /* Mensagens */
         .mensagem-sucesso {
             background: rgba(0,255,0,0.2);
             padding: 15px;
@@ -273,7 +301,6 @@
             padding: 40px;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 40px;
@@ -298,7 +325,51 @@
             color: #667eea;
         }
 
-        /* Responsivo */
+        /* Modal de Login */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            margin-bottom: 15px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 15px 20px;
@@ -336,7 +407,6 @@
 <body>
     <div class="bg-gradient"></div>
 
-    <!-- Menu -->
     <nav class="navbar">
         <div class="logo">BAR DO<span>KBLO</span></div>
         <div class="menu-toggle" onclick="toggleMenu()">
@@ -347,11 +417,28 @@
             <a href="#historia">HISTÓRIA</a>
             <a href="#depoimentos">DEPOIMENTOS</a>
             <a href="#fotos">FOTOS</a>
-            <a href="#participar">PARTICIPAR</a>
+            <div id="authSection"></div>
         </div>
     </nav>
 
-    <!-- Hero Section com Player no topo -->
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h3>🔐 Login para enviar fotos</h3>
+            <div class="form-group">
+                <input type="email" id="loginEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" placeholder="Senha">
+            </div>
+            <div class="modal-buttons">
+                <button onclick="fazerLogin()">Entrar</button>
+                <button onclick="fazerCadastro()">Criar Conta</button>
+            </div>
+            <button onclick="fecharModal()" style="margin-top: 15px; width:100%; background:#333;">Cancelar</button>
+        </div>
+    </div>
+
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
@@ -365,7 +452,6 @@
         </div>
     </section>
 
-    <!-- Seção História -->
     <section id="historia" class="section">
         <h2 class="section-title">Nossa História</h2>
         <div class="form-card" style="text-align: center;">
@@ -374,7 +460,6 @@
         </div>
     </section>
 
-    <!-- Seção Depoimentos -->
     <section id="depoimentos" class="section">
         <h2 class="section-title">💬 Depoimentos</h2>
         <div id="listaDepoimentos">
@@ -382,65 +467,120 @@
         </div>
     </section>
 
-    <!-- Seção Mural de Fotos -->
     <section id="fotos" class="section">
         <h2 class="section-title">📸 Mural de Fotos</h2>
-        <p class="section-subtitle">Fotos da comunidade - compartilhe suas recordações</p>
+        <p class="section-subtitle">Fotos da comunidade - <span id="fotoLoginMsg">faça login para enviar fotos</span></p>
+        
+        <div id="uploadFotoSection" style="display: none;">
+            <div class="form-card" style="margin-bottom: 40px;">
+                <div class="form-group">
+                    <input type="file" id="fotoFile" accept="image/*">
+                </div>
+                <button onclick="enviarFoto()">📸 ENVIAR FOTO</button>
+            </div>
+        </div>
         
         <div id="listaFotos">
             <div class="loading">Carregando fotos...</div>
         </div>
     </section>
 
-    <!-- Seção Participar (Depoimento + Foto) -->
-    <section id="participar" class="section">
-        <div class="form-card">
-            <h2 class="section-title" style="margin-bottom: 10px;">📝 Compartilhe sua Recordação</h2>
-            <p class="section-subtitle">Depoimentos e fotos passam por moderação</p>
-            
-            <div id="msgSucesso" class="mensagem-sucesso">✅ Enviado! Aguarde aprovação.</div>
-            
-            <div class="form-group">
-                <input type="text" id="nome" placeholder="Seu nome">
-            </div>
-            
-            <div class="form-group">
-                <textarea id="depoimento" rows="4" placeholder="Seu depoimento..."></textarea>
-            </div>
-            
-            <div class="form-group">
-                <input type="file" id="fotoFile" accept="image/*">
-                <p style="font-size: 12px; margin-top: 5px;">Envie uma foto (opcional - JPG, PNG até 5MB)</p>
-            </div>
-            
-            <button onclick="enviarConteudo()">✉️ ENVIAR</button>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
         <div class="social-links">
             <a href="#" onclick="compartilharFacebook()"><i class="fab fa-facebook"></i></a>
             <a href="#" onclick="compartilharWhatsApp()"><i class="fab fa-whatsapp"></i></a>
             <a href="#" onclick="compartilharTwitter()"><i class="fab fa-twitter"></i></a>
         </div>
-        <p>⚠️ Cada pessoa é responsável pelo que publica. Conteúdo passa por moderação.</p>
+        <p>⚠️ Cada pessoa é responsável pelo que publica. Fotos requerem login para maior segurança.</p>
         <p style="margin-top: 20px;">© 2024 Tributo ao Bar do Kblo</p>
     </footer>
 
     <script>
-        // Supabase
         const SUPABASE_URL = 'https://dvpdypkfybnabaofcdse.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let usuarioAtual = null;
 
-        // Carregar Depoimentos
+        // Verificar usuário logado
+        async function verificarUsuario() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            usuarioAtual = user;
+            atualizarInterface();
+        }
+
+        // Atualizar interface baseado no login
+        function atualizarInterface() {
+            const authSection = document.getElementById('authSection');
+            const uploadSection = document.getElementById('uploadFotoSection');
+            const fotoLoginMsg = document.getElementById('fotoLoginMsg');
+            
+            if (usuarioAtual) {
+                authSection.innerHTML = `
+                    <div class="user-info">
+                        <span class="user-email">${usuarioAtual.email}</span>
+                        <button class="btn-login" onclick="fazerLogout()">Sair</button>
+                    </div>
+                `;
+                if (uploadSection) uploadSection.style.display = 'block';
+                if (fotoLoginMsg) fotoLoginMsg.innerHTML = '✅ logado - você pode enviar fotos';
+            } else {
+                authSection.innerHTML = `<button class="btn-login" onclick="abrirModal()">Entrar / Cadastrar</button>`;
+                if (uploadSection) uploadSection.style.display = 'none';
+                if (fotoLoginMsg) fotoLoginMsg.innerHTML = '🔐 faça login para enviar fotos';
+            }
+        }
+
+        // Abrir modal
+        function abrirModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function fecharModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // Login
+        async function fazerLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginPassword').value;
+            
+            const { error } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
+            
+            if (error) {
+                alert('Erro: ' + error.message);
+            } else {
+                fecharModal();
+                await verificarUsuario();
+            }
+        }
+
+        // Cadastro
+        async function fazerCadastro() {
+            const email = document.getElementById('loginEmail').value;
+            const senha = document.getElementById('loginPassword').value;
+            
+            const { error } = await supabaseClient.auth.signUp({ email, password: senha });
+            
+            if (error) {
+                alert('Erro: ' + error.message);
+            } else {
+                alert('Cadastro realizado! Faça login.');
+                fecharModal();
+            }
+        }
+
+        // Logout
+        async function fazerLogout() {
+            await supabaseClient.auth.signOut();
+            await verificarUsuario();
+        }
+
+        // Carregar Depoimentos (livre)
         async function carregarDepoimentos() {
             const { data, error } = await supabaseClient
                 .from('depoimentos')
                 .select('*')
-                .eq('aprovado', true)
                 .order('criado_em', { ascending: false });
             
             const listaDiv = document.getElementById('listaDepoimentos');
@@ -468,12 +608,11 @@
             `;
         }
 
-        // Carregar Fotos
+        // Carregar Fotos (todos veem, só quem tem login posta)
         async function carregarFotos() {
             const { data, error } = await supabaseClient
                 .from('fotos')
                 .select('*')
-                .eq('aprovado', true)
                 .order('criado_em', { ascending: false });
             
             const listaDiv = document.getElementById('listaFotos');
@@ -484,7 +623,7 @@
             }
             
             if (!data || data.length === 0) {
-                listaDiv.innerHTML = '<p style="text-align:center;">📸 Nenhuma foto aprovada ainda. Compartilhe a sua!</p>';
+                listaDiv.innerHTML = '<p style="text-align:center;">📸 Nenhuma foto ainda. Faça login e compartilhe a sua!</p>';
                 return;
             }
             
@@ -496,6 +635,7 @@
                             <div class="foto-info">
                                 <div class="foto-nome">⭐ ${f.nome}</div>
                                 <p style="font-size: 11px; margin-top: 8px;">📅 ${new Date(f.criado_em).toLocaleDateString('pt-BR')}</p>
+                                ${usuarioAtual ? `<button class="btn-delete" onclick="deletarFoto(${f.id})">🗑️</button>` : ''}
                             </div>
                         </div>
                     `).join('')}
@@ -503,68 +643,61 @@
             `;
         }
 
-        // Enviar Depoimento + Foto
-        async function enviarConteudo() {
-            const nome = document.getElementById('nome').value.trim();
-            const depoimento = document.getElementById('depoimento').value.trim();
-            const fotoFile = document.getElementById('fotoFile').files[0];
-            
-            if (!nome) {
-                alert('Digite seu nome');
+        // Enviar Foto (requer login)
+        async function enviarFoto() {
+            if (!usuarioAtual) {
+                alert('Faça login para enviar fotos');
+                abrirModal();
                 return;
             }
             
-            // Se tem depoimento, salvar
-            if (depoimento) {
-                const { error } = await supabaseClient
-                    .from('depoimentos')
-                    .insert([{ nome, depoimento, aprovado: false }]);
-                
-                if (error) console.error('Erro depoimento:', error);
+            const fotoFile = document.getElementById('fotoFile').files[0];
+            
+            if (!fotoFile) {
+                alert('Selecione uma foto');
+                return;
             }
             
-            // Se tem foto, fazer upload
-            if (fotoFile) {
-                const fileExt = fotoFile.name.split('.').pop();
-                const fileName = `${Date.now()}_${nome.replace(/ /g, '_')}.${fileExt}`;
-                
-                const { error: uploadError } = await supabaseClient.storage
+            const nome = usuarioAtual.email.split('@')[0];
+            
+            const fileExt = fotoFile.name.split('.').pop();
+            const fileName = `${Date.now()}_${nome}.${fileExt}`;
+            
+            const { error: uploadError } = await supabaseClient.storage
+                .from('fotos')
+                .upload(fileName, fotoFile);
+            
+            if (uploadError) {
+                alert('Erro ao enviar foto: ' + uploadError.message);
+            } else {
+                const { data: publicUrl } = supabaseClient.storage
                     .from('fotos')
-                    .upload(fileName, fotoFile);
+                    .getPublicUrl(fileName);
                 
-                if (uploadError) {
-                    alert('Erro ao enviar foto: ' + uploadError.message);
-                } else {
-                    const { data: publicUrl } = supabaseClient.storage
-                        .from('fotos')
-                        .getPublicUrl(fileName);
-                    
-                    const foto_url = publicUrl.publicUrl;
-                    
-                    const { error: insertError } = await supabaseClient
-                        .from('fotos')
-                        .insert([{ nome, foto_url, aprovado: false }]);
-                    
-                    if (insertError) console.error('Erro salvar foto:', insertError);
-                }
+                const foto_url = publicUrl.publicUrl;
+                
+                await supabaseClient
+                    .from('fotos')
+                    .insert([{ nome, user_email: usuarioAtual.email, foto_url, aprovado: true }]);
+                
+                document.getElementById('fotoFile').value = '';
+                carregarFotos();
+                alert('Foto enviada com sucesso!');
             }
-            
-            // Limpar formulário
-            document.getElementById('nome').value = '';
-            document.getElementById('depoimento').value = '';
-            document.getElementById('fotoFile').value = '';
-            
-            const msg = document.getElementById('msgSucesso');
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 3000);
         }
 
-        // Menu Mobile
+        // Deletar Foto (só admin pode - você)
+        async function deletarFoto(id) {
+            if (confirm('Tem certeza que quer deletar esta foto?')) {
+                await supabaseClient.from('fotos').delete().eq('id', id);
+                carregarFotos();
+            }
+        }
+
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
 
-        // Compartilhar
         function compartilharFacebook() {
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
         }
@@ -578,6 +711,7 @@
         }
 
         // Inicializar
+        verificarUsuario();
         carregarDepoimentos();
         carregarFotos();
     </script>
