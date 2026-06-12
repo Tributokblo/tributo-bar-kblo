@@ -21,7 +21,7 @@
             overflow-x: hidden;
         }
 
-        /* Efeito de fundo com gradiente animado */
+        /* Fundo gradiente animado */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -32,23 +32,7 @@
             z-index: -2;
         }
 
-        .bg-gradient::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 8px);
-            animation: shimmer 20s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Menu Superior */
+        /* Menu */
         .navbar {
             position: fixed;
             top: 0;
@@ -62,7 +46,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
         }
 
         .logo {
@@ -72,14 +55,11 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -1px;
         }
 
         .logo span {
             color: #fff;
             background: none;
-            -webkit-background-clip: unset;
-            background-clip: unset;
         }
 
         .nav-links {
@@ -92,53 +72,32 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
-            position: relative;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a:hover {
+            color: #667eea;
         }
 
         .btn-ticket {
             background: linear-gradient(135deg, #667eea, #764ba2);
             padding: 12px 28px;
             border-radius: 40px;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
 
-        .btn-ticket:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Menu Mobile */
         .menu-toggle {
             display: none;
             font-size: 28px;
             cursor: pointer;
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 120px 20px 60px;
-            position: relative;
         }
 
         .hero-content h1 {
@@ -155,41 +114,21 @@
         .hero-content p {
             font-size: 1.3rem;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 30px;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
+        /* Player de música no topo */
+        .player-top {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 15px 25px;
+            text-align: center;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 14px 35px;
-            border-radius: 40px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            padding: 14px 35px;
-            border-radius: 40px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover, .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        .player-top audio {
+            width: 100%;
         }
 
         /* Seções */
@@ -212,53 +151,8 @@
             margin-bottom: 50px;
         }
 
-        /* Card de Música */
-        .music-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 40px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin: 40px 0;
-        }
-
-        .music-card audio {
-            width: 100%;
-            max-width: 500px;
-            margin-top: 20px;
-        }
-
-        /* Cards de Depoimentos */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .testimonial-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            border-color: #667eea;
-        }
-
-        .testimonial-author {
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        /* Formulário */
-        .form-card {
+        /* Cards */
+        .form-card, .music-card {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
             border-radius: 30px;
@@ -270,7 +164,7 @@
             margin-bottom: 20px;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group input[type="file"] {
             width: 100%;
             padding: 15px;
             background: rgba(255,255,255,0.1);
@@ -283,6 +177,100 @@
         .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 14px 35px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Mural de Fotos (Grid) */
+        .fotos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .foto-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .foto-card:hover {
+            transform: translateY(-10px);
+            border-color: #667eea;
+        }
+
+        .foto-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .foto-info {
+            padding: 15px;
+        }
+
+        .foto-nome {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* Depoimentos Grid */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Mensagens */
+        .mensagem-sucesso {
+            background: rgba(0,255,0,0.2);
+            padding: 15px;
+            border-radius: 15px;
+            display: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
         }
 
         /* Footer */
@@ -308,7 +296,6 @@
 
         .social-links a:hover {
             color: #667eea;
-            transform: translateY(-5px);
         }
 
         /* Responsivo */
@@ -340,34 +327,16 @@
             .section {
                 padding: 40px 20px;
             }
-            .testimonials-grid {
+            .testimonials-grid, .fotos-grid {
                 grid-template-columns: 1fr;
             }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        .mensagem-sucesso {
-            background: rgba(0,255,0,0.2);
-            padding: 15px;
-            border-radius: 15px;
-            display: none;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
         }
     </style>
 </head>
 <body>
     <div class="bg-gradient"></div>
 
-    <!-- Menu Superior -->
+    <!-- Menu -->
     <nav class="navbar">
         <div class="logo">BAR DO<span>KBLO</span></div>
         <div class="menu-toggle" onclick="toggleMenu()">
@@ -376,73 +345,75 @@
         <div class="nav-links" id="navLinks">
             <a href="#home">HOME</a>
             <a href="#historia">HISTÓRIA</a>
-            <a href="#musica">MÚSICA</a>
             <a href="#depoimentos">DEPOIMENTOS</a>
-            <a href="#deixar">PARTICIPAR</a>
-            <a href="#" class="btn-ticket" onclick="scrollToForm()">DEIXAR RECORDAÇÃO</a>
+            <a href="#fotos">FOTOS</a>
+            <a href="#participar">PARTICIPAR</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section com Player no topo -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
-            <p>Um lugar que marcou nossas vidas • Memórias eternas</p>
-            <div class="hero-buttons">
-                <a href="#depoimentos" class="btn-primary">VER DEPOIMENTOS</a>
-                <a href="#deixar" class="btn-secondary">DEIXAR RECORDAÇÃO</a>
+            <div class="player-top">
+                <audio controls>
+                    <source src="musica.mp3" type="audio/mpeg">
+                    Coloque o arquivo musica.mp3
+                </audio>
             </div>
+            <p>Um lugar que marcou nossas vidas • Memórias eternas</p>
         </div>
     </section>
 
     <!-- Seção História -->
     <section id="historia" class="section">
         <h2 class="section-title">Nossa História</h2>
-        <p class="section-subtitle">O Bar do Kblo fechou as portas, mas as memórias permanecem vivas em cada coração que passou por lá.</p>
-        
         <div class="form-card" style="text-align: center;">
-            <img src="bar.png" alt="Bar do Kblo" style="max-width: 100%; border-radius: 20px; margin-bottom: 30px;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size:80px;\'>🍺🎸🎵</span><p>Bar do Kblo - Um lugar especial</p>'">
-            <p style="line-height: 1.8; color: rgba(255,255,255,0.8);">Este espaço é dedicado a celebrar os bons momentos, histórias e amizades que aconteceram entre essas paredes. Aqui, todos podem compartilhar suas recordações e manter viva a memória do Bar do Kblo.</p>
-        </div>
-    </section>
-
-    <!-- Seção Música -->
-    <section id="musica" class="section">
-        <div class="music-card">
-            <h2 class="section-title" style="margin-bottom: 10px;">🎵 Música Homenagem</h2>
-            <p style="margin-bottom: 20px;">Uma canção feita com muito carinho para eternizar o Bar do Kblo</p>
-            <audio controls>
-                <source src="musica.mp3" type="audio/mpeg">
-                Coloque o arquivo musica.mp3 na pasta
-            </audio>
+            <img src="bar.png" alt="Bar do Kblo" style="max-width: 100%; border-radius: 20px; margin-bottom: 30px;" onerror="this.style.display='none'">
+            <p style="line-height: 1.8;">O Bar do Kblo fechou as portas, mas as memórias permanecem. Este espaço é dedicado a celebrar os bons momentos, histórias e amizades que aconteceram entre essas paredes.</p>
         </div>
     </section>
 
     <!-- Seção Depoimentos -->
     <section id="depoimentos" class="section">
-        <h2 class="section-title">💬 Depoimentos da Comunidade</h2>
-        <p class="section-subtitle">Histórias, risadas e momentos que ficarão para sempre</p>
-        
+        <h2 class="section-title">💬 Depoimentos</h2>
         <div id="listaDepoimentos">
             <div class="loading">Carregando depoimentos...</div>
         </div>
     </section>
 
-    <!-- Seção Deixar Depoimento -->
-    <section id="deixar" class="section">
+    <!-- Seção Mural de Fotos -->
+    <section id="fotos" class="section">
+        <h2 class="section-title">📸 Mural de Fotos</h2>
+        <p class="section-subtitle">Fotos da comunidade - compartilhe suas recordações</p>
+        
+        <div id="listaFotos">
+            <div class="loading">Carregando fotos...</div>
+        </div>
+    </section>
+
+    <!-- Seção Participar (Depoimento + Foto) -->
+    <section id="participar" class="section">
         <div class="form-card">
-            <h2 class="section-title" style="margin-bottom: 10px;">📝 Deixe sua Recordação</h2>
-            <p class="section-subtitle">Sua história será moderada e depois exibida para todos</p>
+            <h2 class="section-title" style="margin-bottom: 10px;">📝 Compartilhe sua Recordação</h2>
+            <p class="section-subtitle">Depoimentos e fotos passam por moderação</p>
             
-            <div id="msgSucesso" class="mensagem-sucesso">✅ Depoimento enviado! Aguarde aprovação.</div>
+            <div id="msgSucesso" class="mensagem-sucesso">✅ Enviado! Aguarde aprovação.</div>
             
             <div class="form-group">
                 <input type="text" id="nome" placeholder="Seu nome">
             </div>
+            
             <div class="form-group">
-                <textarea id="depoimento" rows="5" placeholder="Compartilhe sua história, recordação ou homenagem ao Bar do Kblo..."></textarea>
+                <textarea id="depoimento" rows="4" placeholder="Seu depoimento..."></textarea>
             </div>
-            <button class="btn-primary" onclick="enviarDepoimento()" style="width: 100%;">✉️ ENVIAR DEPOIMENTO</button>
+            
+            <div class="form-group">
+                <input type="file" id="fotoFile" accept="image/*">
+                <p style="font-size: 12px; margin-top: 5px;">Envie uma foto (opcional - JPG, PNG até 5MB)</p>
+            </div>
+            
+            <button onclick="enviarConteudo()">✉️ ENVIAR</button>
         </div>
     </section>
 
@@ -452,19 +423,19 @@
             <a href="#" onclick="compartilharFacebook()"><i class="fab fa-facebook"></i></a>
             <a href="#" onclick="compartilharWhatsApp()"><i class="fab fa-whatsapp"></i></a>
             <a href="#" onclick="compartilharTwitter()"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
-        <p style="color: rgba(255,255,255,0.5);">⚠️ Cada pessoa é responsável pelo que publica. Depoimentos passam por moderação.</p>
-        <p style="color: rgba(255,255,255,0.3); margin-top: 20px;">© 2024 Tributo ao Bar do Kblo - Memórias Eternas</p>
+        <p>⚠️ Cada pessoa é responsável pelo que publica. Conteúdo passa por moderação.</p>
+        <p style="margin-top: 20px;">© 2024 Tributo ao Bar do Kblo</p>
     </footer>
 
     <script>
-        // Config Supabase
+        // Supabase
         const SUPABASE_URL = 'https://dvpdypkfybnabaofcdse.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
+
+        // Carregar Depoimentos
         async function carregarDepoimentos() {
             const { data, error } = await supabaseClient
                 .from('depoimentos')
@@ -475,7 +446,7 @@
             const listaDiv = document.getElementById('listaDepoimentos');
             
             if (error) {
-                listaDiv.innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar</p>`;
+                listaDiv.innerHTML = `<p style="text-align:center;">Erro ao carregar depoimentos</p>`;
                 return;
             }
             
@@ -489,46 +460,111 @@
                     ${data.map(d => `
                         <div class="testimonial-card">
                             <div class="testimonial-author">⭐ ${d.nome}</div>
-                            <p style="margin-top: 10px; line-height:1.6;">${d.depoimento}</p>
+                            <p>${d.depoimento}</p>
                             <p style="font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 15px;">📅 ${new Date(d.criado_em).toLocaleDateString('pt-BR')}</p>
                         </div>
                     `).join('')}
                 </div>
             `;
         }
-        
-        async function enviarDepoimento() {
-            const nome = document.getElementById('nome').value.trim();
-            const depoimento = document.getElementById('depoimento').value.trim();
+
+        // Carregar Fotos
+        async function carregarFotos() {
+            const { data, error } = await supabaseClient
+                .from('fotos')
+                .select('*')
+                .eq('aprovado', true)
+                .order('criado_em', { ascending: false });
             
-            if (!nome || !depoimento) {
-                alert('Preencha seu nome e depoimento');
+            const listaDiv = document.getElementById('listaFotos');
+            
+            if (error) {
+                listaDiv.innerHTML = `<p style="text-align:center;">Erro ao carregar fotos</p>`;
                 return;
             }
             
-            const { error } = await supabaseClient
-                .from('depoimentos')
-                .insert([{ nome, depoimento, aprovado: false }]);
-            
-            if (error) {
-                alert('Erro: ' + error.message);
-            } else {
-                document.getElementById('nome').value = '';
-                document.getElementById('depoimento').value = '';
-                const msg = document.getElementById('msgSucesso');
-                msg.style.display = 'block';
-                setTimeout(() => msg.style.display = 'none', 3000);
+            if (!data || data.length === 0) {
+                listaDiv.innerHTML = '<p style="text-align:center;">📸 Nenhuma foto aprovada ainda. Compartilhe a sua!</p>';
+                return;
             }
+            
+            listaDiv.innerHTML = `
+                <div class="fotos-grid">
+                    ${data.map(f => `
+                        <div class="foto-card">
+                            <img src="${f.foto_url}" alt="Foto de ${f.nome}">
+                            <div class="foto-info">
+                                <div class="foto-nome">⭐ ${f.nome}</div>
+                                <p style="font-size: 11px; margin-top: 8px;">📅 ${new Date(f.criado_em).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
-        
+
+        // Enviar Depoimento + Foto
+        async function enviarConteudo() {
+            const nome = document.getElementById('nome').value.trim();
+            const depoimento = document.getElementById('depoimento').value.trim();
+            const fotoFile = document.getElementById('fotoFile').files[0];
+            
+            if (!nome) {
+                alert('Digite seu nome');
+                return;
+            }
+            
+            // Se tem depoimento, salvar
+            if (depoimento) {
+                const { error } = await supabaseClient
+                    .from('depoimentos')
+                    .insert([{ nome, depoimento, aprovado: false }]);
+                
+                if (error) console.error('Erro depoimento:', error);
+            }
+            
+            // Se tem foto, fazer upload
+            if (fotoFile) {
+                const fileExt = fotoFile.name.split('.').pop();
+                const fileName = `${Date.now()}_${nome.replace(/ /g, '_')}.${fileExt}`;
+                
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('fotos')
+                    .upload(fileName, fotoFile);
+                
+                if (uploadError) {
+                    alert('Erro ao enviar foto: ' + uploadError.message);
+                } else {
+                    const { data: publicUrl } = supabaseClient.storage
+                        .from('fotos')
+                        .getPublicUrl(fileName);
+                    
+                    const foto_url = publicUrl.publicUrl;
+                    
+                    const { error: insertError } = await supabaseClient
+                        .from('fotos')
+                        .insert([{ nome, foto_url, aprovado: false }]);
+                    
+                    if (insertError) console.error('Erro salvar foto:', insertError);
+                }
+            }
+            
+            // Limpar formulário
+            document.getElementById('nome').value = '';
+            document.getElementById('depoimento').value = '';
+            document.getElementById('fotoFile').value = '';
+            
+            const msg = document.getElementById('msgSucesso');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+
+        // Menu Mobile
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
-        
-        function scrollToForm() {
-            document.getElementById('deixar').scrollIntoView({ behavior: 'smooth' });
-        }
-        
+
+        // Compartilhar
         function compartilharFacebook() {
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
         }
@@ -540,8 +576,10 @@
         function compartilharTwitter() {
             window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('Tributo ao Bar do Kblo')}&url=${encodeURIComponent(window.location.href)}`, '_blank');
         }
-        
+
+        // Inicializar
         carregarDepoimentos();
+        carregarFotos();
     </script>
 </body>
 </html>
