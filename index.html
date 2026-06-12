@@ -79,16 +79,6 @@
             color: #667eea;
         }
 
-        .btn-login {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 10px 25px;
-            border-radius: 40px;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
         .user-info {
             display: flex;
             align-items: center;
@@ -96,8 +86,22 @@
         }
 
         .user-email {
-            font-size: 14px;
+            font-size: 12px;
             color: #667eea;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .menu-toggle {
@@ -370,6 +374,20 @@
             flex: 1;
         }
 
+        /* Login banner dentro da seção fotos */
+        .login-banner {
+            background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px dashed #667eea;
+        }
+
+        .login-banner p {
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 15px 20px;
@@ -460,24 +478,56 @@
         </div>
     </section>
 
+    <!-- Seção DEPOIMENTOS com formulário para enviar -->
     <section id="depoimentos" class="section">
         <h2 class="section-title">💬 Depoimentos</h2>
+        <p class="section-subtitle">Compartilhe sua história - sem necessidade de cadastro</p>
+        
+        <!-- Formulário de Depoimento -->
+        <div class="form-card" style="margin-bottom: 50px;">
+            <h3 style="margin-bottom: 20px;">📝 Deixe seu depoimento</h3>
+            <div id="msgSucessoDepoimento" class="mensagem-sucesso">✅ Depoimento enviado com sucesso!</div>
+            <div class="form-group">
+                <input type="text" id="nomeDepoimento" placeholder="Seu nome *">
+            </div>
+            <div class="form-group">
+                <textarea id="textoDepoimento" rows="4" placeholder="Sua história, recordação ou homenagem ao Bar do Kblo *"></textarea>
+            </div>
+            <button onclick="enviarDepoimento()">✉️ ENVIAR DEPOIMENTO</button>
+        </div>
+        
+        <!-- Lista de Depoimentos -->
         <div id="listaDepoimentos">
             <div class="loading">Carregando depoimentos...</div>
         </div>
     </section>
 
+    <!-- Seção FOTOS -->
     <section id="fotos" class="section">
         <h2 class="section-title">📸 Mural de Fotos</h2>
-        <p class="section-subtitle">Fotos da comunidade - <span id="fotoLoginMsg">faça login para enviar fotos</span></p>
+        <p class="section-subtitle">Compartilhe suas recordações do Bar do Kblo</p>
         
+        <!-- Área de Login dentro da seção Fotos -->
+        <div id="loginBanner" class="login-banner">
+            <p>🔐 <strong>Envie suas fotos</strong></p>
+            <p>Faça login ou crie uma conta para compartilhar suas recordações</p>
+            <button class="btn-login" onclick="abrirModal()" style="margin-top: 10px;">Entrar / Cadastrar</button>
+        </div>
+        
+        <!-- Área de upload (só aparece logado) -->
         <div id="uploadFotoSection" style="display: none;">
             <div class="form-card" style="margin-bottom: 40px;">
+                <h3 style="margin-bottom: 20px;">📤 Enviar nova foto</h3>
                 <div class="form-group">
                     <input type="file" id="fotoFile" accept="image/*">
                 </div>
                 <button onclick="enviarFoto()">📸 ENVIAR FOTO</button>
             </div>
+        </div>
+        
+        <!-- Informação de usuário logado -->
+        <div id="userInfoBanner" style="display: none; text-align: center; margin-bottom: 20px; padding: 10px; background: rgba(102,126,234,0.2); border-radius: 30px;">
+            <span id="userEmailDisplay"></span>
         </div>
         
         <div id="listaFotos">
@@ -513,21 +563,28 @@
         function atualizarInterface() {
             const authSection = document.getElementById('authSection');
             const uploadSection = document.getElementById('uploadFotoSection');
-            const fotoLoginMsg = document.getElementById('fotoLoginMsg');
+            const loginBanner = document.getElementById('loginBanner');
+            const userInfoBanner = document.getElementById('userInfoBanner');
+            const userEmailDisplay = document.getElementById('userEmailDisplay');
             
             if (usuarioAtual) {
                 authSection.innerHTML = `
                     <div class="user-info">
-                        <span class="user-email">${usuarioAtual.email}</span>
+                        <span class="user-email" title="${usuarioAtual.email}">👤 ${usuarioAtual.email.split('@')[0]}</span>
                         <button class="btn-login" onclick="fazerLogout()">Sair</button>
                     </div>
                 `;
+                if (loginBanner) loginBanner.style.display = 'none';
                 if (uploadSection) uploadSection.style.display = 'block';
-                if (fotoLoginMsg) fotoLoginMsg.innerHTML = '✅ logado - você pode enviar fotos';
+                if (userInfoBanner) {
+                    userInfoBanner.style.display = 'block';
+                    userEmailDisplay.innerHTML = `✅ Logado como: ${usuarioAtual.email}`;
+                }
             } else {
-                authSection.innerHTML = `<button class="btn-login" onclick="abrirModal()">Entrar / Cadastrar</button>`;
+                authSection.innerHTML = ``;
+                if (loginBanner) loginBanner.style.display = 'block';
                 if (uploadSection) uploadSection.style.display = 'none';
-                if (fotoLoginMsg) fotoLoginMsg.innerHTML = '🔐 faça login para enviar fotos';
+                if (userInfoBanner) userInfoBanner.style.display = 'none';
             }
         }
 
@@ -551,7 +608,10 @@
                 alert('Erro: ' + error.message);
             } else {
                 fecharModal();
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
                 await verificarUsuario();
+                carregarFotos();
             }
         }
 
@@ -567,6 +627,8 @@
             } else {
                 alert('Cadastro realizado! Faça login.');
                 fecharModal();
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
             }
         }
 
@@ -574,9 +636,36 @@
         async function fazerLogout() {
             await supabaseClient.auth.signOut();
             await verificarUsuario();
+            carregarFotos();
         }
 
-        // Carregar Depoimentos (livre)
+        // Enviar Depoimento (sem login)
+        async function enviarDepoimento() {
+            const nome = document.getElementById('nomeDepoimento').value.trim();
+            const depoimento = document.getElementById('textoDepoimento').value.trim();
+            
+            if (!nome || !depoimento) {
+                alert('Preencha seu nome e depoimento');
+                return;
+            }
+            
+            const { error } = await supabaseClient
+                .from('depoimentos')
+                .insert([{ nome, depoimento, aprovado: true }]);
+            
+            if (error) {
+                alert('Erro: ' + error.message);
+            } else {
+                document.getElementById('nomeDepoimento').value = '';
+                document.getElementById('textoDepoimento').value = '';
+                const msg = document.getElementById('msgSucessoDepoimento');
+                msg.style.display = 'block';
+                setTimeout(() => msg.style.display = 'none', 3000);
+                carregarDepoimentos();
+            }
+        }
+
+        // Carregar Depoimentos
         async function carregarDepoimentos() {
             const { data, error } = await supabaseClient
                 .from('depoimentos')
@@ -608,7 +697,7 @@
             `;
         }
 
-        // Carregar Fotos (todos veem, só quem tem login posta)
+        // Carregar Fotos
         async function carregarFotos() {
             const { data, error } = await supabaseClient
                 .from('fotos')
@@ -631,9 +720,9 @@
                 <div class="fotos-grid">
                     ${data.map(f => `
                         <div class="foto-card">
-                            <img src="${f.foto_url}" alt="Foto de ${f.nome}">
+                            <img src="${f.foto_url}" alt="Foto de ${f.nome || 'anônimo'}">
                             <div class="foto-info">
-                                <div class="foto-nome">⭐ ${f.nome}</div>
+                                <div class="foto-nome">⭐ ${f.nome || 'anônimo'}</div>
                                 <p style="font-size: 11px; margin-top: 8px;">📅 ${new Date(f.criado_em).toLocaleDateString('pt-BR')}</p>
                                 ${usuarioAtual ? `<button class="btn-delete" onclick="deletarFoto(${f.id})">🗑️</button>` : ''}
                             </div>
@@ -686,7 +775,7 @@
             }
         }
 
-        // Deletar Foto (só admin pode - você)
+        // Deletar Foto
         async function deletarFoto(id) {
             if (confirm('Tem certeza que quer deletar esta foto?')) {
                 await supabaseClient.from('fotos').delete().eq('id', id);
