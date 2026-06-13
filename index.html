@@ -81,37 +81,6 @@
             color: #8a9eff;
         }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-email {
-            font-size: 12px;
-            color: #8a9eff;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .btn-login {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 8px 22px;
-            border-radius: 40px;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-login:hover {
-            opacity: 0.9;
-        }
-
         .menu-toggle {
             display: none;
             font-size: 24px;
@@ -287,7 +256,7 @@
             font-size: 0.95rem;
         }
 
-        .form-card, .testimonial-card, .foto-card, .login-banner {
+        .form-card, .testimonial-card, .foto-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(10px);
@@ -431,57 +400,6 @@
             font-size: 1rem;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(4, 4, 6, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #111118;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 420px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 25px;
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .modal-buttons button {
-            flex: 1;
-        }
-
-        .login-banner {
-            text-align: center;
-            border: 1px dashed rgba(138, 158, 255, 0.4);
-            background: rgba(102, 126, 234, 0.04);
-            padding: 35px;
-        }
-
         .footer {
             text-align: center;
             padding: 50px 24px;
@@ -491,7 +409,6 @@
             color: rgba(255,255,255,0.5);
         }
 
-        /* AJUSTADO: Ícones organizados estritamente na horizontal */
         .social-links {
             display: flex;
             flex-direction: row;
@@ -528,6 +445,17 @@
             text-align: center;
             padding: 40px;
             color: rgba(255,255,255,0.5);
+        }
+
+        /* Campo de Login do Admin flutuante/discreto */
+        .admin-trigger {
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .admin-trigger:hover {
+            color: #8a9eff;
         }
 
         @media (max-width: 768px) {
@@ -596,27 +524,9 @@
             <a href="#home" onclick="toggleMenu()">HOME</a>
             <a href="#depoimentos" onclick="toggleMenu()">DEPOIMENTOS</a>
             <a href="#fotos" onclick="toggleMenu()">FOTOS</a>
-            <div id="authSection"></div>
+            <span class="admin-trigger" onclick="promptAdmin()">Painel</span>
         </div>
     </nav>
-
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h3>🔐 Acessar Espaço</h3>
-            <p style="font-size:12px; color:rgba(255,255,255,0.5); text-align:center; margin-bottom:15px;">Digite um e-mail e crie sua senha abaixo para entrar ou cadastrar.</p>
-            <div class="form-group">
-                <input type="email" id="loginEmail" placeholder="Seu Email">
-            </div>
-            <div class="form-group">
-                <input type="password" id="loginPassword" placeholder="Sua Senha">
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
-                <button class="btn-primary" onclick="fazerCadastro()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);">Cadastrar</button>
-            </div>
-            <button onclick="fecharModal()" style="margin-top: 15px; width:100%; background:transparent; border: none; color: rgba(255,255,255,0.5); cursor:pointer;">Cancelar</button>
-        </div>
-    </div>
 
     <section id="home" class="hero">
         <div class="hero-content">
@@ -658,7 +568,7 @@
 
     <section id="depoimentos" class="section">
         <h2 class="section-title">💬 Depoimentos</h2>
-        <p class="section-subtitle">Compartilhe sua história — sem necessidade de cadastro</p>
+        <p class="section-subtitle">Compartilhe sua história</p>
         
         <div class="form-card" style="max-width: 700px; margin: 0 auto 60px;">
             <h3 style="margin-bottom: 25px; font-weight: 600;">📝 Deixe seu depoimento</h3>
@@ -679,29 +589,22 @@
 
     <section id="fotos" class="section">
         <h2 class="section-title">📸 Mural de Fotos</h2>
-        <p class="section-subtitle">Compartilhe suas recordações</p>
+        <p class="section-subtitle">Compartilhe suas recordações informando seu e-mail para controle</p>
         
-        <div id="loginBanner" class="login-banner" style="max-width: 600px; margin: 0 auto 40px;">
-            <p style="font-size: 1.1rem; margin-bottom: 8px;">🔐 <strong>Envie suas fotos</strong></p>
-            <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Crie uma senha rapidinho! Isso garante segurança e protege os direitos de imagem.</p>
-            <button class="btn-primary" onclick="abrirModal()" style="margin-top: 15px; padding: 10px 25px; font-size: 14px;">Criar Conta / Entrar</button>
-        </div>
-        
-        <div id="uploadFotoSection" style="display: none; max-width: 600px; margin: 0 auto 40px;">
+        <div style="max-width: 600px; margin: 0 auto 40px;">
             <div class="form-card">
                 <h3 style="margin-bottom: 20px;">📤 Enviar nova foto</h3>
+                <div class="form-group">
+                    <input type="email" id="fotoEmail" placeholder="Seu E-mail (Apenas para controle de autoria) *">
+                </div>
                 <div class="form-group">
                     <input type="file" id="fotoFile" accept="image/*">
                 </div>
                 <button class="btn-primary" onclick="enviarFoto()">📸 ENVIAR FOTO</button>
                 <div class="aviso-responsabilidade">
-                    <i class="fas fa-exclamation-triangle"></i> Cada pessoa é responsável pelo que publica. Fotos requerem login para sua segurança.
+                    <i class="fas fa-exclamation-triangle"></i> Cada pessoa é responsável pelo que publica. O e-mail serve para controle interno do site.
                 </div>
             </div>
-        </div>
-        
-        <div id="userInfoBanner" style="display: none; text-align: center; margin-bottom: 30px; padding: 12px; background: rgba(102,126,234,0.1); border: 1px solid rgba(102,126,234,0.2); border-radius: 40px; max-width: 400px; margin-left: auto; margin-right: auto;">
-            <span id="userEmailDisplay" style="font-size: 13px;"></span>
         </div>
         
         <div id="listaFotos">
@@ -720,14 +623,13 @@
     </footer>
 
     <script>
-        // CONFIGURADO: Seu e-mail de administrador agora possui controle total
         const EMAIL_ADMINISTRADOR = 'tributokblo@gmail.com';
+        let adminAtivo = false;
 
         const SUPABASE_URL = 'https://dvpdypkfybnabaofcdse.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY';
         
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        let usuarioAtual = null;
         let musicaContada = false;
 
         const audio = document.getElementById('meuAudio');
@@ -806,89 +708,16 @@
             }
         }
 
-        async function verificarUsuario() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            usuarioAtual = user;
-            atualizarInterface();
-        }
-
-        function atualizarInterface() {
-            const authSection = document.getElementById('authSection');
-            const uploadSection = document.getElementById('uploadFotoSection');
-            const loginBanner = document.getElementById('loginBanner');
-            const userInfoBanner = document.getElementById('userInfoBanner');
-            const userEmailDisplay = document.getElementById('userEmailDisplay');
-            
-            if (usuarioAtual) {
-                authSection.innerHTML = `
-                    <div class="user-info">
-                        <span class="user-email" title="${usuarioAtual.email}">👤 ${usuarioAtual.email.split('@')[0]}</span>
-                        <button class="btn-login" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2)" onclick="fazerLogout()">Sair</button>
-                    </div>
-                `;
-                if (loginBanner) loginBanner.style.display = 'none';
-                if (uploadSection) uploadSection.style.display = 'block';
-                if (userInfoBanner) {
-                    userInfoBanner.style.display = 'block';
-                    userEmailDisplay.innerHTML = `✅ Autenticado como: <strong>${usuarioAtual.email}</strong>`;
-                }
-            } else {
-                authSection.innerHTML = ``;
-                if (loginBanner) loginBanner.style.display = 'block';
-                if (uploadSection) uploadSection.style.display = 'none';
-                if (userInfoBanner) userInfoBanner.style.display = 'none';
-            }
-        }
-
-        function abrirModal() {
-            document.getElementById('loginModal').classList.add('active');
-        }
-
-        function fecharModal() {
-            document.getElementById('loginModal').classList.remove('active');
-        }
-
-        async function fazerLogin() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const senha = document.getElementById('loginPassword').value;
-            if(!email || !senha) { alert('Por favor, informe e-mail e senha.'); return; }
-            
-            const { error } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
-            if (error) { 
-                alert('Erro ao entrar: ' + error.message); 
-            } else { 
-                fecharModal(); 
-                limparCamposLogin(); 
-                await verificarUsuario(); 
-                carregarFotos(); 
+        function promptAdmin() {
+            const email = prompt("Digite o e-mail do administrador:");
+            if (email === EMAIL_ADMINISTRADOR) {
+                adminAtivo = true;
+                alert("Modo administrador ativado!");
+                carregarFotos();
                 carregarDepoimentos();
+            } else {
+                alert("Acesso negado.");
             }
-        }
-
-        async function fazerCadastro() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const senha = document.getElementById('loginPassword').value;
-            if(!email || !senha) { alert('Informe um e-mail e crie uma senha.'); return; }
-            if(senha.length < 6) { alert('A senha precisa ter no mínimo 6 caracteres.'); return; }
-
-            const { error } = await supabaseClient.auth.signUp({ email, password: senha });
-            if (error) { 
-                alert('Erro ao cadastrar: ' + error.message); 
-            } else { 
-                alert('Sua conta foi criada! Agora basta clicar no botão "Entrar" para acessar.'); 
-            }
-        }
-
-        function limparCamposLogin() {
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-        }
-
-        async function fazerLogout() { 
-            await supabaseClient.auth.signOut(); 
-            await verificarUsuario(); 
-            carregarFotos(); 
-            carregarDepoimentos();
         }
 
         async function enviarDepoimento() {
@@ -912,14 +741,12 @@
             if (error) { listaDiv.innerHTML = `<p style="text-align:center; color: #ff6b6b;">Erro ao buscar depoimentos.</p>`; return; }
             if (!data || data.length === 0) { listaDiv.innerHTML = '<p style="text-align:center; opacity:0.5;">✨ Seja a primeira pessoa a deixar uma homenagem!</p>'; return; }
             
-            const isAdmin = usuarioAtual && usuarioAtual.email === EMAIL_ADMINISTRADOR;
-
             listaDiv.innerHTML = `<div class="testimonials-grid">${data.map(d => `
                 <div class="testimonial-card">
                     <div class="testimonial-author">⭐ ${d.nome}</div>
                     <p style="color: rgba(255,255,255,0.85); font-size:0.95rem;">"${d.depoimento}"</p>
                     <p style="font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 15px;"><i class="far fa-calendar-alt"></i> ${new Date(d.criado_em).toLocaleDateString('pt-BR')}</p>
-                    ${isAdmin ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})"><i class="fas fa-trash-alt"></i></button>` : ''}
+                    ${adminAtivo ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})"><i class="fas fa-trash-alt"></i></button>` : ''}
                 </div>`).join('')}</div>`;
         }
 
@@ -937,33 +764,40 @@
             if (error) { listaDiv.innerHTML = `<p style="text-align:center; color: #ff6b6b;">Erro ao carregar o mural.</p>`; return; }
             if (!data || data.length === 0) { listaDiv.innerHTML = '<p style="text-align:center; opacity: 0.5;">📸 Nenhuma foto adicionada ainda. Publique a primeira!</p>'; return; }
             
-            const isAdmin = usuarioAtual && usuarioAtual.email === EMAIL_ADMINISTRADOR;
-
             listaDiv.innerHTML = `<div class="fotos-grid">${data.map(f => `
                 <div class="foto-card">
                     <img src="${f.foto_url}" alt="Recordação">
                     <div class="foto-info">
-                        <div class="foto-nome">⭐ ${f.nome || 'Anônimo'}</div>
+                        <div class="foto-nome">⭐ Enviado por: ${f.user_email || 'Anônimo'}</div>
                         <p style="font-size: 11px; margin-top: 8px; opacity:0.5;">📅 ${new Date(f.criado_em).toLocaleDateString('pt-BR')}</p>
-                        ${(isAdmin || (usuarioAtual && usuarioAtual.email === f.user_email)) ? `<button class="btn-delete" onclick="deletarFoto(${f.id})"><i class="fas fa-trash-alt"></i></button>` : ''}
+                        ${adminAtivo ? `<button class="btn-delete" onclick="deletarFoto(${f.id})"><i class="fas fa-trash-alt"></i></button>` : ''}
                     </div>
                 </div>`).join('')}</div>`;
         }
 
         async function enviarFoto() {
-            if (!usuarioAtual) { alert('Sessão expirada. Faça login novamente.'); abrirModal(); return; }
+            const emailInput = document.getElementById('fotoEmail').value.trim();
             const fotoFile = document.getElementById('fotoFile').files[0];
+            
+            if (!emailInput) { alert('Por favor, informe seu e-mail para controle de autoria.'); return; }
             if (!fotoFile) { alert('Selecione um arquivo de imagem.'); return; }
-            const nome = usuarioAtual.email.split('@')[0];
+            
+            const nomeExibicao = emailInput.split('@')[0];
             const fileExt = fotoFile.name.split('.').pop();
-            const fileName = `${Date.now()}_${nome}.${fileExt}`;
+            const fileName = `${Date.now()}_${nomeExibicao}.${fileExt}`;
+            
             const { error: uploadError } = await supabaseClient.storage.from('fotos').upload(fileName, fotoFile);
-            if (uploadError) { alert('Erro no envio do arquivo: ' + uploadError.message); } else {
+            if (uploadError) { 
+                alert('Erro no envio do arquivo: ' + uploadError.message); 
+            } else {
                 const { data: publicUrl } = supabaseClient.storage.from('fotos').getPublicUrl(fileName);
                 const foto_url = publicUrl.publicUrl;
-                const { error: insertError } = await supabaseClient.from('fotos').insert([{ nome, user_email: usuarioAtual.email, foto_url, aprovado: true }]);
-                if (insertError) { alert('Erro ao registrar informações: ' + insertError.message); } else {
+                const { error: insertError } = await supabaseClient.from('fotos').insert([{ nome: nomeExibicao, user_email: emailInput, foto_url, aprovado: true }]);
+                if (insertError) { 
+                    alert('Erro ao registrar informações: ' + insertError.message); 
+                } else {
                     document.getElementById('fotoFile').value = '';
+                    document.getElementById('fotoEmail').value = '';
                     carregarFotos();
                     alert('Sua imagem foi inserida no mural com sucesso!');
                 }
@@ -978,11 +812,10 @@
             }
         }
 
-        function compartirFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank'); }
+        function compartilharFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank'); }
         function compartilharWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent('Tributo Oficial ao Bar do Kblo - Visite em: ' + window.location.href)}`, '_blank'); }
         function compartilharTwitter() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('Confira as memórias e o tributo ao Bar do Kblo')}&url=${encodeURIComponent(window.location.href)}`, '_blank'); }
 
-        verificarUsuario();
         buscarContadorMusica();
         carregarDepoimentos();
         carregarFotos();
