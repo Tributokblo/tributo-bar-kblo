@@ -628,15 +628,18 @@
         }
 
         .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-        }
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    overflow: hidden;
+}
 
         .testimonial-card {
-            padding: 30px;
-            position: relative;
-        }
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    word-break: break-word;
+}
 
         .testimonial-card:hover {
             border-color: #8a9eff;
