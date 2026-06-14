@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Open Graph -->
     <title>Bar do Kblo - Tributo Oficial</title>
+    <meta name="description" content="Homenagem oficial ao lendário Bar do Kblo. Relembre histórias, fotos e momentos que marcaram gerações.">
+    <meta property="og:title" content="Bar do Kblo - Tributo Oficial">
+    <meta property="og:description" content="Um lugar que eternizou memórias. Confira as fotos e depoimentos da nossa comunidade.">
+    <meta property="og:image" content="kblo.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -20,6 +30,23 @@
             color: #fff;
             overflow-x: hidden;
             line-height: 1.6;
+        }
+
+        /* Skeleton Loading Animation */
+        @keyframes skeleton-loading {
+            0% { background-color: rgba(255, 255, 255, 0.05); }
+            100% { background-color: rgba(255, 255, 255, 0.1); }
+        }
+
+        .skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+            border-radius: 12px;
+        }
+
+        .skeleton-card {
+            height: 180px;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .bg-gradient {
@@ -77,13 +104,8 @@
             transition: transform 0.3s ease;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo span {
-            color: #fff;
-        }
+        .logo:hover { transform: scale(1.05); }
+        .logo span { color: #fff; }
 
         .nav-links {
             display: flex;
@@ -112,13 +134,8 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: #8a9eff;
-        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: #8a9eff; }
 
         .menu-toggle {
             display: none;
@@ -126,10 +143,6 @@
             cursor: pointer;
             color: #fff;
             transition: transform 0.3s ease;
-        }
-
-        .menu-toggle:hover {
-            transform: rotate(90deg);
         }
 
         .hero {
@@ -160,14 +173,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-content h1 {
@@ -198,11 +205,6 @@
             transition: all 0.3s ease;
         }
 
-        .custom-player:hover {
-            border-color: rgba(138, 158, 255, 0.3);
-            box-shadow: 0 0 20px rgba(138, 158, 255, 0.1);
-        }
-
         .player-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: #fff;
@@ -219,14 +221,7 @@
             flex-shrink: 0;
         }
 
-        .player-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .player-btn:active {
-            transform: scale(0.95);
-        }
+        .player-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
 
         .timeline-container {
             display: flex;
@@ -246,22 +241,6 @@
             background: rgba(255,255,255,0.2);
             outline: none;
             cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .player-slider:hover {
-            background: rgba(138, 158, 255, 0.4);
-        }
-
-        .player-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #8a9eff;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(138, 158, 255, 0.5);
         }
 
         .volume-container {
@@ -282,44 +261,13 @@
             cursor: pointer;
         }
 
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #fff;
-        }
+        .musica-legenda { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-bottom: 10px; }
+        .musica-legenda i { color: #8a9eff; margin-right: 6px; animation: pulse 2s infinite; }
 
-        .musica-legenda {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 10px;
-            line-height: 1.7;
-            padding: 0 10px;
-        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        .musica-legenda i {
-            color: #8a9eff;
-            margin-right: 6px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .contador-container {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 20px;
-        }
-
-        .contador-container span {
-            color: #8a9eff;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
+        .contador-container { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 20px; }
+        .contador-container span { color: #8a9eff; font-weight: 700; font-size: 1.1rem; }
 
         .hero-content p.frase-efeito {
             font-size: 1.1rem;
@@ -330,12 +278,7 @@
             margin-bottom: 25px;
         }
 
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
-        }
+        .share-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
 
         .share-btn {
             width: 60px;
@@ -355,10 +298,7 @@
         .share-facebook { background: #1877F2; }
         .share-twitter { background: #1DA1F2; }
 
-        .share-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
+        .share-btn:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
 
         .section {
             padding: 90px 24px;
@@ -369,29 +309,20 @@
             transition: all 0.6s ease;
         }
 
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .section.visible { opacity: 1; transform: translateY(0); }
 
         .section-title {
             text-align: center;
             font-family: 'Playfair Display', serif;
             font-size: 2.8rem;
             margin-bottom: 15px;
-            letter-spacing: -0.5px;
             background: linear-gradient(135deg, #ffffff, #8a9eff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .section-subtitle {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 50px;
-            font-size: 0.95rem;
-        }
+        .section-subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 50px; font-size: 0.95rem; }
 
         .form-card, .testimonial-card, .foto-card {
             background: rgba(255, 255, 255, 0.03);
@@ -403,19 +334,8 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .form-card:hover {
-            border-color: rgba(138, 158, 255, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
         .form-group { margin-bottom: 20px; }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .form-group label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; }
 
         .form-group input, .form-group textarea {
             width: 100%;
@@ -425,7 +345,6 @@
             border-radius: 14px;
             color: white;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
             transition: all 0.3s ease;
         }
 
@@ -433,30 +352,10 @@
             outline: none;
             border-color: #667eea;
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
         .file-input-trigger {
             display: inline-block;
@@ -466,27 +365,12 @@
             border-radius: 14px;
             color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            transition: all 0.3s ease;
             text-align: center;
             width: 100%;
         }
 
-        .file-input-trigger:hover {
-            border-color: #667eea;
-            color: #8a9eff;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .preview-container {
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .preview-container img {
-            max-height: 200px;
-            border-radius: 12px;
-            border: 2px solid rgba(138, 158, 255, 0.3);
-        }
+        .preview-container { margin-top: 15px; text-align: center; }
+        .preview-container img { max-height: 200px; border-radius: 12px; border: 2px solid rgba(138, 158, 255, 0.3); }
 
         button.btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -496,50 +380,11 @@
             font-weight: 600;
             border: none;
             cursor: pointer;
-            letter-spacing: 0.5px;
             transition: all 0.3s ease;
-            font-size: 1rem;
-            position: relative;
-            overflow: hidden;
         }
 
-        button.btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        button.btn-primary:hover::before { left: 100%; }
-
-        button.btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
-        }
-
-        button.btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .aviso-responsabilidade {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .aviso-responsabilidade i {
-            margin-right: 5px;
-            color: #f39c12;
-        }
+        button.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25); }
+        button.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .fotos-grid {
             display: grid;
@@ -548,26 +393,8 @@
             margin-top: 40px;
         }
 
-        .foto-card {
-            padding: 0;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .foto-card:hover {
-            transform: translateY(-8px);
-            border-color: #8a9eff;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .foto-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
+        .foto-card { padding: 0; overflow: hidden; position: relative; cursor: pointer; }
+        .foto-card img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s ease; }
         .foto-card:hover img { transform: scale(1.1); }
 
         .foto-overlay {
@@ -583,9 +410,6 @@
 
         .foto-card:hover .foto-overlay { transform: translateY(0); }
 
-        .foto-nome { font-weight: 600; color: #8a9eff; }
-        .foto-data { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 5px; }
-
         .btn-delete {
             position: absolute;
             top: 15px;
@@ -597,38 +421,20 @@
             width: 36px;
             height: 36px;
             cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 10;
         }
 
         .foto-card:hover .btn-delete, .testimonial-card:hover .btn-delete { opacity: 1; }
-        .btn-delete:hover { background: #d9534f; transform: scale(1.1); }
 
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
-            overflow: hidden;
         }
 
-        .testimonial-card {
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            word-break: break-word;
-        }
-
-        .testimonial-card:hover {
-            border-color: #8a9eff;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
-
+        .testimonial-card { padding: 30px; position: relative; overflow: hidden; }
         .testimonial-card::before {
             content: '"';
             position: absolute;
@@ -637,12 +443,7 @@
             font-size: 4rem;
             color: rgba(138, 158, 255, 0.1);
             font-family: 'Playfair Display', serif;
-            line-height: 1;
         }
-
-        .testimonial-author { font-weight: 700; color: #8a9eff; margin-bottom: 12px; font-size: 1rem; }
-        .testimonial-text { color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.7; }
-        .testimonial-date { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 15px; }
 
         .footer {
             text-align: center;
@@ -653,8 +454,7 @@
             color: rgba(255,255,255,0.5);
         }
 
-        .footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.3s ease; }
-        .footer-contact a:hover { color: #8a9eff; }
+        .footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
 
         .mensagem-sucesso {
             background: rgba(46, 204, 113, 0.15);
@@ -665,24 +465,7 @@
             display: none;
             margin-bottom: 20px;
             text-align: center;
-            animation: slideDown 0.3s ease;
         }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .loading { text-align: center; padding: 40px; color: rgba(255,255,255,0.5); }
-        .loading i { animation: spin 1s linear infinite; margin-right: 10px; }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .admin-trigger { font-size: 11px; color: rgba(255,255,255,0.2); cursor: pointer; transition: color 0.3s ease; }
-        .admin-trigger:hover { color: #8a9eff; }
 
         .modal {
             display: none;
@@ -698,7 +481,7 @@
         }
 
         .modal.active { display: flex; }
-        .modal img { max-width: 90%; max-height: 90vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+        .modal img { max-width: 90%; max-height: 90vh; border-radius: 12px; }
 
         .modal-close {
             position: absolute;
@@ -707,15 +490,7 @@
             color: #fff;
             font-size: 40px;
             cursor: pointer;
-            transition: transform 0.3s ease;
         }
-
-        .modal-close:hover { transform: rotate(90deg); }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #07070a; }
-        ::-webkit-scrollbar-thumb { background: rgba(138, 158, 255, 0.3); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(138, 158, 255, 0.5); }
 
         @media (max-width: 768px) {
             .navbar { padding: 15px 24px; }
@@ -726,23 +501,16 @@
                 width: 280px;
                 height: 100vh;
                 background: #0b0b11;
-                border-left: 1px solid rgba(255,255,255,0.08);
                 flex-direction: column;
                 padding: 100px 40px;
                 gap: 30px;
-                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: right 0.4s ease;
             }
             .nav-links.active { right: 0; }
             .menu-toggle { display: block; z-index: 1001; }
-            .hero { padding-top: 120px; }
             .hero-content h1 { font-size: 2.6rem; }
-            .custom-player { flex-wrap: wrap; }
-            .volume-container { display: none; }
-            .section { padding: 60px 20px; }
             .section-title { font-size: 2.2rem; }
-            .form-card { padding: 24px; }
             .testimonials-grid, .fotos-grid { grid-template-columns: 1fr; }
-            .kblo-foto { width: 160px; height: 160px; }
         }
     </style>
 </head>
@@ -821,8 +589,7 @@
             </div>
             <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
                 O Bar do Kblo não era apenas um estabelecimento, era o ponto de encontro de gerações. 
-                Este site é uma homenagem a todos os momentos vividos, às amizades formadas e às 
-                histórias que ficaram guardadas em nossos corações.
+                Este site é uma homenagem a todos os momentos vividos.
             </p>
         </div>
     </section>
@@ -852,8 +619,11 @@
         </div>
         
         <div id="listaDepoimentos">
-            <div class="loading">
-                <i class="fas fa-spinner"></i> Carregando depoimentos...
+            <!-- Skeleton Loading -->
+            <div class="testimonials-grid">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
             </div>
         </div>
     </section>
@@ -864,10 +634,7 @@
         
         <div style="max-width: 600px; margin: 0 auto 40px;">
             <div class="form-card">
-                <h3 style="margin-bottom: 20px;">
-                    <i class="fas fa-camera-retro" style="color: #8a9eff; margin-right: 10px;"></i>
-                    Enviar nova foto
-                </h3>
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-camera-retro"></i> Enviar nova foto</h3>
                 <div id="msgSucessoFoto" class="mensagem-sucesso">
                     <i class="fas fa-check-circle"></i> Foto enviada com sucesso!
                 </div>
@@ -894,37 +661,24 @@
         </div>
         
         <div id="listaFotos">
-            <div class="loading">
-                <i class="fas fa-spinner"></i> Carregando fotos...
+            <!-- Skeleton Loading -->
+            <div class="fotos-grid">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
             </div>
         </div>
     </section>
 
     <footer class="footer">
-        <p class="footer-contact">
-            <a href="#" onclick="contatarAdmin()">
-                <i class="fas fa-envelope" style="color: #8a9eff; margin-right: 5px;"></i>
-                Solicitar remoção de conteúdo
-            </a>
-        </p>
-        <p style="max-width: 500px; margin: 0 auto 20px; line-height: 1.6;">
-            <i class="fas fa-shield-alt" style="color: #8a9eff;"></i> 
-            Cada pessoa é de total responsabilidade jurídica pelo conteúdo publicado.
-        </p>
-        <p style="opacity: 0.7; font-size: 13px; margin-bottom: 5px;">
-            Desenvolvido por <strong style="color: #8a9eff;">Velho Malte</strong>
-        </p>
-        <p style="opacity: 0.4; font-size: 11px;">
-            © 2026 Tributo ao Bar do Kblo
-        </p>
+        <p class="footer-contact"><a href="#" onclick="contatarAdmin()">Solicitar remoção de conteúdo</a></p>
+        <p style="opacity: 0.7; font-size: 13px; margin-top: 20px;">Desenvolvido por <strong>Velho Malte</strong></p>
+        <p style="opacity: 0.4; font-size: 11px;">© 2026 Tributo ao Bar do Kblo</p>
     </footer>
 
     <script>
-        // Configurações (Centralizadas e protegidas)
         const CONFIG = {
             EMAIL_ADMIN: 'tributokblo@gmail.com',
-            // Hash ou verificação segura deveria ser feita no backend. 
-            // Como é um site estático, mantemos a lógica original mas limpamos o código.
             SENHA_ADMIN: 'b@nc4da18', 
             SUPABASE_URL: 'https://dvpdypkfybnabaofcdse.supabase.co',
             SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY'
@@ -933,10 +687,8 @@
         const supabaseClient = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
         
         let adminAtivo = false;
-        let musicaContada = false;
         const audio = document.getElementById('meuAudio');
 
-        // Utilitários
         const formatTime = (secs) => {
             const min = Math.floor(secs / 60);
             const sec = Math.floor(secs % 60);
@@ -949,7 +701,12 @@
             return temp.innerHTML;
         };
 
-        // Player de Áudio
+        // Otimização de URL de Imagem (CDN Supabase)
+        const otimizarImg = (url, width = 600) => {
+            if (!url.includes('supabase.co')) return url;
+            return `${url}?width=${width}&quality=80`;
+        };
+
         audio.addEventListener('loadedmetadata', () => {
             document.getElementById('audioSlider').max = Math.floor(audio.duration);
             document.getElementById('durationTime').textContent = formatTime(audio.duration);
@@ -957,9 +714,7 @@
 
         audio.addEventListener('timeupdate', () => {
             const slider = document.getElementById('audioSlider');
-            if (!slider.classList.contains('seeking')) {
-                slider.value = Math.floor(audio.currentTime);
-            }
+            if (!slider.classList.contains('seeking')) slider.value = Math.floor(audio.currentTime);
             document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
         });
 
@@ -968,19 +723,14 @@
             if (audio.paused) {
                 await audio.play();
                 btn.innerHTML = '<i class="fas fa-pause"></i>';
-                if (!musicaContada) {
-                    musicaContada = true;
-                    await incrementarContador();
-                }
+                incrementarContador();
             } else {
                 audio.pause();
                 btn.innerHTML = '<i class="fas fa-play"></i>';
             }
         }
 
-        function seekAudio() {
-            audio.currentTime = document.getElementById('audioSlider').value;
-        }
+        function seekAudio() { audio.currentTime = document.getElementById('audioSlider').value; }
 
         function changeVolume() {
             const vol = document.getElementById('volumeSlider').value / 100;
@@ -990,18 +740,11 @@
         }
 
         function toggleMute() {
-            const slider = document.getElementById('volumeSlider');
-            if (audio.volume > 0) {
-                audio.volume = 0;
-                slider.value = 0;
-            } else {
-                audio.volume = 0.8;
-                slider.value = 80;
-            }
+            audio.volume = audio.volume > 0 ? 0 : 0.8;
+            document.getElementById('volumeSlider').value = audio.volume * 100;
             changeVolume();
         }
 
-        // Interface
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             const icon = document.getElementById('menuIcon');
@@ -1011,39 +754,28 @@
 
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-        // Admin
         function promptAdmin() {
             if (prompt("E-mail:") === CONFIG.EMAIL_ADMIN && prompt("Senha:") === CONFIG.SENHA_ADMIN) {
                 adminAtivo = true;
                 alert("Modo administrador ativado.");
                 carregarFotos();
                 carregarDepoimentos();
-            } else {
-                alert("Acesso negado.");
-            }
+            } else { alert("Acesso negado."); }
         }
 
         function contatarAdmin() {
-            const sub = encodeURIComponent('Solicitação - Bar do Kblo');
-            window.location.href = `mailto:${CONFIG.EMAIL_ADMIN}?subject=${sub}`;
+            window.location.href = `mailto:${CONFIG.EMAIL_ADMIN}?subject=Solicitacao - Bar do Kblo`;
         }
 
-        // Supabase - Métricas
         async function incrementarContador() {
             try {
                 const { data } = await supabaseClient.from('metricas').select('valor').eq('chave', 'reproducoes_musica').single();
                 const novo = (data?.valor || 0) + 1;
                 await supabaseClient.from('metricas').upsert({ chave: 'reproducoes_musica', valor: novo });
                 document.getElementById('contadorReproducoes').textContent = novo.toLocaleString('pt-BR');
-            } catch (e) { console.error(e); }
+            } catch (e) {}
         }
 
-        async function buscarContador() {
-            const { data } = await supabaseClient.from('metricas').select('valor').eq('chave', 'reproducoes_musica').single();
-            if (data) document.getElementById('contadorReproducoes').textContent = data.valor.toLocaleString('pt-BR');
-        }
-
-        // Supabase - Depoimentos
         async function carregarDepoimentos() {
             const list = document.getElementById('listaDepoimentos');
             const { data, error } = await supabaseClient.from('depoimentos').select('*').order('criado_em', { ascending: false });
@@ -1064,10 +796,8 @@
             const nome = document.getElementById('nomeDepoimento').value.trim();
             const texto = document.getElementById('textoDepoimento').value.trim();
             if (!nome || !texto) return alert("Preencha os campos.");
-
             const btn = document.getElementById('btnDepoimento');
             btn.disabled = true;
-            
             const { error } = await supabaseClient.from('depoimentos').insert([{ nome, depoimento: texto, aprovado: true }]);
             if (!error) {
                 document.getElementById('nomeDepoimento').value = '';
@@ -1079,14 +809,22 @@
             btn.disabled = false;
         }
 
-        async function deletarDepoimento(id) {
-            if (confirm("Deletar?")) {
-                await supabaseClient.from('depoimentos').delete().eq('id', id);
-                carregarDepoimentos();
-            }
+        async function carregarFotos() {
+            const list = document.getElementById('listaFotos');
+            const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false });
+            if (error) return;
+            list.innerHTML = `<div class="fotos-grid">${data.map(f => `
+                <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
+                    <img src="${otimizarImg(f.foto_url)}" loading="lazy">
+                    <div class="foto-overlay">
+                        <div class="foto-nome">${sanitizar(f.nome)}</div>
+                        <div class="foto-data">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</div>
+                    </div>
+                    ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
+                </div>
+            `).join('')}</div>`;
         }
 
-        // Supabase - Fotos
         function previewImage() {
             const file = document.getElementById('fotoFile').files[0];
             if (file) {
@@ -1103,13 +841,9 @@
             const nome = document.getElementById('fotoNome').value.trim();
             const file = document.getElementById('fotoFile').files[0];
             if (!nome || !file) return alert("Preencha os campos.");
-
             const btn = document.getElementById('btnFoto');
             btn.disabled = true;
-
-            const ext = file.name.split('.').pop();
-            const path = `${Date.now()}.${ext}`;
-            
+            const path = `${Date.now()}.${file.name.split('.').pop()}`;
             const { error: upErr } = await supabaseClient.storage.from('fotos').upload(path, file);
             if (!upErr) {
                 const { data: urlData } = supabaseClient.storage.from('fotos').getPublicUrl(path);
@@ -1124,24 +858,6 @@
             btn.disabled = false;
         }
 
-        async function carregarFotos() {
-            const list = document.getElementById('listaFotos');
-            const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false });
-            
-            if (error) return;
-            
-            list.innerHTML = `<div class="fotos-grid">${data.map(f => `
-                <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
-                    <img src="${f.foto_url}" loading="lazy">
-                    <div class="foto-overlay">
-                        <div class="foto-nome">${sanitizar(f.nome)}</div>
-                        <div class="foto-data">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</div>
-                    </div>
-                    ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
-                </div>
-            `).join('')}</div>`;
-        }
-
         async function deletarFoto(id) {
             if (confirm("Deletar foto?")) {
                 await supabaseClient.from('fotos').delete().eq('id', id);
@@ -1149,7 +865,13 @@
             }
         }
 
-        // Modal
+        async function deletarDepoimento(id) {
+            if (confirm("Deletar?")) {
+                await supabaseClient.from('depoimentos').delete().eq('id', id);
+                carregarDepoimentos();
+            }
+        }
+
         function abrirModal(url) {
             document.getElementById('modalImage').src = url;
             document.getElementById('imageModal').classList.add('active');
@@ -1161,34 +883,29 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Compartilhamento
         const share = (url) => window.open(url, '_blank', 'width=600,height=400');
         function compartilharFacebook() { share(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`); }
         function compartilharWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent('Tributo Bar do Kblo ' + location.href)}`, '_blank'); }
         function compartilharTwitter() { share(`https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}`); }
 
-        // Inicialização
         function init() {
-            buscarContador();
+            supabaseClient.from('metricas').select('valor').eq('chave', 'reproducoes_musica').single().then(({data}) => {
+                if (data) document.getElementById('contadorReproducoes').textContent = data.valor.toLocaleString('pt-BR');
+            });
             carregarDepoimentos();
             carregarFotos();
-            
-            // Partículas
             const p = document.getElementById('particles');
             for(let i=0; i<20; i++) {
                 const div = document.createElement('div');
                 div.style.cssText = `position:absolute;width:2px;height:2px;background:rgba(138,158,255,0.2);border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;animation:float ${15+Math.random()*10}s linear infinite;`;
                 p.appendChild(div);
             }
-
-            // Revelar seções
             const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), {threshold: 0.1});
             document.querySelectorAll('.section').forEach(s => obs.observe(s));
         }
 
         window.addEventListener('DOMContentLoaded', init);
         window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
-        
         const style = document.createElement('style');
         style.textContent = `@keyframes float { 0% { transform: translateY(0); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }`;
         document.head.appendChild(style);
