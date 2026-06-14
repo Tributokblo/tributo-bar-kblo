@@ -25,7 +25,7 @@
 
         @keyframes skeleton-loading { 0% { background-color: rgba(255, 255, 255, 0.05); } 100% { background-color: rgba(255, 255, 255, 0.1); } }
         .skeleton { animation: skeleton-loading 1s linear infinite alternate; border-radius: 12px; }
-        .skeleton-card { height: 180px; width: 100%; margin-bottom: 20px; }
+        .skeleton-card { height: 150px; width: 100%; margin-bottom: 20px; }
 
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.08) 50%, #07070a 100%); z-index: -2; pointer-events: none; }
         .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -83,24 +83,40 @@
         .form-group label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; }
         .form-group input, .form-group textarea { width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; color: white; font-family: 'Montserrat', sans-serif; transition: all 0.3s ease; }
 
-        /* Tabs Structure */
-        .tabs-container { margin-top: 40px; }
-        .tabs-nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
-        .tab-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 0.9rem; }
-        .tab-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
-        .tab-content { display: none; animation: fadeIn 0.5s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Estilo do Botão de Arquivo */
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .file-input-trigger { 
+            display: inline-block; 
+            padding: 14px 24px; 
+            background: rgba(138, 158, 255, 0.08); 
+            border: 2px dashed rgba(138, 158, 255, 0.3); 
+            border-radius: 14px; 
+            color: #8a9eff; 
+            cursor: pointer; 
+            text-align: center; 
+            width: 100%; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .file-input-trigger:hover { background: rgba(138, 158, 255, 0.15); border-color: #8a9eff; }
+        .file-name-preview { margin-top: 10px; font-size: 0.85rem; color: #8a9eff; text-align: center; font-weight: 500; display: none; }
 
-        .fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
         .foto-card { padding: 0; overflow: hidden; position: relative; cursor: pointer; }
         .foto-card img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s ease; }
         .foto-card:hover img { transform: scale(1.1); }
         .foto-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px; transform: translateY(100%); transition: transform 0.3s ease; }
         .foto-card:hover .foto-overlay { transform: translateY(0); }
 
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 30px; }
+        .testimonial-card { padding: 30px; position: relative; overflow: hidden; }
+
         .btn-delete { position: absolute; top: 15px; right: 15px; background: rgba(217, 83, 79, 0.9); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; opacity: 0; transition: all 0.3s ease; z-index: 10; }
         .foto-card:hover .btn-delete, .testimonial-card:hover .btn-delete { opacity: 1; }
+
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); padding: 15px 35px; border-radius: 40px; color: white; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; letter-spacing: 1px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
 
         .footer { text-align: center; padding: 50px 24px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 80px; font-size: 0.9rem; color: rgba(255,255,255,0.5); width: 100%; }
         .footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
@@ -118,7 +134,6 @@
             .menu-toggle { display: block; z-index: 1001; }
             .hero-content h1 { font-size: 2.6rem; }
             .section-title { font-size: 2.2rem; }
-            .tab-btn { padding: 10px 18px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -133,8 +148,8 @@
         </div>
         <div class="nav-links" id="navLinks">
             <a href="#home" onclick="toggleMenu()">HOME</a>
+            <a href="#sobre" onclick="toggleMenu()">HISTÓRIA</a>
             <a href="#mural" onclick="toggleMenu()">MURAL</a>
-            <a href="#sobre" onclick="toggleMenu()">SOBRE</a>
             <a href="#" onclick="contatarAdmin(); toggleMenu();">CONTATO</a>
             <span class="admin-trigger" onclick="promptAdmin()">Painel</span>
         </div>
@@ -167,7 +182,7 @@
             </div>
 
             <div class="musica-legenda">
-                <i class="fas fa-music"></i> Música criada em homenagem ao Bar do Kblo
+                <i class="fas fa-music"></i> Homenagem Especial ao Bar do Kblo
             </div>
             <div class="contador-container">
                 <i class="fas fa-headset"></i> Ouvida <span id="contadorReproducoes">0</span> vezes
@@ -175,82 +190,9 @@
             <p class="frase-efeito">Um lugar que eternizou memórias</p>
             
             <div class="share-buttons">
-                <button class="share-btn share-facebook" onclick="compartilharFacebook()" title="Compartilhar no Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
-                <button class="share-btn share-whatsapp" onclick="compartilharWhatsApp()" title="Compartilhar no WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </button>
-                <button class="share-btn share-twitter" onclick="compartilharTwitter()" title="Compartilhar no Twitter">
-                    <i class="fab fa-twitter"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="mural" class="section">
-        <h2 class="section-title">Mural de Memórias</h2>
-        <p class="section-subtitle">Compartilhe e reviva os momentos</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
-            <!-- Form Depoimento -->
-            <div class="form-card">
-                <h3 style="margin-bottom: 20px;"><i class="fas fa-pen-fancy"></i> Postar História</h3>
-                <div id="msgSucessoDepoimento" class="mensagem-sucesso">Enviado com sucesso!</div>
-                <div class="form-group">
-                    <label>Seu nome</label>
-                    <input type="text" id="nomeDepoimento" placeholder="Nome ou apelido" maxlength="100">
-                </div>
-                <div class="form-group">
-                    <label>Sua história</label>
-                    <textarea id="textoDepoimento" rows="3" placeholder="O que você lembra?" maxlength="1000"></textarea>
-                </div>
-                <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento" style="width: 100%;">ENVIAR</button>
-            </div>
-
-            <!-- Form Foto -->
-            <div class="form-card">
-                <h3 style="margin-bottom: 20px;"><i class="fas fa-camera-retro"></i> Postar Foto</h3>
-                <div id="msgSucessoFoto" class="mensagem-sucesso">Foto enviada!</div>
-                <div class="form-group">
-                    <label>Seu nome</label>
-                    <input type="text" id="fotoNome" placeholder="Nome ou apelido" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Selecione a foto</label>
-                    <div class="file-input-wrapper">
-                        <div class="file-input-trigger" id="fileTrigger"><i class="fas fa-upload"></i> Escolher arquivo</div>
-                        <input type="file" id="fotoFile" accept="image/*" onchange="previewImage()">
-                    </div>
-                    <div class="preview-container" id="previewContainer" style="display: none;">
-                        <img src="" id="previewImage">
-                    </div>
-                </div>
-                <button class="btn-primary" onclick="enviarFoto()" id="btnFoto" style="width: 100%;">ENVIAR</button>
-            </div>
-        </div>
-
-        <!-- Tabs for Listing -->
-        <div class="tabs-container">
-            <div class="tabs-nav">
-                <button class="tab-btn active" onclick="switchTab('tab-depoimentos')"><i class="fas fa-comment-alt"></i> VER DEPOIMENTOS</button>
-                <button class="tab-btn" onclick="switchTab('tab-fotos')"><i class="fas fa-images"></i> VER FOTOS</button>
-            </div>
-
-            <div id="tab-depoimentos" class="tab-content active">
-                <div id="listaDepoimentos">
-                    <div class="skeleton skeleton-card"></div>
-                    <div class="skeleton skeleton-card"></div>
-                </div>
-            </div>
-
-            <div id="tab-fotos" class="tab-content">
-                <div id="listaFotos">
-                    <div class="fotos-grid">
-                        <div class="skeleton skeleton-card"></div>
-                        <div class="skeleton skeleton-card"></div>
-                    </div>
-                </div>
+                <button class="share-btn share-facebook" onclick="compartilharFacebook()" title="Facebook"><i class="fab fa-facebook-f"></i></button>
+                <button class="share-btn share-whatsapp" onclick="compartilharWhatsApp()" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>
+                <button class="share-btn share-twitter" onclick="compartilharTwitter()" title="Twitter"><i class="fab fa-twitter"></i></button>
             </div>
         </div>
     </section>
@@ -262,8 +204,62 @@
                 <img src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px;" onerror="this.style.display='none'">
             </div>
             <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
-                O Bar do Kblo não era apenas um estabelecimento, era o ponto de encontro de gerações. 
+                O Bar do Kblo não era apenas um estabelecimento, era o coração pulsante da nossa comunidade, onde amizades foram forjadas e histórias inesquecíveis aconteceram.
             </p>
+        </div>
+    </section>
+
+    <section id="mural" class="section">
+        <h2 class="section-title">Mural de Memórias</h2>
+        <p class="section-subtitle">Compartilhe suas lembranças e fotos</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px;">
+            <!-- Form Depoimento -->
+            <div class="form-card">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-pen-fancy"></i> Escrever Mensagem</h3>
+                <div id="msgSucessoDepoimento" class="mensagem-sucesso">Mensagem eternizada!</div>
+                <div class="form-group">
+                    <label>Seu nome ou apelido</label>
+                    <input type="text" id="nomeDepoimento" placeholder="Como quer ser identificado?" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label>Sua mensagem</label>
+                    <textarea id="textoDepoimento" rows="3" placeholder="O que o Bar do Kblo significa para você?" maxlength="1000"></textarea>
+                </div>
+                <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento" style="width: 100%;">POSTAR MENSAGEM</button>
+            </div>
+
+            <!-- Form Foto -->
+            <div class="form-card">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-camera-retro"></i> Enviar Foto</h3>
+                <div id="msgSucessoFoto" class="mensagem-sucesso">Foto enviada com sucesso!</div>
+                <div class="form-group">
+                    <label>Seu nome ou apelido</label>
+                    <input type="text" id="fotoNome" placeholder="Quem está enviando?" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label>Selecione a foto</label>
+                    <div class="file-input-wrapper">
+                        <div class="file-input-trigger" id="fileTrigger"><i class="fas fa-image"></i> ESCOLHER FOTO</div>
+                        <input type="file" id="fotoFile" accept="image/*" onchange="handleFileSelect()">
+                    </div>
+                    <div class="file-name-preview" id="fileNamePreview"></div>
+                </div>
+                <button class="btn-primary" onclick="enviarFoto()" id="btnFoto" style="width: 100%;">ENVIAR PARA O MURAL</button>
+            </div>
+        </div>
+
+        <!-- Exibição de Conteúdos -->
+        <div id="conteudoMural">
+            <h3 style="margin-bottom: 20px; color: #8a9eff; text-align: center;">Últimas Lembranças</h3>
+            <div id="listaDepoimentos" class="testimonials-grid">
+                <div class="skeleton skeleton-card"></div>
+            </div>
+
+            <h3 style="margin: 50px 0 20px; color: #8a9eff; text-align: center;">Últimas Fotos</h3>
+            <div id="listaFotos" class="fotos-grid">
+                <div class="skeleton skeleton-card"></div>
+            </div>
         </div>
     </section>
 
@@ -296,21 +292,20 @@
             return `${url}?width=${width}&quality=80`;
         };
 
-        // Tabs Logic
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-            if (tabId === 'tab-fotos') carregarFotos();
-            else carregarDepoimentos();
+        // File Select Handling
+        function handleFileSelect() {
+            const file = document.getElementById('fotoFile').files[0];
+            const preview = document.getElementById('fileNamePreview');
+            if (file) {
+                preview.textContent = `Arquivo selecionado: ${file.name}`;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
         }
 
         // Audio Logic
-        audio.addEventListener('loadedmetadata', () => {
-            document.getElementById('audioSlider').max = Math.floor(audio.duration);
-        });
-
+        audio.addEventListener('loadedmetadata', () => { document.getElementById('audioSlider').max = Math.floor(audio.duration); });
         audio.addEventListener('timeupdate', () => {
             const slider = document.getElementById('audioSlider');
             if (!slider.classList.contains('seeking')) slider.value = Math.floor(audio.currentTime);
@@ -324,13 +319,10 @@
         }
 
         function seekAudio() { audio.currentTime = document.getElementById('audioSlider').value; }
-
         function changeVolume() {
-            const vol = document.getElementById('volumeSlider').value / 100;
-            audio.volume = vol;
+            const vol = document.getElementById('volumeSlider').value / 100; audio.volume = vol;
             document.getElementById('volumeIcon').className = vol === 0 ? 'fas fa-volume-mute' : (vol < 0.5 ? 'fas fa-volume-down' : 'fas fa-volume-up');
         }
-
         function handleVolumeIconClick() {
             if (window.innerWidth <= 768) document.getElementById('volumeContainer').classList.toggle('active');
             else { audio.volume = audio.volume > 0 ? 0 : 0.8; document.getElementById('volumeSlider').value = audio.volume * 100; changeVolume(); }
@@ -363,24 +355,23 @@
 
         async function carregarDepoimentos() {
             const list = document.getElementById('listaDepoimentos');
-            const { data, error } = await supabaseClient.from('depoimentos').select('*').order('criado_em', { ascending: false });
+            const { data, error } = await supabaseClient.from('depoimentos').select('*').order('criado_em', { ascending: false }).limit(5);
             if (error) return;
-            list.innerHTML = `<div class="testimonials-grid">${data.map(d => `
+            list.innerHTML = data.map(d => `
                 <div class="testimonial-card">
-                    <div class="testimonial-author" style="color:#8a9eff; font-weight:700;">${sanitizar(d.nome)}</div>
-                    <div class="testimonial-text" style="margin-top:10px;">${sanitizar(d.depoimento)}</div>
+                    <div style="color:#8a9eff; font-weight:700;">${sanitizar(d.nome)}</div>
+                    <div style="margin-top:10px; font-size:0.95rem;">${sanitizar(d.depoimento)}</div>
                     <div style="font-size:11px; opacity:0.4; margin-top:15px;">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
                     ${adminAtivo ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
-            `).join('')}</div>`;
+            `).join('');
         }
 
         async function enviarDepoimento() {
             const nome = document.getElementById('nomeDepoimento').value.trim();
             const texto = document.getElementById('textoDepoimento').value.trim();
             if (!nome || !texto) return alert("Preencha os campos.");
-            const btn = document.getElementById('btnDepoimento');
-            btn.disabled = true;
+            const btn = document.getElementById('btnDepoimento'); btn.disabled = true;
             const { error } = await supabaseClient.from('depoimentos').insert([{ nome, depoimento: texto, aprovado: true }]);
             if (!error) {
                 document.getElementById('nomeDepoimento').value = ''; document.getElementById('textoDepoimento').value = '';
@@ -393,9 +384,9 @@
 
         async function carregarFotos() {
             const list = document.getElementById('listaFotos');
-            const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false });
+            const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false }).limit(5);
             if (error) return;
-            list.innerHTML = `<div class="fotos-grid">${data.map(f => `
+            list.innerHTML = data.map(f => `
                 <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
                     <img src="${otimizarImg(f.foto_url)}" loading="lazy">
                     <div class="foto-overlay">
@@ -404,16 +395,7 @@
                     </div>
                     ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
-            `).join('')}</div>`;
-        }
-
-        function previewImage() {
-            const file = document.getElementById('fotoFile').files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => { document.getElementById('previewImage').src = e.target.result; document.getElementById('previewContainer').style.display = 'block'; };
-                reader.readAsDataURL(file);
-            }
+            `).join('');
         }
 
         async function enviarFoto() {
@@ -427,7 +409,7 @@
                 const { data: urlData } = supabaseClient.storage.from('fotos').getPublicUrl(path);
                 await supabaseClient.from('fotos').insert([{ nome, user_email: nome, foto_url: urlData.publicUrl, aprovado: true }]);
                 document.getElementById('fotoNome').value = ''; document.getElementById('fotoFile').value = '';
-                document.getElementById('previewContainer').style.display = 'none';
+                document.getElementById('fileNamePreview').style.display = 'none';
                 document.getElementById('msgSucessoFoto').style.display = 'block';
                 setTimeout(() => document.getElementById('msgSucessoFoto').style.display = 'none', 3000);
                 carregarFotos();
@@ -450,6 +432,7 @@
                 if (data) document.getElementById('contadorReproducoes').textContent = data.valor.toLocaleString('pt-BR');
             });
             carregarDepoimentos();
+            carregarFotos();
             const p = document.getElementById('particles');
             for(let i=0; i<20; i++) {
                 const div = document.createElement('div');
