@@ -132,7 +132,7 @@
             transform: rotate(90deg);
         }
 
-                .hero {
+        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -140,27 +140,23 @@
             text-align: center;
             padding: 140px 24px 60px;
             position: relative;
-            background: url('kblo.jpg') center/cover no-repeat;
-            background-attachment: scroll;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 7, 10, 0.75);
-            z-index: 0;
-        }
-
-                .hero-content {
+        .hero-content {
             max-width: 750px;
             width: 100%;
             animation: fadeInUp 1s ease;
-            position: relative;
-            z-index: 1;
+        }
+
+        .kblo-foto {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #8a9eff;
+            box-shadow: 0 0 40px rgba(138,158,255,0.3);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease;
         }
 
         @keyframes fadeInUp {
@@ -895,6 +891,11 @@
             .testimonials-grid, .fotos-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .kblo-foto {
+                width: 130px;
+                height: 130px;
+            }
         }
     </style>
 </head>
@@ -924,6 +925,7 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
+            <img src="kblo.jpg" alt="Kblo" class="kblo-foto" onerror="this.style.display='none'">
             <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
             
             <div class="custom-player">
