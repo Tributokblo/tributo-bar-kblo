@@ -498,7 +498,6 @@
         }
 
         .preview-container img {
-            max-width: 200px;
             max-height: 200px;
             border-radius: 12px;
             border: 2px solid rgba(138, 158, 255, 0.3);
@@ -973,28 +972,17 @@
                 <img src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px; transition: transform 0.5s ease;" onerror="this.style.display='none'" id="barImage">
             </div>
             <p style="line-height: 1.8; color: rgba(255,255,255,0.8); font-size: 1.05rem;">
-                Este espaço é dedicado a registrar os bons momentos, histórias e amizades que aconteceram no Bar do Kblo. 
-                Um lugar onde cada risada, cada brinde e cada encontro se tornou uma memória inesquecível.
+                O Bar do Kblo não era apenas um estabelecimento, era um ponto de encontro de gerações, um refúgio para boas conversas e o berço de amizades que duram até hoje. Este site é um tributo a esses momentos inesquecíveis.
             </p>
-            <div style="margin-top: 30px; padding: 20px; background: rgba(138, 158, 255, 0.05); border-radius: 12px;">
-                <i class="fas fa-quote-left" style="color: #8a9eff; font-size: 2rem; margin-bottom: 10px;"></i>
-                <p style="font-style: italic; color: rgba(255,255,255,0.7);">
-                    "O Bar do Kblo não era apenas um bar, era uma extensão da nossa casa,
-                    onde todos eram bem-vindos e cada noite era única."
-                </p>
-            </div>
         </div>
     </section>
 
     <section id="depoimentos" class="section">
         <h2 class="section-title">Depoimentos</h2>
-        <p class="section-subtitle">Compartilhe sua história e suas memórias</p>
+        <p class="section-subtitle">Histórias de quem viveu momentos inesquecíveis</p>
         
-        <div class="form-card" style="max-width: 700px; margin: 0 auto 60px;">
-            <h3 style="margin-bottom: 25px; font-weight: 600;">
-                <i class="fas fa-pen-fancy" style="color: #8a9eff; margin-right: 10px;"></i>
-                Deixe seu depoimento
-            </h3>
+        <div class="form-card" style="max-width: 600px; margin: 0 auto 50px;">
+            <h3 style="margin-bottom: 20px;">Deixe sua homenagem</h3>
             <div id="msgSucessoDepoimento" class="mensagem-sucesso">
                 <i class="fas fa-check-circle"></i> Depoimento enviado com sucesso!
             </div>
@@ -1088,7 +1076,6 @@
 
     <script>
         const EMAIL_ADMINISTRADOR = 'tributokblo@gmail.com';
-        const SENHA_ADMIN = 'b@nc4da18';
         
         const SUPABASE_URL = 'https://dvpdypkfybnabaofcdse.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY';
@@ -1257,23 +1244,39 @@
             }
         });
 
-        function promptAdmin() {
-            const email = prompt("Digite o e-mail do administrador:");
-            
-            if (email !== EMAIL_ADMINISTRADOR) {
-                alert("❌ E-mail incorreto.");
+        async function promptAdmin() {
+            if (adminAtivo) {
+                if (confirm("Deseja sair do modo administrador?")) {
+                    adminAtivo = false;
+                    carregarFotos();
+                    carregarDepoimentos();
+                    alert("Você saiu do modo administrador.");
+                }
                 return;
             }
+
+            const email = prompt("Digite o e-mail do administrador:");
+            if (!email) return;
             
-            const senha = prompt("Digite a senha de administrador:");
-            
-            if (senha === SENHA_ADMIN) {
-                adminAtivo = true;
-                alert("✅ Modo administrador ativado! Você pode gerenciar o conteúdo.");
-                carregarFotos();
-                carregarDepoimentos();
-            } else {
-                alert("❌ Senha incorreta.");
+            const password = prompt("Digite a senha do administrador:");
+            if (!password) return;
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (error) throw error;
+
+                if (data.user) {
+                    adminAtivo = true;
+                    alert("✅ Autenticação realizada com sucesso! Modo administrador ativado.");
+                    carregarFotos();
+                    carregarDepoimentos();
+                }
+            } catch (error) {
+                alert("❌ Erro na autenticação: " + error.message);
             }
         }
 
@@ -1301,16 +1304,6 @@
             
             if (!nome || !depoimento) {
                 alert('⚠️ Por favor, preencha todos os campos obrigatórios.');
-                return;
-            }
-            
-            if (nome.length < 2) {
-                alert('⚠️ O nome deve ter pelo menos 2 caracteres.');
-                return;
-            }
-            
-            if (depoimento.length < 10) {
-                alert('⚠️ O depoimento deve ter pelo menos 10 caracteres.');
                 return;
             }
             
@@ -1349,7 +1342,6 @@
 
         async function carregarDepoimentos() {
             const listaDiv = document.getElementById('listaDepoimentos');
-            listaDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando depoimentos...</div>';
             
             try {
                 const { data, error } = await supabaseClient
@@ -1360,92 +1352,37 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    listaDiv.innerHTML = `
-                        <div style="text-align: center; padding: 60px 20px;">
-                            <i class="fas fa-comments" style="font-size: 3rem; color: rgba(138,158,255,0.3); margin-bottom: 20px;"></i>
-                            <p style="opacity: 0.5; font-size: 1.1rem;">✨ Seja a primeira pessoa a deixar uma homenagem!</p>
-                        </div>`;
+                    listaDiv.innerHTML = '<p style="text-align:center; opacity:0.5; padding:40px;">Nenhum depoimento ainda. Seja o primeiro!</p>';
                     return;
                 }
                 
-                const depoimentosVisiveis = 5;
-                const mostrarVerMais = data.length > depoimentosVisiveis;
-                const depoimentosIniciais = data.slice(0, depoimentosVisiveis);
-                
-                window.todosDepoimentos = data;
-                window.mostrandoTodos = false;
-                
                 listaDiv.innerHTML = `
-                    <div class="testimonials-grid" id="depoimentosGrid">
-                        ${depoimentosIniciais.map(d => criarDepoimentoCard(d)).join('')}
+                    <div class="testimonials-grid">
+                        ${data.map(d => `
+                            <div class="testimonial-card">
+                                <div class="testimonial-author">${d.nome}</div>
+                                <div class="testimonial-text">${d.depoimento}</div>
+                                <div class="testimonial-date">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
+                                ${adminAtivo ? `
+                                    <button class="btn-delete" onclick="deletarDepoimento(${d.id})" title="Remover depoimento">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        `).join('')}
                     </div>
-                    ${mostrarVerMais ? `
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button class="btn-primary" onclick="toggleVerMaisDepoimentos()" id="btnVerMaisDepoimentos">
-                                <i class="fas fa-comments"></i> VER MAIS DEPOIMENTOS (${data.length - depoimentosVisiveis} restantes)
-                            </button>
-                        </div>
-                    ` : ''}
                 `;
             } catch (error) {
-                listaDiv.innerHTML = `
-                    <p style="text-align:center; color: #ff6b6b;">
-                        <i class="fas fa-exclamation-circle"></i> Erro ao carregar depoimentos: ${error.message}
-                    </p>`;
-            }
-        }
-
-        function criarDepoimentoCard(d) {
-            return `
-                <div class="testimonial-card">
-                    <div class="testimonial-author">⭐ ${d.nome}</div>
-                    <p class="testimonial-text">"${d.depoimento}"</p>
-                    <p class="testimonial-date">
-                        <i class="far fa-calendar-alt"></i> 
-                        ${new Date(d.criado_em).toLocaleDateString('pt-BR', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                        })}
-                    </p>
-                    ${adminAtivo ? `
-                        <button class="btn-delete" onclick="deletarDepoimento(${d.id})" title="Remover depoimento">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        function toggleVerMaisDepoimentos() {
-            const depoimentosGrid = document.getElementById('depoimentosGrid');
-            const btnVerMais = document.getElementById('btnVerMaisDepoimentos');
-            const depoimentosVisiveis = 5;
-            
-            if (window.mostrandoTodos) {
-                const depoimentosIniciais = window.todosDepoimentos.slice(0, depoimentosVisiveis);
-                depoimentosGrid.innerHTML = depoimentosIniciais.map(d => criarDepoimentoCard(d)).join('');
-                btnVerMais.innerHTML = `<i class="fas fa-comments"></i> VER MAIS DEPOIMENTOS (${window.todosDepoimentos.length - depoimentosVisiveis} restantes)`;
-                window.mostrandoTodos = false;
-            } else {
-                depoimentosGrid.innerHTML = window.todosDepoimentos.map(d => criarDepoimentoCard(d)).join('');
-                btnVerMais.innerHTML = '<i class="fas fa-chevron-up"></i> MOSTRAR MENOS';
-                window.mostrandoTodos = true;
+                listaDiv.innerHTML = '<p style="text-align:center; color:#ff6b6b;">Erro ao carregar depoimentos.</p>';
             }
         }
 
         async function deletarDepoimento(id) {
             if (!adminAtivo) return;
-            
-            if (confirm('⚠️ Tem certeza que deseja remover este depoimento permanentemente?')) {
+            if (confirm('Deseja realmente remover este depoimento?')) {
                 try {
-                    const { error } = await supabaseClient
-                        .from('depoimentos')
-                        .delete()
-                        .eq('id', id);
-                    
+                    const { error } = await supabaseClient.from('depoimentos').delete().eq('id', id);
                     if (error) throw error;
-                    
                     carregarDepoimentos();
                 } catch (error) {
                     alert('Erro ao deletar: ' + error.message);
@@ -1455,40 +1392,19 @@
 
         function previewImage() {
             const file = document.getElementById('fotoFile').files[0];
-            const previewContainer = document.getElementById('previewContainer');
-            const previewImage = document.getElementById('previewImage');
-            const fileTrigger = document.getElementById('fileTrigger');
+            const preview = document.getElementById('previewImage');
+            const container = document.getElementById('previewContainer');
+            const trigger = document.getElementById('fileTrigger');
             
             if (file) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
-                    previewImage.src = e.target.result;
-                    previewContainer.style.display = 'block';
-                    fileTrigger.innerHTML = '<i class="fas fa-check-circle"></i> Imagem selecionada';
-                };
-                
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                    trigger.innerHTML = `<i class="fas fa-check"></i> Foto selecionada: ${file.name}`;
+                }
                 reader.readAsDataURL(file);
-            } else {
-                previewContainer.style.display = 'none';
-                fileTrigger.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Clique para escolher a foto';
             }
-        }
-
-        function validarImagem(file) {
-            const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-            
-            if (!tiposPermitidos.includes(file.type)) {
-                alert('⚠️ Formato não suportado. Use JPG, PNG, WebP ou GIF.');
-                return false;
-            }
-            
-            if (file.size > 10 * 1024 * 1024) {
-                alert('⚠️ Imagem muito grande. Tamanho máximo: 10MB.');
-                return false;
-            }
-            
-            return true;
         }
 
         async function enviarFoto() {
@@ -1496,17 +1412,8 @@
             const fotoFile = document.getElementById('fotoFile').files[0];
             const btn = document.getElementById('btnFoto');
             
-            if (!nomeInput) {
-                alert('⚠️ Por favor, informe seu nome ou apelido.');
-                return;
-            }
-            
-            if (!fotoFile) {
-                alert('⚠️ Selecione uma imagem para enviar.');
-                return;
-            }
-            
-            if (!validarImagem(fotoFile)) {
+            if (!nomeInput || !fotoFile) {
+                alert('⚠️ Preencha seu nome e selecione uma foto.');
                 return;
             }
             
@@ -1514,35 +1421,25 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
             
             try {
-                const fileExt = fotoFile.name.split('.').pop().toLowerCase();
+                const fileExt = fotoFile.name.split('.').pop();
                 const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
                 
                 const { error: uploadError } = await supabaseClient.storage
                     .from('fotos')
-                    .upload(fileName, fotoFile, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
+                    .upload(fileName, fotoFile);
                 
-                if (uploadError) {
-                    if (uploadError.message.includes('security') || uploadError.message.includes('policy')) {
-                        throw new Error('Erro de segurança. Verifique as políticas do bucket "fotos" no Supabase.');
-                    }
-                    throw uploadError;
-                }
+                if (uploadError) throw uploadError;
                 
                 const { data: publicUrl } = supabaseClient.storage
                     .from('fotos')
                     .getPublicUrl(fileName);
                 
-                const foto_url = publicUrl.publicUrl;
-                
                 const { error: insertError } = await supabaseClient
                     .from('fotos')
                     .insert([{ 
-                        nome: nomeInput, 
-                        user_email: nomeInput, 
-                        foto_url, 
+                        nome: sanitizarInput(nomeInput), 
+                        user_email: sanitizarInput(nomeInput), 
+                        foto_url: publicUrl.publicUrl, 
                         aprovado: true 
                     }]);
                 
@@ -1555,14 +1452,11 @@
                 
                 const msg = document.getElementById('msgSucessoFoto');
                 msg.style.display = 'block';
-                setTimeout(() => {
-                    msg.style.display = 'none';
-                }, 3000);
+                setTimeout(() => { msg.style.display = 'none'; }, 3000);
                 
                 carregarFotos();
             } catch (error) {
                 alert('❌ Erro no envio: ' + error.message);
-                console.error('Erro detalhado:', error);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-upload"></i> ENVIAR FOTO';
@@ -1571,8 +1465,6 @@
 
         async function carregarFotos() {
             const listaDiv = document.getElementById('listaFotos');
-            listaDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando fotos...</div>';
-            
             try {
                 const { data, error } = await supabaseClient
                     .from('fotos')
@@ -1582,94 +1474,39 @@
                 if (error) throw error;
                 
                 if (!data || data.length === 0) {
-                    listaDiv.innerHTML = `
-                        <div style="text-align: center; padding: 60px 20px;">
-                            <i class="fas fa-images" style="font-size: 3rem; color: rgba(138,158,255,0.3); margin-bottom: 20px;"></i>
-                            <p style="opacity: 0.5; font-size: 1.1rem;">📸 Nenhuma foto adicionada ainda. Publique a primeira!</p>
-                        </div>`;
+                    listaDiv.innerHTML = '<p style="text-align:center; opacity:0.5; padding:40px;">Nenhuma foto ainda.</p>';
                     return;
                 }
                 
-                const fotosVisiveis = 5;
-                const mostrarVerMais = data.length > fotosVisiveis;
-                const fotosIniciais = data.slice(0, fotosVisiveis);
-                
-                window.todasFotos = data;
-                window.mostrandoTodas = false;
-                
                 listaDiv.innerHTML = `
-                    <div class="fotos-grid" id="fotosGrid">
-                        ${fotosIniciais.map(f => criarFotoCard(f)).join('')}
+                    <div class="fotos-grid">
+                        ${data.map(f => `
+                            <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
+                                <img src="${f.foto_url}" alt="Foto" loading="lazy">
+                                <div class="foto-overlay">
+                                    <div class="foto-nome">⭐ Enviado por: ${f.nome}</div>
+                                    <div class="foto-data">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</div>
+                                </div>
+                                ${adminAtivo ? `
+                                    <button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})" title="Remover foto">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        `).join('')}
                     </div>
-                    ${mostrarVerMais ? `
-                        <div style="text-align: center; margin-top: 30px;">
-                            <button class="btn-primary" onclick="toggleVerMaisFotos()" id="btnVerMaisFotos">
-                                <i class="fas fa-images"></i> VER MAIS FOTOS (${data.length - fotosVisiveis} restantes)
-                            </button>
-                        </div>
-                    ` : ''}
                 `;
             } catch (error) {
-                listaDiv.innerHTML = `
-                    <p style="text-align:center; color: #ff6b6b;">
-                        <i class="fas fa-exclamation-circle"></i> Erro ao carregar fotos: ${error.message}
-                    </p>`;
-            }
-        }
-
-        function criarFotoCard(f) {
-            return `
-                <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
-                    <img src="${f.foto_url}" alt="Recordação do Bar do Kblo" loading="lazy">
-                    <div class="foto-overlay">
-                        <div class="foto-nome">⭐ Enviado por: ${f.user_email || 'Anônimo'}</div>
-                        <div class="foto-data">
-                            <i class="far fa-calendar-alt"></i> 
-                            ${new Date(f.criado_em).toLocaleDateString('pt-BR', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric'
-                            })}
-                        </div>
-                    </div>
-                    ${adminAtivo ? `
-                        <button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})" title="Remover foto">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        function toggleVerMaisFotos() {
-            const fotosGrid = document.getElementById('fotosGrid');
-            const btnVerMais = document.getElementById('btnVerMaisFotos');
-            const fotosVisiveis = 5;
-            
-            if (window.mostrandoTodas) {
-                const fotosIniciais = window.todasFotos.slice(0, fotosVisiveis);
-                fotosGrid.innerHTML = fotosIniciais.map(f => criarFotoCard(f)).join('');
-                btnVerMais.innerHTML = `<i class="fas fa-images"></i> VER MAIS FOTOS (${window.todasFotos.length - fotosVisiveis} restantes)`;
-                window.mostrandoTodas = false;
-            } else {
-                fotosGrid.innerHTML = window.todasFotos.map(f => criarFotoCard(f)).join('');
-                btnVerMais.innerHTML = '<i class="fas fa-chevron-up"></i> MOSTRAR MENOS';
-                window.mostrandoTodas = true;
+                listaDiv.innerHTML = '<p style="text-align:center; color:#ff6b6b;">Erro ao carregar fotos.</p>';
             }
         }
 
         async function deletarFoto(id) {
             if (!adminAtivo) return;
-            
-            if (confirm('⚠️ Deseja realmente remover esta foto permanentemente?')) {
+            if (confirm('Deseja realmente remover esta foto?')) {
                 try {
-                    const { error } = await supabaseClient
-                        .from('fotos')
-                        .delete()
-                        .eq('id', id);
-                    
+                    const { error } = await supabaseClient.from('fotos').delete().eq('id', id);
                     if (error) throw error;
-                    
                     carregarFotos();
                 } catch (error) {
                     alert('Erro ao deletar: ' + error.message);
@@ -1680,7 +1517,6 @@
         function abrirModal(url) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
-            
             modalImage.src = url;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1692,70 +1528,37 @@
             document.body.style.overflow = 'auto';
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-
         function compartilharFacebook() {
             const url = encodeURIComponent(window.location.href);
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
         }
 
         function compartilharWhatsApp() {
-            const texto = encodeURIComponent('🎵 Tributo Oficial ao Bar do Kblo - Confira as memórias e a música tema! ');
+            const texto = encodeURIComponent('🎵 Tributo Oficial ao Bar do Kblo - Confira as memórias! ');
             const url = encodeURIComponent(window.location.href);
             window.open(`https://wa.me/?text=${texto}${url}`, '_blank');
         }
 
         function compartilharTwitter() {
-            const texto = encodeURIComponent('Confira as memórias e o tributo ao Bar do Kblo');
+            const texto = encodeURIComponent('Confira o tributo ao Bar do Kblo');
             const url = encodeURIComponent(window.location.href);
             window.open(`https://twitter.com/intent/tweet?text=${texto}&url=${url}`, '_blank', 'width=600,height=400');
         }
 
         function criarParticulas() {
             const container = document.getElementById('particles');
-            if (!container) return;
-            
-            const numParticulas = 20;
-            
-            for (let i = 0; i < numParticulas; i++) {
-                const particula = document.createElement('div');
-                
-                particula.style.cssText = `
-                    position: absolute;
-                    width: ${Math.random() * 3 + 1}px;
-                    height: ${Math.random() * 3 + 1}px;
-                    background: rgba(138, 158, 255, ${Math.random() * 0.3 + 0.1});
-                    border-radius: 50%;
-                    left: ${Math.random() * 100}%;
-                    top: ${Math.random() * 100}%;
-                    animation: float ${Math.random() * 10 + 15}s linear infinite;
-                    animation-delay: ${Math.random() * 10}s;
-                `;
-                
-                container.appendChild(particula);
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.style.cssText = `position:absolute;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:rgba(138,158,255,${Math.random()*0.3+0.1});border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;animation:float ${Math.random()*10+15}s linear infinite;animation-delay:${Math.random()*10}s;`;
+                container.appendChild(p);
             }
         }
 
         function revelarSecoes() {
-            const secoes = document.querySelectorAll('.section');
-            
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            secoes.forEach(secao => {
-                observer.observe(secao);
-            });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.section').forEach(s => observer.observe(s));
         }
 
         function inicializar() {
@@ -1764,42 +1567,13 @@
             buscarContadorMusica();
             carregarDepoimentos();
             carregarFotos();
-            
-            audio.volume = volumeSlider.value / 100;
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space' && e.target === document.body) {
-                    e.preventDefault();
-                    toggleAudio();
-                }
-            });
+            audio.volume = 0.8;
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', inicializar);
-        } else {
-            inicializar();
-        }
+        document.addEventListener('DOMContentLoaded', inicializar);
 
         const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                0% {
-                    transform: translateY(0) translateX(0);
-                    opacity: 0;
-                }
-                10% {
-                    opacity: 1;
-                }
-                90% {
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(-100vh) translateX(${Math.random() * 200 - 100}px);
-                    opacity: 0;
-                }
-            }
-        `;
+        style.textContent = `@keyframes float { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }`;
         document.head.appendChild(style);
     </script>
 </body>
