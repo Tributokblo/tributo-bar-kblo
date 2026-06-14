@@ -1294,59 +1294,52 @@
             div.textContent = texto;
             return div.innerHTML;
         }
-
+        
         async function enviarDepoimento() {
-            const nome = document.getElementById('nomeDepoimento').value.trim();
-            const depoimento = document.getElementById('textoDepoimento').value.trim();
-            const btn = document.getElementById('btnDepoimento');
-            
-            if (!nome || !depoimento) {
-                alert('⚠️ Por favor, preencha todos os campos obrigatórios.');
-                return;
-            }
-            
-            if (nome.length < 2) {
-                alert('⚠️ O nome deve ter pelo menos 2 caracteres.');
-                return;
-            }
-            
-            if (depoimento.length < 10) {
-                alert('⚠️ O depoimento deve ter pelo menos 10 caracteres.');
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
-            
-            try {
-                const { error } = await supabaseClient
-                    .from('depoimentos')
-                    .insert([{ 
-                        nome: sanitizarInput(nome), 
-                        depoimento: sanitizarInput(depoimento), 
-                        aprovado: true 
-                    }]);
-                
-                if (error) throw error;
-                
-                document.getElementById('nomeDepoimento').value = '';
-                document.getElementById('textoDepoimento').value = '';
-                document.getElementById('charCount').textContent = '0';
-                
-                const msg = document.getElementById('msgSucessoDepoimento');
-                msg.style.display = 'block';
-                setTimeout(() => {
-                    msg.style.display = 'none';
-                }, 3000);
-                
-                carregarDepoimentos();
-            } catch (error) {
-                alert('❌ Erro ao enviar depoimento: ' + error.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR DEPOIMENTO';
-            }
-        }
+    const nome = document.getElementById('nomeDepoimento').value.trim();
+    const depoimento = document.getElementById('textoDepoimento').value.trim();
+    const btn = document.getElementById('btnDepoimento');
+    
+    if (!nome || !depoimento) {
+        alert('⚠️ Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+    
+    // --- BLOQUEIO DE SEGURANÇA (NOVO) ---
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+    // ------------------------------------
+    
+    try {
+        const { error } = await supabaseClient
+            .from('depoimentos')
+            .insert([{ 
+                nome: sanitizarInput(nome), 
+                depoimento: sanitizarInput(depoimento), 
+                aprovado: true 
+            }]);
+        
+        if (error) throw error;
+        
+        document.getElementById('nomeDepoimento').value = '';
+        document.getElementById('textoDepoimento').value = '';
+        document.getElementById('charCount').textContent = '0';
+        
+        const msg = document.getElementById('msgSucessoDepoimento');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+        
+        carregarDepoimentos();
+    } catch (error) {
+        alert('❌ Erro ao enviar depoimento: ' + error.message);
+    } finally {
+        // --- LIBERAÇÃO DO BOTÃO (NOVO) ---
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR DEPOIMENTO';
+        // ---------------------------------
+    }
+}
+
 
         async function carregarDepoimentos() {
             const listaDiv = document.getElementById('listaDepoimentos');
