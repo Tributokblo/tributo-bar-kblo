@@ -39,97 +39,104 @@
         .nav-links a:hover { color: #8a9eff; }
         .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #fff; }
 
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 60px; position: relative; width: 100%; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 40px; position: relative; width: 100%; }
         .hero-content { max-width: 750px; width: 100%; animation: fadeInUp 1s ease; }
-        .kblo-foto { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 4px solid #8a9eff; box-shadow: 0 0 50px rgba(138,158,255,0.4); margin-bottom: 30px; }
+        .kblo-foto { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid #8a9eff; box-shadow: 0 0 50px rgba(138,158,255,0.4); margin-bottom: 15px; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.2rem; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #ffffff 20%, #8a9eff 60%, #a17fe0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 35px; letter-spacing: -1px; }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.2rem; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #ffffff 20%, #8a9eff 60%, #a17fe0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 25px; letter-spacing: -1px; }
 
-        .custom-player { max-width: 500px; margin: 0 auto 25px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 50px; padding: 12px 24px; display: flex; align-items: center; gap: 15px; }
-        .player-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.3s ease; flex-shrink: 0; }
+        .custom-player { max-width: 480px; margin: 0 auto 20px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+        .player-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: all 0.3s ease; flex-shrink: 0; }
         .player-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
 
-        .timeline-container { display: flex; align-items: center; gap: 10px; flex-grow: 1; font-size: 11px; color: rgba(255,255,255,0.5); }
+        .timeline-container { display: flex; align-items: center; gap: 8px; flex-grow: 1; font-size: 10px; color: rgba(255,255,255,0.5); }
         .player-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; }
 
-        .volume-container { display: flex; align-items: center; gap: 0; color: rgba(255,255,255,0.6); font-size: 14px; transition: all 0.3s ease; }
-        .volume-slider { width: 0; opacity: 0; -webkit-appearance: none; appearance: none; height: 3px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; transition: all 0.3s ease; overflow: hidden; }
-        .volume-container:hover .volume-slider, .volume-container.active .volume-slider { width: 60px; opacity: 1; margin-left: 8px; }
-        .volume-icon { cursor: pointer; width: 20px; text-align: center; }
+        /* Volume Control - Otimizado */
+        .volume-container { display: flex; align-items: center; gap: 0; color: rgba(255,255,255,0.6); transition: all 0.3s ease; position: relative; }
+        .volume-slider { width: 0; opacity: 0; -webkit-appearance: none; appearance: none; height: 6px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; border-radius: 10px; }
+        .volume-container:hover .volume-slider, .volume-container.active .volume-slider { width: 70px; opacity: 1; margin-left: 8px; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: #fff; border-radius: 50%; cursor: pointer; box-shadow: -80px 0 0 80px #8a9eff; }
+        .volume-icon { cursor: pointer; width: 22px; text-align: center; font-size: 16px; }
 
-        .musica-legenda { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-bottom: 10px; }
-        .musica-legenda i { color: #8a9eff; margin-right: 6px; animation: pulse 2s infinite; }
+        .musica-legenda { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+        .musica-legenda i { color: #8a9eff; margin-right: 6px; }
+        .contador-container { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; }
+        .contador-container span { color: #8a9eff; font-weight: 700; }
 
-        .contador-container { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 20px; }
-        .contador-container span { color: #8a9eff; font-weight: 700; font-size: 1.1rem; }
-
-        .hero-content p.frase-efeito { font-size: 1.1rem; font-weight: 500; color: #8a9eff; letter-spacing: 0.5px; margin-bottom: 25px; }
-        .share-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
-        .share-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 28px; }
+        .hero-content p.frase-efeito { font-size: 1rem; font-weight: 500; color: #8a9eff; margin-bottom: 20px; }
+        
+        /* Botões de Compartilhamento Menores */
+        .share-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 5px; }
+        .share-btn { width: 42px; height: 42px; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 18px; }
         .share-whatsapp { background: #25D366; }
         .share-facebook { background: #1877F2; }
         .share-twitter { background: #1DA1F2; }
+        .share-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        .section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; width: 100%; }
+        .section { padding: 70px 24px; max-width: 1100px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; width: 100%; }
         .section.visible { opacity: 1; transform: translateY(0); }
         .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; background: linear-gradient(135deg, #ffffff, #8a9eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .section-subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 50px; font-size: 0.95rem; }
 
-        .form-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; padding: 30px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; display: flex; flex-direction: column; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; }
+        .form-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; padding: 25px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; display: flex; flex-direction: column; }
+        .form-group label { display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; }
 
-        /* Listas Acopladas com Scroll Interno */
+        /* Destaque Separador */
+        .section-divider { 
+            height: 2px; 
+            background: linear-gradient(90deg, transparent, rgba(138, 158, 255, 0.3), transparent); 
+            margin: 25px 0; 
+            position: relative;
+        }
+        .section-divider::after {
+            content: 'POSTAGENS RECENTES';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #0b0b11;
+            padding: 0 15px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #8a9eff;
+            font-weight: 800;
+        }
+
         .scroll-container { 
-            margin-top: 20px; 
-            max-height: 450px; 
+            max-height: 400px; 
             overflow-y: auto; 
-            padding-right: 10px; 
+            padding-right: 8px; 
             scrollbar-width: thin; 
             scrollbar-color: rgba(138, 158, 255, 0.3) transparent; 
-            flex-grow: 1;
         }
-        .scroll-container::-webkit-scrollbar { width: 5px; }
+        .scroll-container::-webkit-scrollbar { width: 4px; }
         .scroll-container::-webkit-scrollbar-thumb { background: rgba(138, 158, 255, 0.3); border-radius: 10px; }
 
-        .testimonial-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; margin-bottom: 15px; position: relative; }
-        .foto-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 10px; margin-bottom: 15px; position: relative; cursor: pointer; overflow: hidden; }
-        .foto-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; transition: transform 0.3s ease; }
-        .foto-item:hover img { transform: scale(1.05); }
-        .foto-info { margin-top: 8px; font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); display: flex; justify-content: space-between; align-items: center; }
+        .testimonial-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 15px; margin-bottom: 12px; position: relative; }
+        .foto-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 8px; margin-bottom: 12px; position: relative; cursor: pointer; }
+        .foto-item img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; }
 
-        .btn-delete { position: absolute; top: 10px; right: 10px; background: rgba(217, 83, 79, 0.9); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; opacity: 0; transition: all 0.3s ease; z-index: 5; font-size: 12px; }
+        .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(217, 83, 79, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; opacity: 0; transition: all 0.3s ease; font-size: 10px; }
         .testimonial-card:hover .btn-delete, .foto-item:hover .btn-delete { opacity: 1; }
 
-        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
-        .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .file-input-trigger { display: inline-block; padding: 12px; background: rgba(138, 158, 255, 0.08); border: 2px dashed rgba(138, 158, 255, 0.3); border-radius: 12px; color: #8a9eff; cursor: pointer; text-align: center; width: 100%; font-weight: 600; font-size: 0.85rem; }
-        .file-name-preview { margin-top: 8px; font-size: 0.8rem; color: #8a9eff; text-align: center; font-weight: 500; display: none; }
+        .file-input-trigger { display: inline-block; padding: 10px; background: rgba(138, 158, 255, 0.08); border: 2px dashed rgba(138, 158, 255, 0.3); border-radius: 10px; color: #8a9eff; cursor: pointer; text-align: center; width: 100%; font-weight: 600; font-size: 0.8rem; }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); padding: 10px 20px; border-radius: 30px; color: white; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem; }
 
-        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); padding: 12px 25px; border-radius: 30px; color: white; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 0.85rem; letter-spacing: 0.5px; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); }
-
-        /* Modal Aprimorado com Zoom */
+        /* Modal com Zoom */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out; }
         .modal.active { display: flex; }
-        .modal-content-wrapper { position: relative; max-width: 95%; max-height: 95%; display: flex; justify-content: center; align-items: center; }
+        .modal-content-wrapper { position: relative; max-width: 95%; max-height: 95%; }
         .modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; transition: transform 0.3s ease; cursor: zoom-in; }
         .modal img.zoomed { transform: scale(1.8); cursor: zoom-out; }
-        .modal-close { position: fixed; top: 25px; right: 25px; color: #fff; font-size: 35px; cursor: pointer; z-index: 2010; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; }
-
-        .footer { text-align: center; padding: 50px 24px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 80px; font-size: 0.9rem; color: rgba(255,255,255,0.5); width: 100%; }
-        .mensagem-sucesso { background: rgba(46, 204, 113, 0.15); border: 1px solid rgba(46, 204, 113, 0.3); color: #2ecc71; padding: 10px; border-radius: 10px; display: none; margin-bottom: 15px; text-align: center; font-size: 0.85rem; }
+        .modal-close { position: fixed; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 2010; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; }
 
         @media (max-width: 768px) {
             .navbar { padding: 15px 24px; }
-            .nav-links { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #0b0b11; flex-direction: column; padding: 100px 40px; gap: 30px; transition: right 0.4s ease; }
-            .nav-links.active { right: 0; }
-            .menu-toggle { display: block; z-index: 1001; }
             .hero-content h1 { font-size: 2.6rem; }
             .section-title { font-size: 2.2rem; }
-            .scroll-container { max-height: 350px; }
+            .hero { padding: 90px 24px 30px; }
         }
     </style>
 </head>
@@ -191,11 +198,11 @@
 
     <section id="sobre" class="section">
         <h2 class="section-title">Nossa História</h2>
-        <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto; padding: 40px;">
-            <div style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 30px;">
+        <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto; padding: 30px;">
+            <div style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 25px;">
                 <img src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px;" onerror="this.style.display='none'">
             </div>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
+            <p style="font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
                 O Bar do Kblo não era apenas um estabelecimento, era o coração pulsante da nossa comunidade.
             </p>
         </div>
@@ -203,12 +210,12 @@
 
     <section id="mural" class="section">
         <h2 class="section-title">Mural Interativo</h2>
-        <p class="section-subtitle">Deixe sua mensagem e compartilhe suas fotos</p>
+        <p class="section-subtitle">Deixe sua marca neste tributo</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
             <!-- Seção de Mensagens -->
             <div class="form-card">
-                <h3 style="margin-bottom: 20px; color: #8a9eff;"><i class="fas fa-comment-dots"></i> Mensagens</h3>
+                <h3 style="margin-bottom: 15px; color: #8a9eff; font-size: 1.1rem;"><i class="fas fa-comment-dots"></i> Escrever</h3>
                 <div id="msgSucessoDepoimento" class="mensagem-sucesso">Postado!</div>
                 <div class="form-group">
                     <label>Seu Nome</label>
@@ -220,15 +227,16 @@
                 </div>
                 <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento" style="width: 100%;">POSTAR</button>
                 
+                <div class="section-divider"></div>
+                
                 <div class="scroll-container" id="listaDepoimentos">
-                    <div class="skeleton skeleton-card"></div>
                     <div class="skeleton skeleton-card"></div>
                 </div>
             </div>
 
             <!-- Seção de Fotos -->
             <div class="form-card">
-                <h3 style="margin-bottom: 20px; color: #8a9eff;"><i class="fas fa-camera"></i> Fotos</h3>
+                <h3 style="margin-bottom: 15px; color: #8a9eff; font-size: 1.1rem;"><i class="fas fa-camera"></i> Fotos</h3>
                 <div id="msgSucessoFoto" class="mensagem-sucesso">Foto enviada!</div>
                 <div class="form-group">
                     <label>Seu Nome</label>
@@ -244,8 +252,9 @@
                 </div>
                 <button class="btn-primary" onclick="enviarFoto()" id="btnFoto" style="width: 100%;">ENVIAR FOTO</button>
 
+                <div class="section-divider"></div>
+
                 <div class="scroll-container" id="listaFotos">
-                    <div class="skeleton skeleton-card"></div>
                     <div class="skeleton skeleton-card"></div>
                 </div>
             </div>
@@ -254,7 +263,7 @@
 
     <footer class="footer">
         <p class="footer-contact"><a href="#" onclick="contatarAdmin()" style="text-decoration:none; color:rgba(255,255,255,0.4);">Remover conteúdo</a></p>
-        <p style="opacity: 0.5; font-size: 12px; margin-top: 20px;">© 2026 Tributo ao Bar do Kblo</p>
+        <p style="opacity: 0.5; font-size: 11px; margin-top: 15px;">© 2026 Tributo ao Bar do Kblo</p>
     </footer>
 
     <script>
@@ -279,7 +288,6 @@
             else p.style.display = 'none';
         }
 
-        // Modal Zoom & Close
         function handleModalClick(e) { if (e.target.id === 'imageModal') closeModal(); }
         function toggleZoom(e) { e.stopPropagation(); e.target.classList.toggle('zoomed'); }
         function abrirModal(url) {
@@ -293,7 +301,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Audio Logic
         audio.addEventListener('loadedmetadata', () => { document.getElementById('audioSlider').max = Math.floor(audio.duration); });
         audio.addEventListener('timeupdate', () => {
             const s = document.getElementById('audioSlider');
@@ -306,10 +313,17 @@
             else { audio.pause(); b.innerHTML = '<i class="fas fa-play"></i>'; }
         }
         function seekAudio() { audio.currentTime = document.getElementById('audioSlider').value; }
+        
         function changeVolume() {
-            const v = document.getElementById('volumeSlider').value / 100; audio.volume = v;
-            document.getElementById('volumeIcon').className = v === 0 ? 'fas fa-volume-mute' : (v < 0.5 ? 'fas fa-volume-down' : 'fas fa-volume-up');
+            const slider = document.getElementById('volumeSlider');
+            const vol = slider.value / 100;
+            audio.volume = vol;
+            const icon = document.getElementById('volumeIcon');
+            if (vol === 0) icon.className = 'fas fa-volume-mute';
+            else if (vol < 0.5) icon.className = 'fas fa-volume-down';
+            else icon.className = 'fas fa-volume-up';
         }
+        
         function handleVolumeIconClick() {
             if (window.innerWidth <= 768) document.getElementById('volumeContainer').classList.toggle('active');
             else { audio.volume = audio.volume > 0 ? 0 : 0.8; document.getElementById('volumeSlider').value = audio.volume * 100; changeVolume(); }
@@ -342,9 +356,9 @@
             if (error) return;
             l.innerHTML = data.map(d => `
                 <div class="testimonial-card">
-                    <div style="color:#8a9eff; font-weight:700; font-size:0.85rem;">${sanitizar(d.nome)}</div>
-                    <div style="margin-top:8px; font-size:0.85rem; color:rgba(255,255,255,0.8);">${sanitizar(d.depoimento)}</div>
-                    <div style="font-size:10px; opacity:0.3; margin-top:10px;">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
+                    <div style="color:#8a9eff; font-weight:700; font-size:0.8rem;">${sanitizar(d.nome)}</div>
+                    <div style="margin-top:6px; font-size:0.8rem; color:rgba(255,255,255,0.8);">${sanitizar(d.depoimento)}</div>
+                    <div style="font-size:9px; opacity:0.3; margin-top:8px;">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
                     ${adminAtivo ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
             `).join('');
@@ -372,9 +386,9 @@
             l.innerHTML = data.map(f => `
                 <div class="foto-item" onclick="abrirModal('${f.foto_url}')">
                     <img src="${otimizarImg(f.foto_url)}" loading="lazy">
-                    <div class="foto-info">
+                    <div style="margin-top:6px; font-size:0.75rem; color:rgba(255,255,255,0.6); display:flex; justify-content:space-between;">
                         <span>${sanitizar(f.nome)}</span>
-                        <span style="opacity:0.5; font-size:9px;">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</span>
+                        <span style="opacity:0.4; font-size:8px;">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</span>
                     </div>
                     ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
