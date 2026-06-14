@@ -11,7 +11,6 @@
     <meta property="og:description" content="Um lugar que eternizou memórias. Confira as fotos e depoimentos da nossa comunidade.">
     <meta property="og:image" content="kblo.jpg">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -19,124 +18,67 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow-x: hidden; position: relative; touch-action: manipulation; }
-        body { font-family: 'Montserrat', sans-serif; background: #07070a; color: #fff; line-height: 1.6; }
+        html, body { width: 100%; overflow-x: hidden; background: #07070a; color: #fff; font-family: 'Montserrat', sans-serif; line-height: 1.6; touch-action: manipulation; }
 
-        @keyframes skeleton-loading { 0% { background-color: rgba(255, 255, 255, 0.05); } 100% { background-color: rgba(255, 255, 255, 0.1); } }
-        .skeleton { animation: skeleton-loading 1s linear infinite alternate; border-radius: 12px; }
-        .skeleton-card { height: 120px; width: 100%; margin-bottom: 15px; }
-
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.08) 50%, #07070a 100%); z-index: -2; pointer-events: none; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, rgba(102, 126, 234, 0.1) 0%, #07070a 100%); z-index: -2; }
         .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 40px; background: rgba(7, 7, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease; }
-        .navbar.scrolled { padding: 10px 40px; background: rgba(7, 7, 10, 0.95); }
-        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; background: linear-gradient(135deg, #8a9eff, #a17fe0); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; }
-        .logo span { color: #fff; }
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-weight: 600; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s ease; position: relative; }
+        .navbar { position: fixed; top: 0; width: 100%; padding: 15px 40px; background: rgba(7, 7, 10, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, #8a9eff, #a17fe0); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; }
+        .nav-links a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-weight: 600; font-size: 0.8rem; margin-left: 25px; transition: 0.3s; }
         .nav-links a:hover { color: #8a9eff; }
-        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #fff; }
 
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 40px; position: relative; width: 100%; }
-        .hero-content { max-width: 750px; width: 100%; animation: fadeInUp 1s ease; }
-        .kblo-foto { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid #8a9eff; box-shadow: 0 0 50px rgba(138,158,255,0.4); margin-bottom: 15px; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; }
+        .kblo-foto { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 3px solid #8a9eff; box-shadow: 0 0 40px rgba(138,158,255,0.3); margin-bottom: 20px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.8rem; line-height: 1.1; margin-bottom: 30px; background: linear-gradient(135deg, #fff, #8a9eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.2rem; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #ffffff 20%, #8a9eff 60%, #a17fe0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 25px; letter-spacing: -1px; }
-
-        .custom-player { max-width: 480px; margin: 0 auto 20px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
-        .player-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: all 0.3s ease; flex-shrink: 0; }
-        .player-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
-
-        .timeline-container { display: flex; align-items: center; gap: 8px; flex-grow: 1; font-size: 10px; color: rgba(255,255,255,0.5); }
-        .player-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; }
-
-        /* Volume Control - Otimizado */
-        .volume-container { display: flex; align-items: center; gap: 0; color: rgba(255,255,255,0.6); transition: all 0.3s ease; position: relative; }
-        .volume-slider { width: 0; opacity: 0; -webkit-appearance: none; appearance: none; height: 6px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; border-radius: 10px; }
-        .volume-container:hover .volume-slider, .volume-container.active .volume-slider { width: 70px; opacity: 1; margin-left: 8px; }
-        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: #fff; border-radius: 50%; cursor: pointer; box-shadow: -80px 0 0 80px #8a9eff; }
-        .volume-icon { cursor: pointer; width: 22px; text-align: center; font-size: 16px; }
-
-        .musica-legenda { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
-        .musica-legenda i { color: #8a9eff; margin-right: 6px; }
-        .contador-container { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; }
-        .contador-container span { color: #8a9eff; font-weight: 700; }
-
-        .hero-content p.frase-efeito { font-size: 1rem; font-weight: 500; color: #8a9eff; margin-bottom: 20px; }
+        /* Player Minimalista */
+        .player-box { max-width: 450px; margin: 0 auto 25px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 40px; padding: 10px 20px; display: flex; align-items: center; gap: 15px; }
+        .play-btn { background: #8a9eff; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .play-btn:hover { transform: scale(1.1); }
+        .slider { flex-grow: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1); outline: none; cursor: pointer; }
         
-        /* Botões de Compartilhamento Menores */
-        .share-buttons { display: flex; justify-content: center; gap: 12px; margin-top: 5px; }
-        .share-btn { width: 42px; height: 42px; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 18px; }
-        .share-whatsapp { background: #25D366; }
-        .share-facebook { background: #1877F2; }
-        .share-twitter { background: #1DA1F2; }
-        .share-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .volume-wrap { display: flex; align-items: center; position: relative; }
+        .vol-slider { width: 0; opacity: 0; -webkit-appearance: none; height: 4px; background: #8a9eff; border-radius: 2px; transition: 0.3s; }
+        .volume-wrap:hover .vol-slider, .volume-wrap.active .vol-slider { width: 70px; opacity: 1; margin-left: 10px; }
 
-        .section { padding: 70px 24px; max-width: 1100px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; width: 100%; }
+        .share-btn { width: 40px; height: 40px; border-radius: 50%; border: none; color: #fff; margin: 0 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
+        .share-fb { background: #1877F2; } .share-wa { background: #25D366; } .share-tw { background: #1DA1F2; }
+
+        .section { padding: 80px 24px; max-width: 800px; margin: 0 auto; opacity: 0; transform: translateY(20px); transition: 0.6s ease; }
         .section.visible { opacity: 1; transform: translateY(0); }
-        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; background: linear-gradient(135deg, #ffffff, #8a9eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 40px; color: #8a9eff; }
 
-        .form-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; padding: 25px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); height: 100%; display: flex; flex-direction: column; }
-        .form-group label { display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; font-weight: 600; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; }
+        .card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px; margin-bottom: 40px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.8rem; margin-bottom: 8px; color: rgba(255,255,255,0.6); font-weight: 600; }
+        input, textarea { width: 100%; padding: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-family: inherit; }
+        
+        .file-btn { display: block; padding: 12px; border: 2px dashed rgba(138, 158, 255, 0.3); border-radius: 10px; text-align: center; color: #8a9eff; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .btn-send { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 30px; color: #fff; font-weight: 700; cursor: pointer; margin-top: 10px; }
 
-        /* Destaque Separador */
-        .section-divider { 
-            height: 2px; 
-            background: linear-gradient(90deg, transparent, rgba(138, 158, 255, 0.3), transparent); 
-            margin: 25px 0; 
-            position: relative;
-        }
-        .section-divider::after {
-            content: 'POSTAGENS RECENTES';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #0b0b11;
-            padding: 0 15px;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #8a9eff;
-            font-weight: 800;
-        }
+        /* Listas Limpas com Scroll */
+        .list-wrap { max-height: 500px; overflow-y: auto; padding-right: 10px; margin-top: 30px; }
+        .list-wrap::-webkit-scrollbar { width: 3px; }
+        .list-wrap::-webkit-scrollbar-thumb { background: rgba(138, 158, 255, 0.2); }
 
-        .scroll-container { 
-            max-height: 400px; 
-            overflow-y: auto; 
-            padding-right: 8px; 
-            scrollbar-width: thin; 
-            scrollbar-color: rgba(138, 158, 255, 0.3) transparent; 
-        }
-        .scroll-container::-webkit-scrollbar { width: 4px; }
-        .scroll-container::-webkit-scrollbar-thumb { background: rgba(138, 158, 255, 0.3); border-radius: 10px; }
+        .item-msg { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin-bottom: 15px; position: relative; }
+        .item-foto { border-radius: 15px; overflow: hidden; margin-bottom: 15px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .item-foto img { width: 100%; height: 200px; object-fit: cover; }
 
-        .testimonial-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 15px; margin-bottom: 12px; position: relative; }
-        .foto-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 8px; margin-bottom: 12px; position: relative; cursor: pointer; }
-        .foto-item img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; }
-
-        .btn-delete { position: absolute; top: 8px; right: 8px; background: rgba(217, 83, 79, 0.9); color: #fff; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; opacity: 0; transition: all 0.3s ease; font-size: 10px; }
-        .testimonial-card:hover .btn-delete, .foto-item:hover .btn-delete { opacity: 1; }
-
-        .file-input-trigger { display: inline-block; padding: 10px; background: rgba(138, 158, 255, 0.08); border: 2px dashed rgba(138, 158, 255, 0.3); border-radius: 10px; color: #8a9eff; cursor: pointer; text-align: center; width: 100%; font-weight: 600; font-size: 0.8rem; }
-        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); padding: 10px 20px; border-radius: 30px; color: white; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem; }
+        .btn-del { position: absolute; top: 10px; right: 10px; background: rgba(217,83,79,0.8); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; opacity: 0; transition: 0.3s; }
+        .item-msg:hover .btn-del, .item-foto:hover .btn-del { opacity: 1; }
 
         /* Modal com Zoom */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; cursor: zoom-out; }
         .modal.active { display: flex; }
-        .modal-content-wrapper { position: relative; max-width: 95%; max-height: 95%; }
-        .modal img { max-width: 100%; max-height: 90vh; border-radius: 8px; transition: transform 0.3s ease; cursor: zoom-in; }
-        .modal img.zoomed { transform: scale(1.8); cursor: zoom-out; }
-        .modal-close { position: fixed; top: 20px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; z-index: 2010; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; }
+        .modal img { max-width: 90%; max-height: 90vh; border-radius: 10px; transition: 0.3s; cursor: zoom-in; }
+        .modal img.zoomed { transform: scale(1.5); cursor: zoom-out; }
 
         @media (max-width: 768px) {
-            .navbar { padding: 15px 24px; }
-            .hero-content h1 { font-size: 2.6rem; }
-            .section-title { font-size: 2.2rem; }
-            .hero { padding: 90px 24px 30px; }
+            .navbar { padding: 15px 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
         }
     </style>
 </head>
@@ -144,299 +86,202 @@
     <div class="bg-gradient"></div>
     <div class="particles" id="particles"></div>
 
-    <nav class="navbar" id="navbar">
-        <div class="logo" onclick="scrollToTop()">BAR DO <span>KBLO</span></div>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <i class="fas fa-bars" id="menuIcon"></i>
-        </div>
-        <div class="nav-links" id="navLinks">
-            <a href="#home" onclick="toggleMenu()">HOME</a>
-            <a href="#sobre" onclick="toggleMenu()">HISTÓRIA</a>
-            <a href="#mural" onclick="toggleMenu()">MURAL</a>
-            <a href="#" onclick="contatarAdmin(); toggleMenu();">CONTATO</a>
-            <span class="admin-trigger" onclick="promptAdmin()">Painel</span>
+    <nav class="navbar">
+        <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">BAR DO <span>KBLO</span></div>
+        <div class="nav-links">
+            <a href="#sobre">HISTÓRIA</a>
+            <a href="#mural">MURAL</a>
+            <span style="cursor:pointer; font-size:0.7rem; opacity:0.3; margin-left:20px;" onclick="promptAdmin()">Painel</span>
         </div>
     </nav>
 
-    <div class="modal" id="imageModal" onclick="handleModalClick(event)">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <div class="modal-content-wrapper">
-            <img src="" alt="Foto ampliada" id="modalImage" onclick="toggleZoom(event)">
-        </div>
+    <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+        <img id="modalImg" onclick="event.stopPropagation(); this.classList.toggle('zoomed')">
     </div>
 
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="hero-content">
-            <img src="kblo.jpg" alt="Kblo" class="kblo-foto" onerror="this.style.display='none'">
+            <img src="kblo.jpg" class="kblo-foto" onerror="this.style.display='none'">
             <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
             
-            <div class="custom-player">
-                <button class="player-btn" onclick="toggleAudio()" id="playBtn"><i class="fas fa-play"></i></button>
-                <div class="timeline-container">
-                    <span id="currentTime">0:00</span>
-                    <input type="range" class="player-slider" id="audioSlider" value="0" min="0" max="100" oninput="seekAudio()">
-                    <span id="durationTime">0:00</span>
+            <div class="player-box">
+                <button class="play-btn" onclick="toggleAudio()" id="playBtn"><i class="fas fa-play"></i></button>
+                <input type="range" class="slider" id="audioSlider" value="0" oninput="seekAudio()">
+                <div class="volume-wrap" id="volWrap">
+                    <i class="fas fa-volume-up" style="cursor:pointer" onclick="handleVolClick()"></i>
+                    <input type="range" class="vol-slider" id="volSlider" value="80" oninput="setVol()">
                 </div>
-                <div class="volume-container" id="volumeContainer">
-                    <i class="fas fa-volume-up volume-icon" id="volumeIcon" onclick="handleVolumeIconClick()"></i>
-                    <input type="range" class="volume-slider" id="volumeSlider" value="80" min="0" max="100" oninput="changeVolume()">
-                </div>
-                <audio id="meuAudio" src="musica.mp3" preload="metadata"></audio>
+                <audio id="audio" src="musica.mp3"></audio>
             </div>
 
-            <div class="musica-legenda"><i class="fas fa-music"></i> Homenagem ao Bar do Kblo</div>
-            <div class="contador-container"><i class="fas fa-headset"></i> Ouvida <span id="contadorReproducoes">0</span> vezes</div>
-            <p class="frase-efeito">Um lugar que eternizou memórias</p>
-            
-            <div class="share-buttons">
-                <button class="share-btn share-facebook" onclick="compartilharFacebook()"><i class="fab fa-facebook-f"></i></button>
-                <button class="share-btn share-whatsapp" onclick="compartilharWhatsApp()"><i class="fab fa-whatsapp"></i></button>
-                <button class="share-btn share-twitter" onclick="compartilharTwitter()"><i class="fab fa-twitter"></i></button>
+            <p style="font-size:0.9rem; color:rgba(255,255,255,0.6); margin-bottom:20px;">
+                Ouvida <span id="plays" style="color:#8a9eff; font-weight:700;">0</span> vezes
+            </p>
+
+            <div class="share-box">
+                <button class="share-btn share-fb" onclick="shareFB()"><i class="fab fa-facebook-f"></i></button>
+                <button class="share-btn share-wa" onclick="shareWA()"><i class="fab fa-whatsapp"></i></button>
+                <button class="share-btn share-tw" onclick="shareTW()"><i class="fab fa-twitter"></i></button>
             </div>
         </div>
     </section>
 
     <section id="sobre" class="section">
         <h2 class="section-title">Nossa História</h2>
-        <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto; padding: 30px;">
-            <div style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 25px;">
-                <img src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px;" onerror="this.style.display='none'">
-            </div>
-            <p style="font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.9);">
-                O Bar do Kblo não era apenas um estabelecimento, era o coração pulsante da nossa comunidade.
-            </p>
+        <div class="card" style="text-align:center">
+            <img src="bar.jpg" style="max-width:100%; border-radius:15px; margin-bottom:20px;" onerror="this.style.display='none'">
+            <p style="color:rgba(255,255,255,0.8)">O Bar do Kblo não era apenas um estabelecimento, era o coração da nossa comunidade.</p>
         </div>
     </section>
 
     <section id="mural" class="section">
-        <h2 class="section-title">Mural Interativo</h2>
-        <p class="section-subtitle">Deixe sua marca neste tributo</p>
+        <h2 class="section-title">Mural de Memórias</h2>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
-            <!-- Seção de Mensagens -->
-            <div class="form-card">
-                <h3 style="margin-bottom: 15px; color: #8a9eff; font-size: 1.1rem;"><i class="fas fa-comment-dots"></i> Escrever</h3>
-                <div id="msgSucessoDepoimento" class="mensagem-sucesso">Postado!</div>
-                <div class="form-group">
-                    <label>Seu Nome</label>
-                    <input type="text" id="nomeDepoimento" placeholder="Nome ou apelido" maxlength="100">
-                </div>
-                <div class="form-group">
-                    <label>Sua História</label>
-                    <textarea id="textoDepoimento" rows="2" placeholder="O que você lembra?" maxlength="1000"></textarea>
-                </div>
-                <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento" style="width: 100%;">POSTAR</button>
-                
-                <div class="section-divider"></div>
-                
-                <div class="scroll-container" id="listaDepoimentos">
-                    <div class="skeleton skeleton-card"></div>
-                </div>
+        <!-- Mensagens -->
+        <div class="card">
+            <h3 style="margin-bottom:20px; font-size:1.1rem">Deixe sua Mensagem</h3>
+            <div class="input-group">
+                <label>Nome</label>
+                <input type="text" id="msgNome" placeholder="Seu nome">
             </div>
-
-            <!-- Seção de Fotos -->
-            <div class="form-card">
-                <h3 style="margin-bottom: 15px; color: #8a9eff; font-size: 1.1rem;"><i class="fas fa-camera"></i> Fotos</h3>
-                <div id="msgSucessoFoto" class="mensagem-sucesso">Foto enviada!</div>
-                <div class="form-group">
-                    <label>Seu Nome</label>
-                    <input type="text" id="fotoNome" placeholder="Quem está enviando?" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label>Escolher Foto</label>
-                    <div class="file-input-wrapper">
-                        <div class="file-input-trigger" id="fileTrigger"><i class="fas fa-upload"></i> ESCOLHER ARQUIVO</div>
-                        <input type="file" id="fotoFile" accept="image/*" onchange="handleFileSelect()">
-                    </div>
-                    <div class="file-name-preview" id="fileNamePreview"></div>
-                </div>
-                <button class="btn-primary" onclick="enviarFoto()" id="btnFoto" style="width: 100%;">ENVIAR FOTO</button>
-
-                <div class="section-divider"></div>
-
-                <div class="scroll-container" id="listaFotos">
-                    <div class="skeleton skeleton-card"></div>
-                </div>
+            <div class="input-group">
+                <label>Mensagem</label>
+                <textarea id="msgTexto" rows="3" placeholder="Sua história..."></textarea>
             </div>
+            <button class="btn-send" onclick="sendMsg()" id="btnMsg">POSTAR</button>
+            
+            <div class="list-wrap" id="listMsg"></div>
+        </div>
+
+        <!-- Fotos -->
+        <div class="card">
+            <h3 style="margin-bottom:20px; font-size:1.1rem">Compartilhe uma Foto</h3>
+            <div class="input-group">
+                <label>Nome</label>
+                <input type="text" id="fotoNome" placeholder="Seu nome">
+            </div>
+            <div class="input-group">
+                <label>Foto</label>
+                <label class="file-btn" id="fileLbl"><i class="fas fa-upload"></i> Escolher Arquivo</label>
+                <input type="file" id="fotoFile" style="display:none" onchange="document.getElementById('fileLbl').textContent=this.files[0].name">
+            </div>
+            <button class="btn-send" onclick="sendFoto()" id="btnFoto">ENVIAR FOTO</button>
+            
+            <div class="list-wrap" id="listFoto" style="display:grid; grid-template-columns:1fr 1fr; gap:15px"></div>
         </div>
     </section>
 
-    <footer class="footer">
-        <p class="footer-contact"><a href="#" onclick="contatarAdmin()" style="text-decoration:none; color:rgba(255,255,255,0.4);">Remover conteúdo</a></p>
-        <p style="opacity: 0.5; font-size: 11px; margin-top: 15px;">© 2026 Tributo ao Bar do Kblo</p>
+    <footer style="text-align:center; padding:40px; opacity:0.3; font-size:0.8rem">
+        © 2026 Tributo ao Bar do Kblo
     </footer>
 
     <script>
         const CONFIG = {
-            EMAIL_ADMIN: 'tributokblo@gmail.com',
-            SENHA_ADMIN: 'b@nc4da18', 
-            SUPABASE_URL: 'https://dvpdypkfybnabaofcdse.supabase.co',
-            SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY'
+            URL: 'https://dvpdypkfybnabaofcdse.supabase.co',
+            KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY'
         };
+        const sb = supabase.createClient(CONFIG.URL, CONFIG.KEY);
+        let isAdmin = false;
+        const audio = document.getElementById('audio');
 
-        const supabaseClient = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
-        let adminAtivo = false;
-        const audio = document.getElementById('meuAudio');
+        const clean = (s) => { const t = document.createElement('div'); t.textContent = s; return t.innerHTML; };
 
-        const sanitizar = (str) => { const t = document.createElement('div'); t.textContent = str; return t.innerHTML; };
-        const otimizarImg = (url, width = 400) => url.includes('supabase.co') ? `${url}?width=${width}&quality=75` : url;
-
-        function handleFileSelect() {
-            const f = document.getElementById('fotoFile').files[0];
-            const p = document.getElementById('fileNamePreview');
-            if (f) { p.textContent = `Selecionado: ${f.name}`; p.style.display = 'block'; }
-            else p.style.display = 'none';
-        }
-
-        function handleModalClick(e) { if (e.target.id === 'imageModal') closeModal(); }
-        function toggleZoom(e) { e.stopPropagation(); e.target.classList.toggle('zoomed'); }
-        function abrirModal(url) {
-            const m = document.getElementById('modalImage');
-            m.src = url; m.classList.remove('zoomed');
-            document.getElementById('imageModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeModal() {
-            document.getElementById('imageModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        audio.addEventListener('loadedmetadata', () => { document.getElementById('audioSlider').max = Math.floor(audio.duration); });
+        // Audio
         audio.addEventListener('timeupdate', () => {
             const s = document.getElementById('audioSlider');
-            if (!s.classList.contains('seeking')) s.value = Math.floor(audio.currentTime);
-            document.getElementById('currentTime').textContent = `${Math.floor(audio.currentTime / 60)}:${Math.floor(audio.currentTime % 60).toString().padStart(2, '0')}`;
+            if(!s.seeking) s.value = (audio.currentTime / audio.duration) * 100 || 0;
         });
         async function toggleAudio() {
             const b = document.getElementById('playBtn');
-            if (audio.paused) { await audio.play(); b.innerHTML = '<i class="fas fa-pause"></i>'; incrementarContador(); }
-            else { audio.pause(); b.innerHTML = '<i class="fas fa-play"></i>'; }
+            if(audio.paused) { await audio.play(); b.innerHTML='<i class="fas fa-pause"></i>'; incPlays(); }
+            else { audio.pause(); b.innerHTML='<i class="fas fa-play"></i>'; }
         }
-        function seekAudio() { audio.currentTime = document.getElementById('audioSlider').value; }
-        
-        function changeVolume() {
-            const slider = document.getElementById('volumeSlider');
-            const vol = slider.value / 100;
-            audio.volume = vol;
-            const icon = document.getElementById('volumeIcon');
-            if (vol === 0) icon.className = 'fas fa-volume-mute';
-            else if (vol < 0.5) icon.className = 'fas fa-volume-down';
-            else icon.className = 'fas fa-volume-up';
-        }
-        
-        function handleVolumeIconClick() {
-            if (window.innerWidth <= 768) document.getElementById('volumeContainer').classList.toggle('active');
-            else { audio.volume = audio.volume > 0 ? 0 : 0.8; document.getElementById('volumeSlider').value = audio.volume * 100; changeVolume(); }
+        function seekAudio() { audio.currentTime = (document.getElementById('audioSlider').value / 100) * audio.duration; }
+        function setVol() { audio.volume = document.getElementById('volSlider').value / 100; }
+        function handleVolClick() { if(window.innerWidth <= 768) document.getElementById('volWrap').classList.toggle('active'); else audio.volume = audio.volume > 0 ? 0 : 0.8; }
+
+        async function incPlays() {
+            const {data} = await sb.from('metricas').select('valor').eq('chave','reproducoes_musica').single();
+            const n = (data?.valor || 0) + 1;
+            await sb.from('metricas').upsert({chave:'reproducoes_musica', valor:n});
+            document.getElementById('plays').textContent = n.toLocaleString();
         }
 
-        function toggleMenu() {
-            const n = document.getElementById('navLinks'); n.classList.toggle('active');
-            document.getElementById('menuIcon').className = n.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
-        }
-        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        function promptAdmin() {
-            if (prompt("E-mail:") === CONFIG.EMAIL_ADMIN && prompt("Senha:") === CONFIG.SENHA_ADMIN) {
-                adminAtivo = true; alert("Modo administrador."); carregarFotos(); carregarDepoimentos();
-            } else alert("Acesso negado.");
-        }
-        function contatarAdmin() { window.location.href = `mailto:${CONFIG.EMAIL_ADMIN}?subject=Remocao Conteudo`; }
-
-        async function incrementarContador() {
-            try {
-                const { data } = await supabaseClient.from('metricas').select('valor').eq('chave', 'reproducoes_musica').single();
-                const n = (data?.valor || 0) + 1;
-                await supabaseClient.from('metricas').upsert({ chave: 'reproducoes_musica', valor: n });
-                document.getElementById('contadorReproducoes').textContent = n.toLocaleString('pt-BR');
-            } catch (e) {}
-        }
-
-        async function carregarDepoimentos() {
-            const l = document.getElementById('listaDepoimentos');
-            const { data, error } = await supabaseClient.from('depoimentos').select('*').order('criado_em', { ascending: false });
-            if (error) return;
-            l.innerHTML = data.map(d => `
-                <div class="testimonial-card">
-                    <div style="color:#8a9eff; font-weight:700; font-size:0.8rem;">${sanitizar(d.nome)}</div>
-                    <div style="margin-top:6px; font-size:0.8rem; color:rgba(255,255,255,0.8);">${sanitizar(d.depoimento)}</div>
-                    <div style="font-size:9px; opacity:0.3; margin-top:8px;">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
-                    ${adminAtivo ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})"><i class="fas fa-trash"></i></button>` : ''}
+        // Mural
+        async function loadMsgs() {
+            const {data} = await sb.from('depoimentos').select('*').order('criado_em',{ascending:false}).limit(5);
+            document.getElementById('listMsg').innerHTML = data.map(d => `
+                <div class="item-msg">
+                    <div style="color:#8a9eff; font-weight:700; font-size:0.85rem">${clean(d.nome)}</div>
+                    <div style="margin-top:8px; font-size:0.9rem">${clean(d.depoimento)}</div>
+                    ${isAdmin ? `<button class="btn-del" onclick="delMsg(${d.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
             `).join('');
         }
 
-        async function enviarDepoimento() {
-            const n = document.getElementById('nomeDepoimento').value.trim();
-            const t = document.getElementById('textoDepoimento').value.trim();
-            if (!n || !t) return alert("Preencha tudo.");
-            const b = document.getElementById('btnDepoimento'); b.disabled = true;
-            const { error } = await supabaseClient.from('depoimentos').insert([{ nome: n, depoimento: t, aprovado: true }]);
-            if (!error) {
-                document.getElementById('nomeDepoimento').value = ''; document.getElementById('textoDepoimento').value = '';
-                document.getElementById('msgSucessoDepoimento').style.display = 'block';
-                setTimeout(() => document.getElementById('msgSucessoDepoimento').style.display = 'none', 3000);
-                carregarDepoimentos();
-            }
-            b.disabled = false;
+        async function sendMsg() {
+            const n = document.getElementById('msgNome').value.trim();
+            const t = document.getElementById('msgTexto').value.trim();
+            if(!n || !t) return alert("Preencha tudo");
+            document.getElementById('btnMsg').disabled = true;
+            await sb.from('depoimentos').insert([{nome:n, depoimento:t, aprovado:true}]);
+            document.getElementById('msgNome').value=''; document.getElementById('msgTexto').value='';
+            loadMsgs(); document.getElementById('btnMsg').disabled = false;
         }
 
-        async function carregarFotos() {
-            const l = document.getElementById('listaFotos');
-            const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false });
-            if (error) return;
-            l.innerHTML = data.map(f => `
-                <div class="foto-item" onclick="abrirModal('${f.foto_url}')">
-                    <img src="${otimizarImg(f.foto_url)}" loading="lazy">
-                    <div style="margin-top:6px; font-size:0.75rem; color:rgba(255,255,255,0.6); display:flex; justify-content:space-between;">
-                        <span>${sanitizar(f.nome)}</span>
-                        <span style="opacity:0.4; font-size:8px;">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</span>
-                    </div>
-                    ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
+        async function loadFotos() {
+            const {data} = await sb.from('fotos').select('*').order('criado_em',{ascending:false}).limit(5);
+            document.getElementById('listFoto').innerHTML = data.map(f => `
+                <div class="item-foto" onclick="openModal('${f.foto_url}')">
+                    <img src="${f.foto_url}?width=400&quality=70" loading="lazy">
+                    ${isAdmin ? `<button class="btn-del" onclick="event.stopPropagation(); delFoto(${f.id})"><i class="fas fa-trash"></i></button>` : ''}
                 </div>
             `).join('');
         }
 
-        async function enviarFoto() {
+        async function sendFoto() {
             const n = document.getElementById('fotoNome').value.trim();
             const f = document.getElementById('fotoFile').files[0];
-            if (!n || !f) return alert("Preencha tudo.");
-            const b = document.getElementById('btnFoto'); b.disabled = true;
-            const p = `${Date.now()}.${f.name.split('.').pop()}`;
-            const { error: upErr } = await supabaseClient.storage.from('fotos').upload(p, f);
-            if (!upErr) {
-                const { data: urlData } = supabaseClient.storage.from('fotos').getPublicUrl(p);
-                await supabaseClient.from('fotos').insert([{ nome: n, user_email: n, foto_url: urlData.publicUrl, aprovado: true }]);
-                document.getElementById('fotoNome').value = ''; document.getElementById('fotoFile').value = '';
-                document.getElementById('fileNamePreview').style.display = 'none';
-                document.getElementById('msgSucessoFoto').style.display = 'block';
-                setTimeout(() => document.getElementById('msgSucessoFoto').style.display = 'none', 3000);
-                carregarFotos();
+            if(!n || !f) return alert("Preencha tudo");
+            document.getElementById('btnFoto').disabled = true;
+            const path = `${Date.now()}.${f.name.split('.').pop()}`;
+            const {error} = await sb.storage.from('fotos').upload(path, f);
+            if(!error) {
+                const {data} = sb.storage.from('fotos').getPublicUrl(path);
+                await sb.from('fotos').insert([{nome:n, user_email:n, foto_url:data.publicUrl, aprovado:true}]);
+                document.getElementById('fotoNome').value=''; document.getElementById('fotoFile').value='';
+                document.getElementById('fileLbl').textContent='Escolher Arquivo';
+                loadFotos();
             }
-            b.disabled = false;
+            document.getElementById('btnFoto').disabled = false;
         }
 
-        async function deletarFoto(id) { if (confirm("Deletar?")) { await supabaseClient.from('fotos').delete().eq('id', id); carregarFotos(); } }
-        async function deletarDepoimento(id) { if (confirm("Deletar?")) { await supabaseClient.from('depoimentos').delete().eq('id', id); carregarDepoimentos(); } }
+        function openModal(u) {
+            const m = document.getElementById('modal');
+            const i = document.getElementById('modalImg');
+            i.src = u; i.classList.remove('zoomed');
+            m.style.display = 'flex'; document.body.style.overflow = 'hidden';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        function init() {
-            supabaseClient.from('metricas').select('valor').eq('chave', 'reproducoes_musica').single().then(({data}) => {
-                if (data) document.getElementById('contadorReproducoes').textContent = data.valor.toLocaleString('pt-BR');
+        function shareFB() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`,'_blank'); }
+        function shareWA() { window.open(`https://wa.me/?text=${encodeURIComponent('Bar do Kblo: '+location.href)}`,'_blank'); }
+        function shareTW() { window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}`,'_blank'); }
+
+        function promptAdmin() {
+            if(prompt("E-mail:") === 'tributokblo@gmail.com' && prompt("Senha:") === 'b@nc4da18') {
+                isAdmin = true; alert("Modo Admin"); loadMsgs(); loadFotos();
+            }
+        }
+
+        window.onload = () => {
+            sb.from('metricas').select('valor').eq('chave','reproducoes_musica').single().then(({data}) => {
+                if(data) document.getElementById('plays').textContent = data.valor.toLocaleString();
             });
-            carregarDepoimentos(); carregarFotos();
-            const p = document.getElementById('particles');
-            for(let i=0; i<20; i++) {
-                const div = document.createElement('div');
-                div.style.cssText = `position:absolute;width:2px;height:2px;background:rgba(138,158,255,0.2);border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;animation:float ${15+Math.random()*10}s linear infinite;`;
-                p.appendChild(div);
-            }
-            const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), {threshold: 0.1});
+            loadMsgs(); loadFotos();
+            const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), {threshold:0.1});
             document.querySelectorAll('.section').forEach(s => obs.observe(s));
-        }
-
-        window.addEventListener('DOMContentLoaded', init);
-        window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
-        const style = document.createElement('style');
-        style.textContent = `@keyframes float { 0% { transform: translateY(0); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }`;
-        document.head.appendChild(style);
+        };
     </script>
 </body>
 </html>
