@@ -1,0 +1,48 @@
+/* styles.css — extracted from index.html */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #07070a;
+    color: #fff;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Helper layout classes added during refactor */
+.centered-card {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-card--compact {
+    max-width: 600px;
+    margin: 0 auto 50px;
+}
+
+.responsive-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    transition: transform 0.5s ease;
+}
+
+.lead-text {
+    line-height: 1.8;
+    color: rgba(255,255,255,0.8);
+    font-size: 1.05rem;
+}
+
+.char-count {
+    color: rgba(255,255,255,0.3);
+    float: right;
+    margin-top: 5px;
+}
+
+/* rest of the file (existing styles) */
+/* ... (kept as-is from previous styles.css) */
