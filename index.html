@@ -36,7 +36,7 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <img src="kblo.jpg" alt="Kblo" class="kblo-foto" onerror="this.style.display='none'">
+            <img src="kblo.jpg" alt="Kblo" class="kblo-foto responsive-img" loading="lazy" onerror="this.style.display='none'">
             <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
             
             <div class="custom-player">
@@ -79,11 +79,11 @@
 
     <section id="sobre" class="section">
         <h2 class="section-title">Nossa História</h2>
-        <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto;">
-            <div style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 30px;">
-                <img src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px; transition: transform 0.5s ease;" onerror="this.style.display='none'" id="barImage">
+        <div class="form-card centered-card">
+            <div class="image-wrapper">
+                <img src="bar.jpg" alt="Bar do Kblo" class="responsive-img" loading="lazy" onerror="this.style.display='none'" id="barImage">
             </div>
-            <p style="line-height: 1.8; color: rgba(255,255,255,0.8); font-size: 1.05rem;">
+            <p class="lead-text">
                 O Bar do Kblo não era apenas um estabelecimento, era um ponto de encontro de gerações, um refúgio para boas conversas e o berço de amizades que duram até hoje. Este site é um tributo para manter viva a memória desse lugar especial.
             </p>
         </div>
@@ -93,8 +93,8 @@
         <h2 class="section-title">Depoimentos</h2>
         <p class="section-subtitle">Histórias de quem viveu momentos inesquecíveis</p>
         
-        <div class="form-card" style="max-width: 600px; margin: 0 auto 50px;">
-            <h3 style="margin-bottom: 20px;">Deixe sua homenagem</h3>
+        <div class="form-card form-card--compact">
+            <h3>Deixe sua homenagem</h3>
             <div id="msgSucessoDepoimento" class="mensagem-sucesso">
                 <i class="fas fa-check-circle"></i> Depoimento enviado com sucesso!
             </div>
@@ -105,9 +105,7 @@
             <div class="form-group">
                 <label for="textoDepoimento">Sua história *</label>
                 <textarea id="textoDepoimento" rows="4" placeholder="Conte sua história, recordação ou homenagem ao Bar do Kblo..." maxlength="1000"></textarea>
-                <small style="color: rgba(255,255,255,0.3); float: right; margin-top: 5px;">
-                    <span id="charCount">0</span>/1000 caracteres
-                </small>
+                <small class="char-count"><span id="charCount">0</span>/1000 caracteres</small>
             </div>
             <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento">Enviar</button>
         </div>
@@ -131,6 +129,7 @@
         <div class="aviso-responsabilidade"><i class="fas fa-exclamation-triangle"></i> Respeitamos a privacidade e nos responsabilizamos pelos dados compartilhados.</div>
     </footer>
 
+    <script src="supabase-client.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

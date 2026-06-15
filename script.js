@@ -29,7 +29,6 @@ function openModal(src) {
 }
 
 function closeModal(e) {
-  // allow click on backdrop or on close button
   const modal = document.getElementById('imageModal');
   if (!modal) return;
   modal.classList.remove('active');
@@ -37,17 +36,14 @@ function closeModal(e) {
 
 // SIMPLE ADMIN / CONTACT (placeholder behaviour)
 function contatarAdmin() {
-  // opens default mail client to contact
   window.location.href = 'mailto:contato@example.com?subject=Contato%20-%20Tributo%20Bar%20do%20Kblo';
 }
 
 function promptAdmin() {
-  // placeholder — do NOT store secrets here; this is only a UI stub
   const pwd = prompt('Painel administrativo — insira a senha (apenas demo)');
-  if (pwd === null) return; // cancelled
+  if (pwd === null) return;
   if (pwd === 'admin') {
     alert('Acesso concedido (demo).');
-    // In a real app, redirect to a safe admin page or open a protected UI
   } else {
     alert('Senha incorreta.');
   }
@@ -72,7 +68,6 @@ function compartilharTwitter() {
 // AUDIO PLAYER
 const AudioPlayer = (function () {
   let audio, playBtn, slider, currentTimeEl, durationEl, volumeSlider, volumeIcon, contadorEl;
-  let incrementCount = true; // avoid double-count
 
   function init() {
     audio = document.getElementById('meuAudio');
@@ -86,7 +81,6 @@ const AudioPlayer = (function () {
 
     if (!audio) return;
 
-    // set initial volume
     if (volumeSlider) audio.volume = (volumeSlider.value || 80) / 100;
 
     audio.addEventListener('loadedmetadata', () => {
@@ -106,7 +100,6 @@ const AudioPlayer = (function () {
     if (playBtn) playBtn.addEventListener('click', toggleAudio);
     if (slider) {
       slider.addEventListener('input', seekAudio);
-      // avoid conflict while dragging
       slider.addEventListener('mousedown', () => slider.dragging = true);
       slider.addEventListener('mouseup', () => slider.dragging = false);
     }
@@ -163,9 +156,7 @@ const AudioPlayer = (function () {
       count += 1;
       localStorage.setItem(key, String(count));
       if (contadorEl) contadorEl.textContent = String(count);
-    } catch (e) {
-      // ignore storage errors
-    }
+    } catch (e) {}
   }
 
   function restoreCount() {
@@ -243,7 +234,7 @@ function renderPhotos() {
     const card = document.createElement('div');
     card.className = 'foto-card';
     card.innerHTML = `
-      <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.name)}" onclick="openModal('${escapeHtml(it.src)}')">
+      <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.name)}" loading="lazy" class="responsive-img" onclick="openModal('${escapeHtml(it.src)}')">
       <div class="foto-overlay">
         <div class="foto-nome">${escapeHtml(it.name)}</div>
         <div class="foto-data">${new Date(it.createdAt).toLocaleDateString()}</div>
@@ -268,13 +259,11 @@ function enviarDepoimento() {
     return;
   }
 
-  // Client-side sanitization-length checks
   if (textoVal.length > 1000) {
     alert('O depoimento excede o limite de 1000 caracteres.');
     return;
   }
 
-  // Simulação de envio: salvar no localStorage e renderizar
   btn.disabled = true;
   setTimeout(() => {
     const item = { nome: nomeVal, texto: textoVal, createdAt: new Date().toISOString() };
@@ -292,7 +281,6 @@ function enviarDepoimento() {
   }, 700);
 }
 
-// Character counter for textarea
 function setupCharCounter() {
   const texto = document.getElementById('textoDepoimento');
   const charCount = document.getElementById('charCount');
@@ -302,7 +290,6 @@ function setupCharCounter() {
   });
 }
 
-// UTILS
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -313,7 +300,6 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// NAVBAR scroll behaviour
 function setupNavbarScroll() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -324,17 +310,22 @@ function setupNavbarScroll() {
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  // Audio
+  // Initialize Supabase if available (safe scaffold)
+  const sb = window.getSupabase ? window.getSupabase() : null;
+  if (sb) {
+    // Example: you could fetch testimonials from Supabase here instead of localStorage
+    // sb.from('testimonials').select('*').then(...)
+    console.info('Supabase client available — consider migrating storage to backend.');
+  }
+
   AudioPlayer.init();
   AudioPlayer.restoreCount();
 
-  // Forms and UI
   setupCharCounter();
   renderTestimonials();
   renderPhotos();
   setupNavbarScroll();
 
-  // Modal close by clicking the X or backdrop
   const modal = document.getElementById('imageModal');
   if (modal) {
     modal.addEventListener('click', (e) => {
@@ -342,21 +333,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close modal on ESC
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-  // Example: pre-populate with an initial testimonial (only if none)
   if (StorageApp.loadTestimonials().length === 0) {
     StorageApp.saveTestimonial({ nome: 'Comunidade', texto: 'Memórias que permanecem.', createdAt: new Date().toISOString() });
   }
 
-  // Example: pre-populate photos if none (demo placeholders)
   if (StorageApp.loadPhotos().length === 0) {
     StorageApp.savePhoto({ name: 'Fachada do Bar', src: 'bar.jpg', createdAt: new Date().toISOString() });
     StorageApp.savePhoto({ name: 'Tributo', src: 'kblo.jpg', createdAt: new Date().toISOString() });
   }
 
-  // Re-render after potential seed
   renderTestimonials();
   renderPhotos();
 });
