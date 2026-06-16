@@ -1,36 +1,37 @@
-# tributo-bar-kblo — refactor & deployment notes
+# 🍻 Tributo ao Bar do Kblo
 
-Esta branch contém uma refatoração para separar responsabilidades (CSS/JS externos), melhorar performance básica e preparar integração com Supabase.
+Uma homenagem digital ao lendário **Bar do Kblo**, preservando memórias, histórias, fotografias e momentos marcantes compartilhados por amigos, frequentadores e admiradores.
 
-O que foi feito
-- styles.css criado e vinculado em index.html
-- script.js extraído e modularizado (player, UI, storage demo)
-- supabase-client.js adicionado como *scaffold seguro* — não contém chaves
-- index.html atualizado: remoção dos estilos inline mais significativos, imagens com loading="lazy"
+## 🌐 Site
 
-Próximos passos recomendados
+https://tributokblo.github.io/tributo-bar-kblo/
 
-1) Substituir localStorage por Supabase (ou outro backend)
-   - Configure SUPABASE_URL e SUPABASE_ANON_KEY como variáveis de ambiente no seu provedor (Netlify, Vercel, etc.).
-   - No deploy, injete essas variáveis no runtime (ex.: Vercel Environment Variables) e exponha para o browser via build-time injection. Alternativamente, implemente endpoints server-side para esconder a key.
+## 📖 Sobre o Projeto
 
-2) Otimizar assets (imagens e áudio)
-   - Recomendo gerar WebP para imagens: exemplo com ImageMagick:
-     - convert bar.jpg -strip -resize 1600x -quality 75 bar.webp
-     - convert kblo.jpg -strip -resize 800x -quality 75 kblo.webp
-   - Converter áudio para OGG/MP3 com bitrate reduzido usando ffmpeg:
-     - ffmpeg -i musica.mp3 -b:a 128k musica-128.mp3
-   - Substitua os arquivos no repositório/servidor ou sirva versões otimizadas via CDN.
+Este projeto foi criado para manter viva a história do Bar do Kblo, reunindo imagens, música e lembranças que marcaram uma geração de frequentadores.
 
-3) Deploy
-   - Deploy estático simples (GitHub Pages, Netlify, Vercel). Para usar Supabase, configure variáveis no painel do provedor.
+O objetivo é preservar a memória do local e compartilhar sua importância cultural e afetiva com todos que fizeram parte dessa história.
 
-4) Segurança
-   - NÃO coloque chaves privadas no código. Use variáveis de ambiente ou rotas server-side para operações sensíveis (inserção/exclusão).
+## 🖼️ Conteúdo
 
-Como testar localmente
-- git fetch origin
-- git checkout refactor/separate-concerns
-- executar um servidor simples: `python -m http.server 8000` ou `npx http-server` e abrir http://localhost:8000
+* Fotografias históricas
+* Homenagens e recordações
+* Música temática
+* Compartilhamento em redes sociais
 
-Se quiser que eu gere e substitua automaticamente versões otimizadas das imagens/áudio, autorize a substituição (eu posso gerar e commitar).
+## 🚀 Tecnologias Utilizadas
+
+* HTML5
+* CSS3
+* JavaScript
+* GitHub Pages
+
+## ❤️ Agradecimentos
+
+A todos os amigos, clientes, familiares e frequentadores que contribuíram para a construção da história do Bar do Kblo.
+
+## 📜 Licença
+
+Este projeto tem finalidade exclusivamente memorial e cultural.
+
+Caso alguma imagem ou conteúdo necessite de correção, atualização ou remoção, entre em contato com os responsáveis pelo projeto.
