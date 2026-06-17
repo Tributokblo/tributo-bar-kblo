@@ -1296,15 +1296,13 @@
     const assunto = encodeURIComponent('Solicitação - Tributo Bar do Kblo');
     const corpo = encodeURIComponent(
         "Olá!\n\n" +
-        "A ideia deste tributo é a participação de todos. " +
-        "A construção do site foi apenas o início dessa jornada, " +
-        "um espaço criado para guardarmos juntos as recordações do Bar do Kblo.\n\n" +
-        "Estamos à disposição para:\n" +
-        "- Receber críticas e sugestões;\n" +
-        "- Atender pedidos de remoção de comentários ou fotos;\n" +
-        "- Publicar sua música em nosso site.\n\n" +
-        "Envie sua contribuição e faça parte dessa homenagem coletiva!"
+        "Este tributo é construído com a participação de todos. " +
+        "Estamos à disposição para receber críticas, sugestões, pedidos de remoção de comentários ou fotos, " +
+        "e também sua música para publicação no site.\n\n" +
+        "Digite abaixo sua solicitação:"
     );
+    window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
+}
     window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
 }
 
