@@ -1293,10 +1293,21 @@
         }
 
         function contatarAdmin() {
-            const assunto = encodeURIComponent('Solicitação - Tributo Bar do Kblo');
-            const corpo = encodeURIComponent('Olá, gostaria de solicitar:\n\nTipo (foto/depoimento):\nMotivo:\nMeu e-mail para contato:');
-            window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
-        }
+    const assunto = encodeURIComponent('Solicitação - Tributo Bar do Kblo');
+    const corpo = encodeURIComponent(
+        "Olá!\n\n" +
+        "A ideia deste tributo é a participação de todos. " +
+        "A construção do site foi apenas o início dessa jornada, " +
+        "um espaço criado para guardarmos juntos as recordações do Bar do Kblo.\n\n" +
+        "Estamos à disposição para:\n" +
+        "- Receber críticas e sugestões;\n" +
+        "- Atender pedidos de remoção de comentários ou fotos;\n" +
+        "- Publicar sua música em nosso site.\n\n" +
+        "Envie sua contribuição e faça parte dessa homenagem coletiva!"
+    );
+    window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
+}
+
 
         document.getElementById('textoDepoimento')?.addEventListener('input', function() {
             const charCount = this.value.length;
