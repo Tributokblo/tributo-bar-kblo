@@ -1292,20 +1292,22 @@
             }
         }
 
-        function contatarAdmin() {
-    const assunto = encodeURIComponent('Solicitação - Tributo Bar do Kblo');
-    const corpo = encodeURIComponent(
-        "Olá!\n\n" +
-        "Este tributo é construído com a participação de todos. " +
-        "Estamos à disposição para receber críticas, sugestões, pedidos de remoção de comentários ou fotos, " +
-        "e também sua música para publicação no site.\n\n" +
-        "Digite abaixo sua solicitação:"
-    );
-    window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
-}
-    window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
-}
+         function contatarAdmin() {
 
+            const assunto = encodeURIComponent(
+                'Solicitação - Tributo Bar do Kblo'
+            );
+
+            const corpo = encodeURIComponent(
+                "Olá!\n\n" +
+                "Este tributo é construído com a participação de todos.\n\n" +
+                "Estamos à disposição para receber críticas, sugestões, pedidos de remoção de comentários ou fotos e também sua música para publicação.\n\n" +
+                "Digite abaixo sua solicitação:\n\n"
+            );
+
+            window.location.href =
+                `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
+        }
 
         document.getElementById('textoDepoimento')?.addEventListener('input', function() {
             const charCount = this.value.length;
@@ -1318,7 +1320,6 @@
             return div.innerHTML;
         }
 
-        
 function validarFormulario(nome, texto){
     if(!nome || nome.trim().length < 2) throw new Error('Nome inválido');
     if(!texto || texto.trim().length < 10) throw new Error('Depoimento muito curto');
