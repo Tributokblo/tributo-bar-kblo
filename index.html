@@ -922,7 +922,7 @@
             <a href="#home" onclick="toggleMenu()">HOME</a>
             <a href="#depoimentos" onclick="toggleMenu()">DEPOIMENTOS</a>
             <a href="#fotos" onclick="toggleMenu()">FOTOS</a>
-            <a href="#sobre" onclick="toggleMenu()">SOBRE</a>
+            <a href="#" onclick="abrirSobre(); toggleMenu(); return false;">SOBRE</a>
             <a href="#" onclick="contatarAdmin(); toggleMenu();">CONTATO</a>
             <span class="admin-trigger" onclick="promptAdmin()">Painel</span>
         </div>
@@ -962,7 +962,21 @@
                 <i class="fas fa-headset"></i> Ouvida <span id="contadorReproducoes">0</span> vezes
             </div>
             <p class="frase-efeito">Um lugar que eternizou memórias</p>
-            
+            <div style="max-width:700px;margin:25px auto 30px;">
+    <p style="line-height:1.8;color:rgba(255,255,255,0.82);font-size:1.05rem;">
+        O Bar do Kblo foi mais que um bar. Foi um ponto de encontro de gerações,
+        palco de amizades, histórias e noites embaladas pelo rock. Este tributo
+        mantém viva a memória de um lugar que deixou saudades e marcou a vida de
+        muitas pessoas.
+    </p>
+
+    <button class="btn-primary"
+            onclick="abrirSobre()"
+            style="margin-top:25px;">
+        <i class="fas fa-book-open"></i>
+        CONHEÇA NOSSA HISTÓRIA
+    </button>
+</div>
             <div class="share-buttons">
                 <button class="share-btn share-facebook" onclick="compartilharFacebook()" title="Compartilhar no Facebook">
                     <i class="fab fa-facebook-f"></i>
@@ -977,7 +991,7 @@
         </div>
     </section>
 
-  <section id="sobre" class="section">
+  <section id="sobre" class="section" style="display: none;">
   <h2 class="section-title">Nossa História</h2>
   <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto;">
     <div style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 30px;">
@@ -1596,7 +1610,30 @@ async function enviarDepoimento() {
             }, { threshold: 0.1 });
             document.querySelectorAll('.section').forEach(s => observer.observe(s));
         }
+function abrirSobre() {
+    const secao = document.getElementById('sobre');
 
+    if (secao.style.display === 'none' ||
+        secao.style.display === '') {
+
+        secao.style.display = 'block';
+
+        setTimeout(() => {
+            secao.classList.add('visible');
+
+            secao.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }, 100);
+
+    } else {
+        secao.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
         function inicializar() {
             criarParticulas();
             revelarSecoes();
