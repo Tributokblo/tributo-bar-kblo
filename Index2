@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar do Kblo - Tributo Oficial</title>
+    <meta name="description" content="Tributo oficial ao Bar do Kblo com fotos, memórias, música e homenagens.">
+    <meta name="theme-color" content="#000000">
+    <meta name="author" content="Tributo Bar do Kblo">
+    <meta property="og:title" content="Bar do Kblo - Tributo Oficial">
+    <meta property="og:description" content="Reviva a história e as memórias do Bar do Kblo.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://tributokblo.github.io/tributo-bar-kblo/kblo.jpg">
+    <meta property="og:url" content="https://tributokblo.github.io/tributo-bar-kblo/">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: #07070a; color: #fff; overflow-x: hidden; line-height: 1.6; }
+        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, rgba(102,126,234,0.12) 0%, rgba(118,75,162,0.08) 50%, #07070a 100%); z-index: -2; pointer-events: none; }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 15px 40px; background: rgba(7,7,10,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease; }
+        .navbar.scrolled { padding: 10px 40px; background: rgba(7,7,10,0.95); }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; background: linear-gradient(135deg, #8a9eff, #a17fe0); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
+        .logo span { color: #fff; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 600; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #8a9eff; transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: #8a9eff; }
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: #fff; transition: transform 0.3s ease; }
+        .menu-toggle:hover { transform: rotate(90deg); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 60px; position: relative; }
+        .hero-content { max-width: 750px; width: 100%; animation: fadeInUp 1s ease; }
+        .kblo-foto { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 4px solid #8a9eff; box-shadow: 0 0 50px rgba(138,158,255,0.4); margin-bottom: 30px; animation: fadeInUp 0.8s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 4.2rem; font-weight: 900; line-height: 1.15; background: linear-gradient(135deg, #ffffff 20%, #8a9eff 60%, #a17fe0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 35px; letter-spacing: -1px; }
+        .custom-player { max-width: 500px; margin: 0 auto 25px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 50px; padding: 12px 24px; display: flex; align-items: center; gap: 15px; transition: all 0.3s ease; }
+        .custom-player:hover { border-color: rgba(138,158,255,0.3); box-shadow: 0 0 20px rgba(138,158,255,0.1); }
+        .player-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: all 0.3s ease; flex-shrink: 0; }
+        .player-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px rgba(102,126,234,0.4); }
+        .player-btn:active { transform: scale(0.95); }
+        .timeline-container { display: flex; align-items: center; gap: 10px; flex-grow: 1; font-size: 11px; color: rgba(255,255,255,0.5); }
+        .player-slider { flex-grow: 1; -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; transition: background 0.3s ease; }
+        .player-slider:hover { background: rgba(138,158,255,0.4); }
+        .player-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #8a9eff; cursor: pointer; box-shadow: 0 0 10px rgba(138,158,255,0.5); }
+        .volume-container { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 14px; }
+        .volume-slider { width: 60px; -webkit-appearance: none; appearance: none; height: 3px; background: rgba(255,255,255,0.2); outline: none; cursor: pointer; }
+        .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #fff; }
+        .musica-legenda { font-size: 0.95rem; color: rgba(255,255,255,0.7); margin-bottom: 10px; line-height: 1.7; padding: 0 10px; }
+        .musica-legenda i { color: #8a9eff; margin-right: 6px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .contador-container { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+        .contador-container span { color: #8a9eff; font-weight: 700; font-size: 1.1rem; }
+        .hero-content p.frase-efeito { font-size: 1.1rem; font-weight: 500; color: #8a9eff; letter-spacing: 0.5px; animation: fadeInUp 1s ease 0.5s both; margin-bottom: 25px; }
+        .share-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
+        .share-btn { width: 60px; height: 60px; border-radius: 50%; border: none; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 28px; }
+        .share-whatsapp { background: #25D366; }
+        .share-facebook { background: #1877F2; }
+        .share-twitter { background: #1DA1F2; }
+        .share-btn:hover { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 15px; letter-spacing: -0.5px; background: linear-gradient(135deg, #ffffff, #8a9eff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .section-subtitle { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 50px; font-size: 0.95rem; }
+        .form-card, .testimonial-card, .foto-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 24px; padding: 40px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .form-card:hover { border-color: rgba(138,158,255,0.2); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7); font-size: 0.9rem; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.95rem; transition: all 0.3s ease; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #667eea; background: rgba(255,255,255,0.08); box-shadow: 0 0 20px rgba(102,126,234,0.1); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+        .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .file-input-trigger { display: inline-block; padding: 12px 24px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(255,255,255,0.2); border-radius: 14px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s ease; text-align: center; width: 100%; }
+        .file-input-trigger:hover { border-color: #667eea; color: #8a9eff; background: rgba(102,126,234,0.05); }
+        .file-input-trigger i { margin-right: 8px; }
+        .preview-container { margin-top: 15px; text-align: center; }
+        .preview-container img { max-height: 200px; border-radius: 12px; border: 2px solid rgba(138,158,255,0.3); }
+        button.btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); padding: 15px 35px; border-radius: 40px; color: white; font-weight: 600; border: none; cursor: pointer; letter-spacing: 0.5px; transition: all 0.3s ease; font-size: 1rem; position: relative; overflow: hidden; }
+        button.btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+        button.btn-primary:hover::before { left: 100%; }
+        button.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.25); }
+        button.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .aviso-responsabilidade { font-size: 11px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.06); }
+        .aviso-responsabilidade i { margin-right: 5px; color: #f39c12; }
+        .fotos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 40px; }
+        .foto-card { padding: 0; overflow: hidden; position: relative; cursor: pointer; }
+        .foto-card:hover { transform: translateY(-8px); border-color: #8a9eff; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .foto-card img { width: 100%; height: 280px; object-fit: cover; transition: transform 0.5s ease; }
+        .foto-card:hover img { transform: scale(1.1); }
+        .foto-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 20px; transform: translateY(100%); transition: transform 0.3s ease; }
+        .foto-card:hover .foto-overlay { transform: translateY(0); }
+        .foto-nome { font-weight: 600; color: #8a9eff; }
+        .foto-data { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-top: 5px; }
+        .btn-delete { position: absolute; top: 15px; right: 15px; background: rgba(217,83,79,0.9); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.3s ease; z-index: 10; }
+        .foto-card:hover .btn-delete, .testimonial-card:hover .btn-delete { opacity: 1; }
+        .btn-delete:hover { background: #d9534f; transform: scale(1.1); }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; overflow: hidden; }
+        .testimonial-card { padding: 30px; position: relative; overflow: hidden; word-break: break-word; }
+        .testimonial-card:hover { border-color: #8a9eff; transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .testimonial-card::before { content: '"'; position: absolute; top: 10px; right: 20px; font-size: 4rem; color: rgba(138,158,255,0.1); font-family: 'Playfair Display', serif; line-height: 1; }
+        .testimonial-author { font-weight: 700; color: #8a9eff; margin-bottom: 12px; font-size: 1rem; }
+        .testimonial-text { color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.7; word-wrap: break-word; overflow-wrap: break-word; }
+        .testimonial-date { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 15px; }
+        .footer { text-align: center; padding: 50px 24px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 80px; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+        .footer-contact { margin-bottom: 15px; }
+        .footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.3s ease; }
+        .footer-contact a:hover { color: #8a9eff; }
+        .mensagem-sucesso { background: rgba(46,204,113,0.15); border: 1px solid rgba(46,204,113,0.3); color: #2ecc71; padding: 15px; border-radius: 12px; display: none; margin-bottom: 20px; text-align: center; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .loading { text-align: center; padding: 40px; color: rgba(255,255,255,0.5); }
+        .loading i { animation: spin 1s linear infinite; margin-right: 10px; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .admin-trigger { font-size: 11px; color: rgba(255,255,255,0.2); cursor: pointer; text-decoration: none; transition: color 0.3s ease; }
+        .admin-trigger:hover { color: #8a9eff; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal img { max-width: 90%; max-height: 90vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .modal-close { position: absolute; top: 20px; right: 40px; color: #fff; font-size: 40px; cursor: pointer; transition: transform 0.3s ease; }
+        .modal-close:hover { transform: rotate(90deg); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #07070a; }
+        ::-webkit-scrollbar-thumb { background: rgba(138,158,255,0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(138,158,255,0.5); }
+
+        /* Estilos para a seção Sobre com dois modos */
+        .sobre-texto-curto { display: block; }
+        .sobre-texto-completo { display: none; }
+        .sobre-imagem-home { display: block; }
+        .sobre-imagem-sobre { display: none; }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 24px; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: #0b0b11; border-left: 1px solid rgba(255,255,255,0.08); flex-direction: column; justify-content: flex-start; padding: 100px 40px; gap: 30px; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+            .nav-links.active { right: 0; }
+            .menu-toggle { display: block; z-index: 1001; }
+            .hero { padding-top: 120px; }
+            .hero-content h1 { font-size: 2.6rem; margin-bottom: 25px; }
+            .custom-player { padding: 10px 18px; flex-wrap: wrap; gap: 10px; }
+            .volume-container { display: none; }
+            .section { padding: 60px 20px; }
+            .section-title { font-size: 2.2rem; }
+            .form-card { padding: 24px; }
+            .testimonials-grid, .fotos-grid { grid-template-columns: 1fr; }
+            .kblo-foto { width: 160px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="particles" id="particles"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo" onclick="scrollToTop()">BAR DO <span>KBLO</span></div>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Abrir menu" aria-controls="navLinks" aria-expanded="false">
+            <i class="fas fa-bars" id="menuIcon"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="#home" onclick="toggleMenu(); mostrarHome()">HOME</a>
+            <a href="#depoimentos" onclick="toggleMenu()">DEPOIMENTOS</a>
+            <a href="#fotos" onclick="toggleMenu()">FOTOS</a>
+            <a href="#sobre" onclick="toggleMenu(); mostrarSobre()">SOBRE</a>
+            <a href="#" onclick="contatarAdmin(); toggleMenu();">CONTATO</a>
+            <span class="admin-trigger" onclick="promptAdmin()">Painel</span>
+        </div>
+    </nav>
+
+    <div class="modal" id="imageModal" onclick="closeModal()" role="dialog" aria-modal="true">
+        <span class="modal-close">&times;</span>
+        <img loading="lazy" decoding="async" src="" alt="Foto ampliada" id="modalImage">
+    </div>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <img loading="lazy" decoding="async" src="kblo.webp" alt="Kblo" class="kblo-foto" onerror="this.style.display='none'">
+            <h1>TRIBUTO AO<br>BAR DO KBLO</h1>
+            
+            <div class="custom-player">
+                <button class="player-btn" onclick="toggleAudio()" id="playBtn" aria-label="Reproduzir música">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="timeline-container">
+                    <span id="currentTime">0:00</span>
+                    <input type="range" class="player-slider" id="audioSlider" value="0" min="0" max="100" oninput="seekAudio()">
+                    <span id="durationTime">0:00</span>
+                </div>
+                <div class="volume-container">
+                    <i class="fas fa-volume-up" id="volumeIcon" onclick="toggleMute()"></i>
+                    <input type="range" class="volume-slider" id="volumeSlider" value="80" min="0" max="100" oninput="changeVolume()">
+                </div>
+                <audio id="meuAudio" src="musica.mp3" preload="metadata"></audio>
+            </div>
+
+            <div class="musica-legenda">
+                <i class="fas fa-music"></i> Música dedicada ao Bar do Kblo.<br> Nos envie a sua e postaremos aqui gratuitamente.
+            </div>
+            <div class="contador-container">
+                <i class="fas fa-headset"></i> Ouvida <span id="contadorReproducoes">0</span> vezes
+            </div>
+            <p class="frase-efeito">Um lugar que eternizou memórias</p>
+            
+            <div class="share-buttons">
+                <button class="share-btn share-facebook" onclick="compartilharFacebook()" title="Compartilhar no Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="share-btn share-whatsapp" onclick="compartilharWhatsApp()" title="Compartilhar no WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </button>
+                <button class="share-btn share-twitter" onclick="compartilharTwitter()" title="Compartilhar no Twitter">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section id="sobre" class="section">
+        <h2 class="section-title">Nossa História</h2>
+        <div class="form-card" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <!-- Imagem visível apenas na HOME -->
+            <div id="sobreImagemHome" class="sobre-imagem-home" style="position: relative; overflow: hidden; border-radius: 16px; margin-bottom: 30px;">
+                <img loading="lazy" decoding="async" src="bar.jpg" alt="Bar do Kblo" style="max-width: 100%; height: auto; border-radius: 16px;" onerror="this.style.display='none'" id="barImage">
+            </div>
+
+            <!-- Texto curto - visível na HOME -->
+            <div id="sobreTextoCurto" class="sobre-texto-curto" style="line-height: 1.8; color: rgba(255,255,255,0.85); font-size: 1.05rem; text-align: justify;">
+                <p>O Bar do Kblo não era apenas um estabelecimento: era um ponto de encontro de gerações, um refúgio para boas conversas e o berço de amizades que permanecem até hoje. Em seu ambiente simples, embalado por músicas inesquecíveis, nasceram histórias que marcaram vidas.</p>
+                <p style="margin-top: 15px;">Foi também a <strong>casa que manteve o rock vivo</strong>, dando palco e voz a bandas, artistas e apaixonados pelo som.</p>
+                <p style="margin-top: 15px;">Este site é um tributo a esses momentos: um memorial afetivo para preservar lembranças, compartilhar depoimentos, músicas e fotos.</p>
+            </div>
+
+            <!-- Texto completo - visível apenas no SOBRE -->
+            <div id="sobreTextoCompleto" class="sobre-texto-completo" style="line-height: 1.8; color: rgba(255,255,255,0.85); font-size: 1.05rem; text-align: justify;">
+                <p>O Bar do Kblo não era apenas um estabelecimento: era um ponto de encontro de gerações, um refúgio para boas conversas e o berço de amizades que permanecem até hoje. Em seu ambiente simples, embalado por músicas inesquecíveis, nasceram histórias que marcaram vidas e se tornaram parte da nossa identidade.</p>
+                <p style="margin-top: 15px;">Foi também a <strong>casa que manteve o rock vivo</strong>, dando palco e voz a bandas, artistas e apaixonados pelo som que embalou tantas noites memoráveis.</p>
+                <p style="margin-top: 15px;">O <strong>KbLo</strong>, idealizador e dono do bar, tinha uma personalidade única. Ele interagia com todos de forma espontânea e divertida, dando alma ao lugar e transformando cada noite em uma experiência acolhedora, onde cada pessoa se sentia em casa. Sua presença unia gerações em torno da música, da amizade e da simplicidade.</p>
+                <p style="margin-top: 15px;">Este site é um tributo a esses momentos: um memorial afetivo para preservar lembranças, compartilhar depoimentos, músicas e fotos, e manter viva a chama de tudo o que o Bar do Kblo representou.</p>
+                <p style="margin-top: 15px;">Cada contribuição é um pedaço dessa história. Sua participação ajuda a construir e manter este legado. Afinal, o Bar do Kblo foi feito de pessoas — e este tributo também é.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos" class="section">
+        <h2 class="section-title">Depoimentos</h2>
+        <p class="section-subtitle">Histórias de quem viveu momentos inesquecíveis</p>
+        
+        <div class="form-card" style="max-width: 600px; margin: 0 auto 50px;">
+            <h3 style="margin-bottom: 20px;">Deixe sua homenagem</h3>
+            <div id="msgSucessoDepoimento" class="mensagem-sucesso">
+                <i class="fas fa-check-circle"></i> Depoimento enviado com sucesso!
+            </div>
+            <div class="form-group">
+                <label for="nomeDepoimento">Seu nome *</label>
+                <input type="text" id="nomeDepoimento" placeholder="Como você quer ser lembrado?" maxlength="100">
+            </div>
+            <div class="form-group">
+                <label for="textoDepoimento">Sua história *</label>
+                <textarea id="textoDepoimento" rows="4" placeholder="Conte sua história, recordação ou homenagem ao Bar do Kblo..." maxlength="1000"></textarea>
+                <small style="color: rgba(255,255,255,0.3); float: right; margin-top: 5px;">
+                    <span id="charCount">0</span>/1000 caracteres
+                </small>
+            </div>
+            <button class="btn-primary" onclick="enviarDepoimento()" id="btnDepoimento">
+                <i class="fas fa-paper-plane"></i> ENVIAR DEPOIMENTO
+            </button>
+        </div>
+        
+        <div id="listaDepoimentos">
+            <div class="loading">
+                <i class="fas fa-spinner"></i> Carregando depoimentos...
+            </div>
+        </div>
+    </section>
+
+    <section id="fotos" class="section">
+        <h2 class="section-title">Mural de Fotos</h2>
+        <p class="section-subtitle">Compartilhe suas recordações visuais</p>
+        
+        <div style="max-width: 600px; margin: 0 auto 40px;">
+            <div class="form-card">
+                <h3 style="margin-bottom: 20px;">
+                    <i class="fas fa-camera-retro" style="color: #8a9eff; margin-right: 10px;"></i>
+                    Enviar nova foto
+                </h3>
+                <div id="msgSucessoFoto" class="mensagem-sucesso" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Foto enviada com sucesso!
+                </div>
+                <div class="form-group">
+                    <label for="fotoNome">Seu nome ou apelido *</label>
+                    <input type="text" id="fotoNome" placeholder="Como você quer aparecer?" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label>Selecione a imagem *</label>
+                    <div class="file-input-wrapper">
+                        <div class="file-input-trigger" id="fileTrigger">
+                            <i class="fas fa-cloud-upload-alt"></i> Clique para escolher a foto
+                        </div>
+                        <input type="file" id="fotoFile" accept="image/*" onchange="previewImage()">
+                    </div>
+                    <div class="preview-container" id="previewContainer" style="display: none;">
+                        <img loading="lazy" decoding="async" src="" alt="Preview" id="previewImage">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="enviarFoto()" id="btnFoto">
+                    <i class="fas fa-upload"></i> ENVIAR FOTO
+                </button>
+                <div class="aviso-responsabilidade">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Cada pessoa é responsável pelo conteúdo que publica.
+                </div>
+            </div>
+        </div>
+        
+        <div id="listaFotos">
+            <div class="loading">
+                <i class="fas fa-spinner"></i> Carregando fotos...
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="footer-contact">
+            <a href="#" onclick="contatarAdmin()">
+                <i class="fas fa-envelope" style="color: #8a9eff; margin-right: 5px;"></i>
+                Solicitar remoção de conteúdo
+            </a>
+        </p>
+        <p style="max-width: 500px; margin: 0 auto 20px; line-height: 1.6;">
+            <i class="fas fa-shield-alt" style="color: #8a9eff;"></i> 
+            Cada pessoa é de total responsabilidade jurídica pelo conteúdo publicado.
+        </p>
+        <p style="opacity: 0.7; font-size: 13px; margin-bottom: 5px;">
+            Desenvolvido por <strong style="color: #8a9eff;">Velho Malte</strong>
+        </p>
+        <p style="opacity: 0.4; font-size: 11px;">
+            © 2026 Tributo ao Bar do Kblo
+        </p>
+    </footer>
+
+    <script>
+        const EMAIL_ADMINISTRADOR = 'tributokblo@gmail.com';
+        const SUPABASE_URL = 'https://dvpdypkfybnabaofcdse.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cGR5cGtmeWJuYWJhb2ZjZHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyNzQyMjYsImV4cCI6MjA5Njg1MDIyNn0.NLOwSbfxvUOepNj5FUEjgBCoGYDgX5kfg44PZDuHXFY';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let adminAtivo = false;
+        let musicaContada = false;
+
+        const audio = document.getElementById('meuAudio');
+        const playBtn = document.getElementById('playBtn');
+        const audioSlider = document.getElementById('audioSlider');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationTimeDisplay = document.getElementById('durationTime');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
+
+        function formatTime(secs) {
+            if (isNaN(secs)) return '0:00';
+            const min = Math.floor(secs / 60);
+            const sec = Math.floor(secs % 60);
+            return `${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        audio.addEventListener('loadedmetadata', () => {
+            audioSlider.max = Math.floor(audio.duration) || 1;
+            durationTimeDisplay.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!audioSlider.classList.contains('seeking')) {
+                audioSlider.value = Math.floor(audio.currentTime);
+            }
+            currentTimeDisplay.textContent = formatTime(audio.currentTime);
+        });
+
+        audio.addEventListener('ended', () => {
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+
+        async function toggleAudio() {
+            if (audio.paused) {
+                try {
+                    await audio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    if (!musicaContada) {
+                        musicaContada = true;
+                        await incrementarContador();
+                        buscarContadorMusica();
+                    }
+                } catch (e) {
+                    console.error("Erro ao reproduzir áudio:", e);
+                }
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+
+        async function incrementarContador() {
+            try {
+                const { data, error: readError } = await supabaseClient
+                    .from('metricas')
+                    .select('valor')
+                    .eq('chave', 'reproducoes_musica')
+                    .single();
+                if (readError && readError.code !== 'PGRST116') throw readError;
+                const valorAtual = data?.valor || 0;
+                const novoValor = valorAtual + 1;
+                const { error: updateError } = await supabaseClient
+                    .from('metricas')
+                    .upsert({ chave: 'reproducoes_musica', valor: novoValor }, { onConflict: 'chave' });
+                if (updateError) throw updateError;
+            } catch (e) {
+                console.error("Erro ao incrementar contador:", e);
+            }
+        }
+
+        async function buscarContadorMusica() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('metricas')
+                    .select('valor')
+                    .eq('chave', 'reproducoes_musica')
+                    .single();
+                if (data) {
+                    document.getElementById('contadorReproducoes').textContent = data.valor.toLocaleString('pt-BR');
+                }
+            } catch (e) {
+                console.error("Erro ao buscar contador:", e);
+            }
+        }
+
+        function seekAudio() {
+            audioSlider.classList.add('seeking');
+            audio.currentTime = parseFloat(audioSlider.value);
+            audioSlider.classList.remove('seeking');
+        }
+
+        function changeVolume() {
+            const volume = parseFloat(volumeSlider.value) / 100;
+            audio.volume = volume;
+            if (volume === 0) {
+                volumeIcon.className = 'fas fa-volume-mute';
+            } else if (volume < 0.5) {
+                volumeIcon.className = 'fas fa-volume-down';
+            } else {
+                volumeIcon.className = 'fas fa-volume-up';
+            }
+        }
+
+        function toggleMute() {
+            if (audio.volume > 0) {
+                audio.volume = 0;
+                volumeSlider.value = 0;
+                volumeIcon.className = 'fas fa-volume-mute';
+            } else {
+                audio.volume = 0.8;
+                volumeSlider.value = 80;
+                volumeIcon.className = 'fas fa-volume-up';
+            }
+        }
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuIcon = document.getElementById('menuIcon');
+            navLinks.classList.toggle('active');
+            menuIcon.className = navLinks.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funções para alternar entre modos HOME e SOBRE
+        function mostrarHome() {
+            document.getElementById('sobreImagemHome').style.display = 'block';
+            document.getElementById('sobreTextoCurto').style.display = 'block';
+            document.getElementById('sobreTextoCompleto').style.display = 'none';
+            // Scroll para o topo da página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function mostrarSobre() {
+            document.getElementById('sobreImagemHome').style.display = 'none';
+            document.getElementById('sobreTextoCurto').style.display = 'none';
+            document.getElementById('sobreTextoCompleto').style.display = 'block';
+            // Scroll para a seção sobre
+            document.getElementById('sobre').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Estado inicial: HOME (texto curto com imagem)
+        document.addEventListener('DOMContentLoaded', function() {
+            mostrarHome();
+        });
+
+        document.addEventListener('click', (e) => {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+                toggleMenu();
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        async function promptAdmin() {
+            if (adminAtivo) {
+                if (confirm("Deseja sair do modo administrador?")) {
+                    adminAtivo = false;
+                    carregarFotos();
+                    carregarDepoimentos();
+                    alert("Você saiu do modo administrador.");
+                }
+                return;
+            }
+            const email = prompt("Digite o e-mail do administrador:");
+            if (!email) return;
+            const password = prompt("Digite a senha do administrador:");
+            if (!password) return;
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                if (data.user) {
+                    adminAtivo = true;
+                    alert("✅ Autenticação realizada com sucesso! Modo administrador ativado.");
+                    carregarFotos();
+                    carregarDepoimentos();
+                }
+            } catch (error) {
+                alert("❌ Erro na autenticação: " + error.message);
+            }
+        }
+
+        function contatarAdmin() {
+            const assunto = encodeURIComponent('Solicitação - Tributo Bar do Kblo');
+            const corpo = encodeURIComponent(
+                "Olá!\n\nEste tributo é construído com a participação de todos.\n\n" +
+                "Estamos à disposição para receber críticas, sugestões, pedidos de remoção de comentários ou fotos e também sua música para publicação.\n\n" +
+                "Digite abaixo sua solicitação:\n\n"
+            );
+            window.location.href = `mailto:${EMAIL_ADMINISTRADOR}?subject=${assunto}&body=${corpo}`;
+        }
+
+        document.getElementById('textoDepoimento')?.addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        function sanitizarInput(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
+        }
+
+        async function enviarDepoimento() {
+            const nome = document.getElementById('nomeDepoimento').value.trim();
+            const depoimento = document.getElementById('textoDepoimento').value.trim();
+            const btn = document.getElementById('btnDepoimento');
+            if (!nome || !depoimento) {
+                alert('⚠️ Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+            try {
+                const { error } = await supabaseClient.from('depoimentos').insert([
+                    { nome: sanitizarInput(nome), depoimento: sanitizarInput(depoimento), aprovado: true }
+                ]);
+                if (error) throw error;
+                document.getElementById('nomeDepoimento').value = '';
+                document.getElementById('textoDepoimento').value = '';
+                document.getElementById('charCount').textContent = '0';
+                const msg = document.getElementById('msgSucessoDepoimento');
+                msg.style.display = 'block';
+                setTimeout(() => { msg.style.display = 'none'; }, 3000);
+                carregarDepoimentos();
+            } catch (error) {
+                alert('❌ Erro ao enviar depoimento: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR DEPOIMENTO';
+            }
+        }
+
+        async function carregarDepoimentos() {
+            const listaDiv = document.getElementById('listaDepoimentos');
+            try {
+                const { data, error } = await supabaseClient.from('depoimentos').select('*').order('criado_em', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    listaDiv.innerHTML = '<p style="text-align:center; opacity:0.5; padding:40px;">Nenhum depoimento ainda. Seja o primeiro!</p>';
+                    return;
+                }
+                listaDiv.innerHTML = `
+                    <div class="testimonials-grid">
+                        ${data.map(d => `
+                            <div class="testimonial-card">
+                                <div class="testimonial-author">${d.nome}</div>
+                                <div class="testimonial-text">${d.depoimento}</div>
+                                <div class="testimonial-date">${new Date(d.criado_em).toLocaleDateString('pt-BR')}</div>
+                                ${adminAtivo ? `<button class="btn-delete" onclick="deletarDepoimento(${d.id})" title="Remover depoimento"><i class="fas fa-trash-alt"></i></button>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                listaDiv.innerHTML = '<p style="text-align:center; color:#ff6b6b;">Erro ao carregar depoimentos.</p>';
+            }
+        }
+
+        async function deletarDepoimento(id) {
+            if (!adminAtivo) return;
+            if (confirm('Deseja realmente remover este depoimento?')) {
+                try {
+                    const { error } = await supabaseClient.from('depoimentos').delete().eq('id', id);
+                    if (error) throw error;
+                    carregarDepoimentos();
+                } catch (error) {
+                    alert('Erro ao deletar: ' + error.message);
+                }
+            }
+        }
+
+        function previewImage() {
+            const file = document.getElementById('fotoFile').files[0];
+            const preview = document.getElementById('previewImage');
+            const container = document.getElementById('previewContainer');
+            const trigger = document.getElementById('fileTrigger');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    container.style.display = 'block';
+                    trigger.innerHTML = `<i class="fas fa-check"></i> Foto selecionada: ${file.name}`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function enviarFoto() {
+            const nomeInput = document.getElementById('fotoNome').value.trim();
+            const fotoFile = document.getElementById('fotoFile').files[0];
+            const btn = document.getElementById('btnFoto');
+            if (!nomeInput || !fotoFile) {
+                alert('⚠️ Preencha seu nome e selecione uma foto.');
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+            try {
+                const fileExt = fotoFile.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+                const { error: uploadError } = await supabaseClient.storage.from('fotos').upload(fileName, fotoFile);
+                if (uploadError) throw uploadError;
+                const { data: publicUrl } = supabaseClient.storage.from('fotos').getPublicUrl(fileName);
+                const { error: insertError } = await supabaseClient.from('fotos').insert([
+                    { nome: sanitizarInput(nomeInput), user_email: sanitizarInput(nomeInput), foto_url: publicUrl.publicUrl, aprovado: true }
+                ]);
+                if (insertError) throw insertError;
+                document.getElementById('fotoFile').value = '';
+                document.getElementById('fotoNome').value = '';
+                document.getElementById('previewContainer').style.display = 'none';
+                document.getElementById('fileTrigger').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Clique para escolher a foto';
+                const msg = document.getElementById('msgSucessoFoto');
+                msg.style.display = 'block';
+                setTimeout(() => { msg.style.display = 'none'; }, 3000);
+                carregarFotos();
+            } catch (error) {
+                alert('❌ Erro no envio: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-upload"></i> ENVIAR FOTO';
+            }
+        }
+
+        async function carregarFotos() {
+            const listaDiv = document.getElementById('listaFotos');
+            try {
+                const { data, error } = await supabaseClient.from('fotos').select('*').order('criado_em', { ascending: false });
+                if (error) throw error;
+                if (!data || data.length === 0) {
+                    listaDiv.innerHTML = '<p style="text-align:center; opacity:0.5; padding:40px;">Nenhuma foto ainda.</p>';
+                    return;
+                }
+                listaDiv.innerHTML = `
+                    <div class="fotos-grid">
+                        ${data.map(f => `
+                            <div class="foto-card" onclick="abrirModal('${f.foto_url}')">
+                                <img loading="lazy" decoding="async" src="${f.foto_url}" alt="Foto">
+                                <div class="foto-overlay">
+                                    <div class="foto-nome">⭐ Enviado por: ${f.nome}</div>
+                                    <div class="foto-data">${new Date(f.criado_em).toLocaleDateString('pt-BR')}</div>
+                                </div>
+                                ${adminAtivo ? `<button class="btn-delete" onclick="event.stopPropagation(); deletarFoto(${f.id})" title="Remover foto"><i class="fas fa-trash-alt"></i></button>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                listaDiv.innerHTML = '<p style="text-align:center; color:#ff6b6b;">Erro ao carregar fotos.</p>';
+            }
+        }
+
+        async function deletarFoto(id) {
+            if (!adminAtivo) return;
+            if (confirm('Deseja realmente remover esta foto?')) {
+                try {
+                    const { error } = await supabaseClient.from('fotos').delete().eq('id', id);
+                    if (error) throw error;
+                    carregarFotos();
+                } catch (error) {
+                    alert('Erro ao deletar: ' + error.message);
+                }
+            }
+        }
+
+        function abrirModal(url) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = url;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function compartilharFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+        }
+
+        function compartilharWhatsApp() {
+            const texto = encodeURIComponent('🎵 Tributo Oficial ao Bar do Kblo - Confira as memórias! ');
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://wa.me/?text=${texto}${url}`, '_blank');
+        }
+
+        function compartilharTwitter() {
+            const texto = encodeURIComponent('Confira o tributo ao Bar do Kblo');
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?text=${texto}&url=${url}`, '_blank', 'width=600,height=400');
+        }
+
+        function criarParticulas() {
+            const container = document.getElementById('particles');
+            const count = window.innerWidth < 768 ? 10 : 20;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.style.cssText = `position:absolute;width:${Math.random()*3+1}px;height:${Math.random()*3+1}px;background:rgba(138,158,255,${Math.random()*0.3+0.1});border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;animation:float ${Math.random()*10+15}s linear infinite;animation-delay:${Math.random()*10}s;`;
+                container.appendChild(p);
+            }
+        }
+
+        function revelarSecoes() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.section').forEach(s => observer.observe(s));
+        }
+
+        function inicializar() {
+            criarParticulas();
+            revelarSecoes();
+            buscarContadorMusica();
+            carregarDepoimentos();
+            carregarFotos();
+            audio.volume = 0.8;
+            // Garantir que a HOME seja exibida inicialmente
+            mostrarHome();
+        }
+
+        document.addEventListener('DOMContentLoaded', inicializar);
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes float { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }`;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
